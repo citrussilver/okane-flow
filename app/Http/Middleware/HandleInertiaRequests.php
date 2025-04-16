@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\CreditCardResource;
 use App\Http\Resources\GCashAccountResource;
 use App\Http\Resources\MayaAccountResource;
 use App\Http\Resources\SavingsAccountResource;
+use App\Models\CreditCard;
 use App\Models\GCashAccount;
 use App\Models\MayaAccount;
 use App\Models\SavingsAccount;
@@ -43,7 +45,8 @@ class HandleInertiaRequests extends Middleware
             'global_shared_data' => [
                 'gcash_accounts' => GCashAccountResource::collection(GCashAccount::all()),
                 'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all()),
-                'maya_accounts' => MayaAccountResource::collection(MayaAccount::all())
+                'maya_accounts' => MayaAccountResource::collection(MayaAccount::all()),
+                'cc_accounts' => CreditCardResource::collection(CreditCard::all())
             ]
         ];
     }

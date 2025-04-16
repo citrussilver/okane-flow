@@ -75,14 +75,14 @@ const props = defineProps({
             {{ sa.balance_wc }}
           </details>
       </div>
-      <!-- <div 
+      <div 
         class="grid-tile-item purple-1" 
         :class="{ 
           'blue-master-card' : cc.cc_name.includes('Blue Mastercard'),
           'liyue-platinum' : cc.cc_name.includes('Platinum'),
           'liyue-gold' : cc.cc_name.includes('Gold')
         }"
-        v-for="(cc, index) in creditCardsData" 
+        v-for="(cc, index) in sharedData.cc_accounts" 
         key="index" 
       >
         <p class="tile-title">
@@ -99,7 +99,7 @@ const props = defineProps({
           <summary>Available Credit Limit</summary>
           {{ cc.avail_credit_limit_wc }}
         </details>
-      </div> -->
+      </div>
       <!-- <div class="grid-tile-item union-bank" 
         v-for="(shpw, index) in shopeeWalletData" 
         key="index" 
