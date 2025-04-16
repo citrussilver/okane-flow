@@ -1,12 +1,16 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import DataGridLayout from '@/Layouts/DataGridLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { getUser } from '@/functions/helpers.js';
+import { getUser, getSharedData } from '@/functions/helpers.js';
 
 const user = getUser();
 
+const global_data_info = getSharedData();
+
 const form = useForm({
-    full_name: user.full_name
+    full_name: user.full_name,
+    shared_data: global_data_info
 });
 </script>
 
@@ -29,8 +33,14 @@ const form = useForm({
                 >
                     <div class="p-6 text-gray-900">
                         <p>Hello {{ form.full_name }}!</p>
-                        <p>Welcome to your Dashboard.</p>
+
+                        <!-- <div>
+                            {{ form.shared_data }} 
+                            {{ form.shared_data.gcash_accounts[0] }}
+                        </div> -->
                     </div>
+
+                    <DataGridLayout :sharedData="form.shared_data" />
                 </div>
             </div>
         </div>
