@@ -19,6 +19,7 @@ class SavingsAccountResource extends JsonResource
             'bank_name' => $this->bank_name,
             'bank_abbrev' => $this->bank_abbrev,
             'account_number' => $this->account_number,
+            'balance' => $this->balance,
             'balance_wc' => number_format($this->balance, 2, '.', ',')
         ];
     }

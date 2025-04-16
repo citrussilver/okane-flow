@@ -20,7 +20,7 @@ const emit = defineEmits(['submit'])
 </script>
 
 <template>
-    <form class="relative bg-white rounded-lg shadow" @submit.prevent="emit('submit')">
+    <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="emit('submit')">
         <div class="p-6 space-y-6">
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-6">
@@ -36,7 +36,7 @@ const emit = defineEmits(['submit'])
 
                 <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="description" value="Description" />
-                    <textarea name="description" v-model="form.description" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" rows="3"></textarea>
+                    <textarea name="description" v-model="form.description" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100" rows="3"></textarea>
                 </div>
 
 

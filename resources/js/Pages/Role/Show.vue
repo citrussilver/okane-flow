@@ -21,7 +21,7 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
                 Show Role
             </h2>
         </template>
@@ -32,7 +32,7 @@ defineProps({
                     <div class="relative w-full max-w-2xl max-h-full">
 
                         <!-- Form -->
-                        <form class="relative bg-white rounded-lg shadow" @submit.prevent="update">
+                        <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="update">
                             <div class="p-6 space-y-6">
                                 <div class="grid grid-cols-6 gap-6">
                                     <ElementsGrouper>

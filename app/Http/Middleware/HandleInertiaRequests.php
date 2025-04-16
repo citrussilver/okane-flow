@@ -42,12 +42,13 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            // 'recaptcha_site_key' => config('services.google_recaptcha.site_key'),
             'global_shared_data' => [
                 'gcash_accounts' => GCashAccountResource::collection(GCashAccount::all()),
                 'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all()),
                 'maya_accounts' => MayaAccountResource::collection(MayaAccount::all()),
                 'cc_accounts' => CreditCardResource::collection(CreditCard::all())
-            ]
+            ],
         ];
     }
 }

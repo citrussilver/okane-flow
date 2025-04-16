@@ -1,6 +1,7 @@
 <script setup>
 import ArticleTitleSlot from '@/slots/ArticleTitleSlot.vue';
 import ArticleSubtitleSlot from '@/slots/ArticleSubtitleSlot.vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   sharedData: {
@@ -8,6 +9,8 @@ const props = defineProps({
         required: true
   },
 })
+
+let loading = ref(true)
 </script>
 
 <template>
