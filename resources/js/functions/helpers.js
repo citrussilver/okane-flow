@@ -17,9 +17,6 @@ export const deleteRow = (obj, routeStr) => {
 }
 
 export const toggleDarkMode = (isDark) => {
-    console.log('>>helper fn()');
-    console.log(isDark);
     isDark = !isDark;
     localStorage.setItem("darkMode", isDark);
-    console.log(isDark);
 }

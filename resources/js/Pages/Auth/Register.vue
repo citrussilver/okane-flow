@@ -67,7 +67,7 @@ const submit = () => {
 
             <div class="mt-4">
                 <InputLabel for="role_id" value="Role" />
-                <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
+                <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100">
                     <option value="-1" disabled>-- Select a role --</option>
                     <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                 </select>
@@ -121,7 +121,7 @@ const submit = () => {
                 <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
-                    disabled
+                    :disabled="form.processing"
                 >
                     Register
                 </PrimaryButton>
