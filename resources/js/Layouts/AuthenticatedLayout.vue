@@ -6,16 +6,10 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { ref } from 'vue';
 import { Link} from '@inertiajs/vue3';
-import { toggleDarkMode } from '@/functions/helpers.js'
-
-const isDark = ref(false);
-
-isDark.value = localStorage.getItem("darkMode") == "true";
-
-console.log(isDark.value);
-
+import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
 
 const showingNavigationDropdown = ref(false);
+
 </script>
 
 <template>
@@ -64,7 +58,7 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <div>
-                                <button @click="toggleDarkMode(isDark)">Dark mode</button>
+                                 <ThemeSwitcher/>
                             </div>
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
@@ -216,12 +210,15 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Heading -->
             <header
-                class="bg-white shadow dark:bg-gray-800"
+                class="bg-white shadow dark:bg-gray-800 flex items-center justify-between"
                 v-if="$slots.header"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8 justify-s`tart">
                     <slot name="header" />
                 </div>
+                <!-- <div class="sm:px-4 sm:px-6 lg:px-8 ">
+                    <ThemeSwitcher/>
+                </div> -->
             </header>
 
             <!-- Page Content -->

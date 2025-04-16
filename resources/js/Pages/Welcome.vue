@@ -1,4 +1,5 @@
 <script setup>
+import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
@@ -55,6 +56,9 @@ function handleImageError() {
                         </svg>
                     </div>
                     <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+                        <div class="flex justify-center items-center">
+                            <ThemeSwitcher />
+                        </div>
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"

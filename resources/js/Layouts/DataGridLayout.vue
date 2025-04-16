@@ -2,6 +2,8 @@
 import ArticleTitleSlot from '@/slots/ArticleTitleSlot.vue';
 import ArticleSubtitleSlot from '@/slots/ArticleSubtitleSlot.vue';
 import { ref } from 'vue';
+import SummaryLabel from '@/Components/SummaryLabel.vue';
+import Details from '@/Components/Details.vue';
 
 const props = defineProps({
   sharedData: {
@@ -31,10 +33,10 @@ let loading = ref(true)
               Last 4 digits: {{ gCash.last_4_digits }}
             </ArticleSubtitleSlot>
         </p>
-        <details>
-          <summary>Balance</summary>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
           {{ gCash.balance_wc }}
-        </details>
+        </Details>
       </div>
       <div 
         class="grid-tile-item blue-1" 
@@ -52,10 +54,10 @@ let loading = ref(true)
               Last 4 digits: {{ maya.last_4_digits }}
             </ArticleSubtitleSlot>
         </p>
-        <details>
-          <summary>Balance</summary>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
           {{ maya.balance_wc }}
-        </details>
+        </Details>
       </div>
       <div 
         class="grid-tile-item" 
@@ -73,10 +75,10 @@ let loading = ref(true)
               {{ sa.bank_name }}
             </ArticleTitleSlot>
           </p>
-          <details>
-            <summary>Balance</summary>
+          <Details>
+            <SummaryLabel>Balance</SummaryLabel>
             {{ sa.balance_wc }}
-          </details>
+          </Details>
       </div>
       <div 
         class="grid-tile-item purple-1" 
@@ -98,10 +100,10 @@ let loading = ref(true)
               Last 4 digits: {{ cc.last_4_digits }}
             </ArticleSubtitleSlot>
         </p>
-        <details>
-          <summary>Available Credit Limit</summary>
+        <Details>
+          <SummaryLabel>Available Credit Limit</SummaryLabel>
           {{ cc.avail_credit_limit_wc }}
-        </details>
+        </Details>
       </div>
       <!-- <div class="grid-tile-item union-bank" 
         v-for="(shpw, index) in shopeeWalletData" 
@@ -112,10 +114,10 @@ let loading = ref(true)
             ShopeePay Wallet
           </ArticleTitleSlot>
         </p>
-        <details>
-          <summary>Balance</summary>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
           {{ shpw.balance }}
-        </details>
+        </Details>
       </div> -->
       <div class="grid-tile-item purple-1">
         <p class="tile-title">

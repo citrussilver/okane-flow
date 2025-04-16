@@ -27,7 +27,10 @@ export default {
                 'beige': 'rgb(245, 238, 223)',
                 'timberwolf': 'rgb(224, 220, 209)',
                 'spanish-gray': 'rgb(156, 156, 156)',
-                'independence': 'rgb(81, 73, 99)'
+                'independence': 'rgb(81, 73, 99)',
+                'cafe-noir': 'rgb(78, 46, 29)',
+                'black-choco': 'rgb(31, 23, 20)',
+                'munsell-yellow': 'rgb(244, 203, 1)'
             }
         },
     },

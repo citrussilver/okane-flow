@@ -52,7 +52,7 @@ defineProps({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="role in roles" :key="role.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800">
+                                <tr v-for="role in roles" :key="role.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-independence">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ role.name }}
                                     </th>
