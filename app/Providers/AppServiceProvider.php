@@ -24,5 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
         // omits data word property on json result
         JsonResource::withoutWrapping();
+
+        require_once __DIR__ . '/../Http/Helpers/Helpers.php';
     }
 }
