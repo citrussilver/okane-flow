@@ -27,7 +27,7 @@ const emit = defineEmits(['submit'])
 </script>
 
 <template>
-    <form class="relative bg-white rounded-lg shadow" @submit.prevent="emit('submit')">
+    <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="emit('submit')">
         <div class="p-6 space-y-6">
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-6">
@@ -55,7 +55,7 @@ const emit = defineEmits(['submit'])
                 </ElementsGrouper>
                 <ElementsGrouper>
                     <FormInputLabel for="role_id" value="Role" />
-                    <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
+                    <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100">
                         <option value="-1" disabled>-- Select a role --</option>
                         <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                     </select>

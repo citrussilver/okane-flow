@@ -15,14 +15,14 @@ class SetUserTheme
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // return $next($request);
-        $r = $next($request);
+        return $next($request);
+        // $r = $next($request);
 
-        $user = $request->user();
-        $user->theme = 'dark';
-        $u = str_replace('<html lang="en">', '<html lang="en" class="' . $user->theme . '">', $r->getContent());
-        $r->setContent($u);
+        // $user = $request->user();
+        // $user->theme = 'dark';
+        // $u = str_replace('<html lang="en">', '<html lang="en" class="' . $user->theme . '">', $r->getContent());
+        // $r->setContent($u);
 
-        return $r;
+        // return $r;
     }
 }
