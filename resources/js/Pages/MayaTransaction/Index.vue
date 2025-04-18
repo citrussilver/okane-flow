@@ -54,9 +54,9 @@ defineProps({
                                     <th scope="col" class="px-6 py-3">
                                         Date Time
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <!-- <th scope="col" class="px-6 py-3">
                                         Type
-                                    </th>
+                                    </th> -->
                                     <th scope="col" class="px-6 py-3">
                                         Current Balance
                                     </th>
@@ -83,14 +83,14 @@ defineProps({
                                         {{ maya_transaction.id }}
                                     </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_transaction.maya_id }}
+                                        {{ maya_transaction.maya_acct.account_nickname }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.date_time }}
                                     </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
+                                    <!-- <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.transact_type_id }}
-                                    </td>
+                                    </td> -->
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.current_maya_balance_wc }}
                                     </td>
@@ -101,7 +101,9 @@ defineProps({
                                         {{ maya_transaction.post_maya_balance_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
-                                        {{ maya_transaction.remarks }}
+                                        <div class="line-clamp-1">
+                                            {{ maya_transaction.remarks }}
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.reference_id }}
@@ -117,7 +119,7 @@ defineProps({
 
                         <!-- Temporary Pagination Template -->
                         <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between py-2 px-4" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-700">1-{{ maya_transactions.length }}</span> of <span class="font-semibold text-gray-700">1</span></span>
+                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ maya_transactions.length }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
                             <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
                                 <li>
                                     <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">1</a>

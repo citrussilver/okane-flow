@@ -30,7 +30,8 @@ export default {
                 'independence': 'rgb(81, 73, 99)',
                 'cafe-noir': 'rgb(78, 46, 29)',
                 'black-choco': 'rgb(31, 23, 20)',
-                'munsell-yellow': 'rgb(244, 203, 1)'
+                'munsell-yellow': 'rgb(244, 203, 1)',
+                'yellow-orange': 'rgb(255, 152, 10)'
             }
         },
     },

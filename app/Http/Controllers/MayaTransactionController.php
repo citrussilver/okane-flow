@@ -48,6 +48,11 @@ class MayaTransactionController extends Controller
             'reference_id' => $request->reference_id,
         ]);
 
+        // update the balance in parent table - MayaAccounts
+        MayaAccount::where('id', $request->maya_id)
+            ->update(['balance' => $request->post_maya_balance]);
+
+
         return redirect()->route('maya-transactions.index');
     }
 

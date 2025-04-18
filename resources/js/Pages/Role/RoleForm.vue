@@ -36,7 +36,7 @@ const emit = defineEmits(['submit'])
 
                 <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="description" value="Description" />
-                    <textarea name="description" v-model="form.description" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100" rows="3"></textarea>
+                    <textarea name="description" v-model="form.description" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
                 </div>
 
 

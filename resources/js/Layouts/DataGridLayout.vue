@@ -7,7 +7,7 @@ import Details from '@/Components/Details.vue';
 
 const props = defineProps({
   sharedData: {
-        type: Array,
+        type: Object,
         required: true
   },
 })
