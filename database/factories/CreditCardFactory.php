@@ -16,10 +16,7 @@ class CreditCardFactory extends Factory
      */
     public function definition(): array
     {
-        // $randomize = fake()->randomElement(['Blue Mastercard', 'Platinum', 'Gold']);
-        // $cc_name = fake()->regexify("[A-Za-z]{4}'s " . $randomize);
-
-        $cc_name = randomize_name(['Blue Mastercard', 'Platinum', 'Gold'], 5);
+        $cc_name = randomize_name(CREDIT_CARDS, 5);
 
         return [
             'last_4_digits' => fake()->regexify('[0-9]{4}'),

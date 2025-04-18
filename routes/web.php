@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\GCashAccountController;
+use App\Http\Controllers\MayaTransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Middleware\SetUserTheme;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
+    Route::resource('/maya-transactions', MayaTransactionController::class);
     Route::resource('/gcash-accts', GCashAccountController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

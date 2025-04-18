@@ -53,6 +53,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Roles
                                 </NavLink>
+                                <NavLink
+                                    :href="route('maya-transactions.index')" 
+                                    :active="route().current('maya-transactions.*')"
+                                >
+                                    Maya Transacts
+                                </NavLink>
                             </div>
                         </div>
 

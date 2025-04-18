@@ -1,7 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { getUser, deleteRow } from '@/functions/helpers.js'
+import { Head, Link, useForm} from '@inertiajs/vue3';
+import { getUser, deleteRow } from '@/functions/helpers.js';
+import consts from '@/constants/constants.js';
 
 const user = getUser();
 
@@ -34,17 +35,14 @@ defineProps({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div class="m-4 flex justify-between" v-if="form.role_id == 1">
                         <div class="text-gray-900 dark:text-gray-100">Manage Roles</div>
-                        <Link :href="route('roles.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">Add New Role</Link>
+                        <Link :href="route('roles.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ Role</Link>
                     </div>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-jp-indigo uppercase bg-azureish-white border-b">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Role Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Description
+                                    <th v-for="col in consts.roles_table_cols" class="px-6 py-3">
+                                        {{ col }}
                                     </th>
                                     <th scope="col" class="px-6 py-3" v-if="form.role_id == 1">
                                         Action

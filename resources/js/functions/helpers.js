@@ -16,7 +16,7 @@ export const deleteRow = (obj, routeStr) => {
     }
 }
 
-export const toggleDarkMode = (isDark) => {
-    isDark = !isDark;
-    localStorage.setItem("darkMode", isDark);
+export const roundNumber = (number, decimals) => {
+    let newnumber = new Number(number+'').toFixed(parseInt(decimals))
+    return parseFloat(newnumber); 
 }
