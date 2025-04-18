@@ -16,10 +16,7 @@ class SavingsAccountFactory extends Factory
      */
     public function definition(): array
     {
-        // $randomize = fake()->randomElement(['Blue Mastercard', 'Platinum', 'Gold']);
-        // $bank_name = fake()->regexify("[A-Za-z]{4}'s " . $randomize);
-
-        $bank_abbrev = pick_abbrev(['BPI', 'SB', 'UB']);
+        $bank_abbrev = pick_one(PH_BANK_ABBREVS);
         $bank_name = randomize_name($bank_abbrev, 8);
 
         return [
