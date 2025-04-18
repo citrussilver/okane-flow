@@ -5,8 +5,9 @@ import AltButton from '@/Components/AltButton.vue';
 import ElementsGrouper from '@/Components/ElementsGrouper.vue';
 import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue';
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import consts from '@/constants/constants.js';
+import NumericInput from '@/Components/NumericInput.vue';
 
 
 const selected_acct_balance = ref('');
@@ -20,41 +21,60 @@ const props = defineProps({
         type: Array,
         required: true
     },
+    transactsList: {
+        type: Array,
+        required: true
+    },
     operation: {
         type: String,
     }
 });
 
 const trackSelection = (val, target) => {
-    console.log(val, target);
 
     if(target == 'maya_account') {
         // get the balance with comma
         selected_acct_balance.value = props.maya_accounts[val-1].balance_wc;
         // update the form's current balance
         props.form.current_maya_balance = props.maya_accounts[val-1].balance;
-        console.log(`props.form.current_maya_balance: ${props.form.current_maya_balance}`);
     }
 
     if(target == 'transact_type') {
-        console.log(consts.maya_transacts[val-1]);
-        props.form.remarks = `[${consts.maya_transacts[val-1].name}]`;
+        props.form.remarks = `[${props.transactsList[val-1].name}] `;
     }
 };
 
 // call in template
 const emit = defineEmits(['submit'])
+
+const handleEmit = (payload) => {
+
+    if (payload.transact_type_id > 0) {
+        emit('submit');
+        // emit('submit', payload)
+    } else {
+        window.alert('Please select a valid transaction type');
+    }
+
+}
+
+onMounted(() => {
+    // explicitly display the current balance of the first account
+    selected_acct_balance.value = props.maya_accounts[0].balance_wc;
+    props.form.current_maya_balance = props.maya_accounts[0].balance;
+});
+
 </script>
 
 <template>
-    <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="emit('submit')">
+    <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="handleEmit(form)">
         <div class="p-6 space-y-6">
             <div class="grid grid-cols-6 gap-6">
 
-                <div class="cols-pan-6 sm:col-span-6">
+                <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="maya_id" value="Maya Acct" />
                     <select 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100"
+                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         name="role_id" 
                         v-model="form.maya_id" id="maya_id" 
                         @change="trackSelection($event.target.selectedIndex, 'maya_account')"
@@ -66,20 +86,20 @@ const emit = defineEmits(['submit'])
 
                 <ElementsGrouper>
                     <FormInputLabel for="date_time" value="Date" />
-                    <input type="datetime-local" id="date_time" v-model="form.date_time" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100">
+                    <input type="datetime-local" id="date_time" v-model="form.date_time" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600">
                 </ElementsGrouper>
 
                 <ElementsGrouper>
                     <FormInputLabel for="maya_id" value="Transaction" />
                     <select 
                         id="transact_type_id" 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100"
+                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         name="transact_type_id" 
                         v-model="form.transact_type_id" 
                         @change="trackSelection($event.target.selectedIndex, 'transact_type')"
                     >
                         <option value="-1" disabled>-- Select Transaction--</option>
-                        <option v-for="transaction in consts.maya_transacts" :key="transaction.id" :value="transaction.id">{{ transaction.name }}</option>
+                        <option v-for="transaction in transactsList" :key="transaction.id" :value="transaction.id">{{ transaction.name }}</option>
                     </select>
                 </ElementsGrouper>
 
@@ -88,7 +108,7 @@ const emit = defineEmits(['submit'])
                     <input 
                         id="current_balance" 
                         type="text" 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100"
+                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="selected_acct_balance" 
                         disabled
                     />
@@ -96,7 +116,7 @@ const emit = defineEmits(['submit'])
 
                 <ElementsGrouper>
                     <FormInputLabel for="amount" value="Amount" />
-                    <TextInput
+                    <NumericInput
                         id="amount"
                         type="number"
                         class="mt-1 block w-full"
@@ -104,13 +124,12 @@ const emit = defineEmits(['submit'])
                         min="1" 
                         required
                         autofocus
-                        autocomplete="number"
                     />
                 </ElementsGrouper>
 
                 <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="remarks" value="Remarks" />
-                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100" rows="3"></textarea>
+                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">

@@ -20,4 +20,9 @@ class MayaTransaction extends Model
         'remarks',
         'reference_id'
     ];
+
+    public function maya_account()
+    {
+        return $this->hasOne(MayaAccount::class, 'id', 'maya_id');
+    }
 }

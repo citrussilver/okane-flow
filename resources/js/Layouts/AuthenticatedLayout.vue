@@ -42,6 +42,12 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    :href="route('maya-transactions.index')" 
+                                    :active="route().current('maya-transactions.*')"
+                                >
+                                    Maya Transacts
+                                </NavLink>
+                                <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"
                                 >
@@ -52,12 +58,6 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('roles.*')"
                                 >
                                     Roles
-                                </NavLink>
-                                <NavLink
-                                    :href="route('maya-transactions.index')" 
-                                    :active="route().current('maya-transactions.*')"
-                                >
-                                    Maya Transacts
                                 </NavLink>
                             </div>
                         </div>
@@ -113,6 +113,7 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
+                            <ThemeSwitcher />
                             <button
                                 @click="
                                     showingNavigationDropdown =
@@ -168,6 +169,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('maya-transactions.index')"
+                            :active="route().current('maya-transactions.*')"
+                        >
+                            Maya Transacts
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('users.index')"

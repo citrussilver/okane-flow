@@ -1,4 +1,5 @@
 import { usePage, router } from '@inertiajs/vue3';
+import consts from '@/constants/constants.js';
 
 export const getUser = () => {
     return usePage().props.auth.user;
@@ -19,4 +20,15 @@ export const deleteRow = (obj, routeStr) => {
 export const roundNumber = (number, decimals) => {
     let newnumber = new Number(number+'').toFixed(parseInt(decimals))
     return parseFloat(newnumber); 
+}
+
+export const objPushToArray = () => {
+    let new_array = [];
+    for (let key in consts.maya_transacts) {
+        if (consts.maya_transacts.hasOwnProperty(key)) {
+            new_array.push(consts.maya_transacts[key]);
+        }
+    }
+
+    return new_array;
 }

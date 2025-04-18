@@ -2,7 +2,7 @@
     <div class="flex justify-center">
         <div class="relative">
             <button
-                class="flex text-md border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition hover:text-munsell-yellow"
+                class="flex text-md border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 text-yellow-orange transition hover:text-munsell-yellow"
                 @click="toggleDropdown"
             >
                 <SunIcon

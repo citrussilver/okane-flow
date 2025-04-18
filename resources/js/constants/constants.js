@@ -19,40 +19,34 @@ export default {
         'Remarks',
         'Reference ID'
     ],
-    maya_transacts: [
-        {
+    maya_transacts: {
+        cash_in: {
             id: 3,
             name: 'Cash-In',
         },
-        {
+        online_payment: {
             id: 1,
             name: 'Online Payment',
-            route: 'maya/save-ol-shop-pay'
         },
-        {
+        qr_pay: {
             id: 2,
             name: 'QR Pay',
-            route: 'maya/save-qr-pay'
         },
-        {
+        self_buy_load: {
             id: 5,
             name: 'Self Buy Load',
-            route: 'maya/save-maya-self-load'
         },
-        {
+        bills_payment: {
             id: 4,
             name: 'Bills Payment',
-            route: 'maya/save-bills-pay'
         },
-        {
+        adjustment: {
             id: 8,
             name: 'Adjustment',
-            route: 'maya/save-adjustment'
         },
-        {
+        refund: {
             id: 10,
             name: 'Refund',
-            route: 'maya/save-refund'
         }
-    ],
+    },
 }
