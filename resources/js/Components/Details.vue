@@ -1,5 +1,5 @@
 <template>
-    <details class="text-sm text-black-choco">
+    <details class="text-sm text-ceil">
         ₱<slot></slot>
     </details>
 </template>

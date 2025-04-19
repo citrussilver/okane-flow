@@ -10,11 +10,9 @@ export const getSharedData = () => {
 }
 
 export const deleteRow = (obj, routeStr) => {
-    if (window.confirm(`"${obj.name}" is going to be deleted. Are you sure?`)) {
-        router.delete(route(`${routeStr}.destroy`, obj.id), {
-            preserveScroll: true
-        })
-    }
+    router.delete(route(`${routeStr}.destroy`, obj.id), {
+        preserveScroll: true
+    })
 }
 
 export const roundNumber = (number, decimals) => {
