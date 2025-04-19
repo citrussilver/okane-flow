@@ -2,7 +2,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm} from '@inertiajs/vue3';
 import { getUser, deleteRow } from '@/functions/helpers.js';
-import consts from '@/constants/constants.js';
 
 const user = getUser();
 // for admin activities that require permission
@@ -23,9 +22,7 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 Maya Transactions
             </h2>
         </template>
@@ -49,7 +46,7 @@ defineProps({
                                         ID
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Maya ID
+                                        Maya Acct
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Date Time

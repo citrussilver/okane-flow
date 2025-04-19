@@ -3,6 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { getUser, deleteRow } from '@/functions/helpers.js';
 import consts from '@/constants/constants.js';
+import ConfirmDialog from '@/volt/ConfirmDialog.vue';
+import Toast from '@/volt/Toast.vue';
+import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
 
 const user = getUser();
 
@@ -19,10 +23,39 @@ defineProps({
     }
 })
 
+const confirm = useConfirm();
+const toast = useToast();
+
+const confirmDelete = (row, route) => {
+
+    confirm.require({
+        message: consts.toasts_detail.delete.message,
+        header: consts.toasts_detail.delete.header,
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Confirm'
+        },
+        accept: () => {
+            toast.add({ severity: 'info', summary: 'Confirmed', detail: consts.toasts_detail.delete.confirm, life: 3000 });
+            deleteRow(row, route)
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Rejected', detail: consts.toasts_detail.delete.cancel, life: 3000 });
+        }
+    });
+};
+
 </script>
 
 <template>
     <Head title="Users" />
+
+    <Toast />
+    <ConfirmDialog />
 
     <AuthenticatedLayout>
         <template #header>
@@ -38,7 +71,7 @@ defineProps({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div class="m-4 flex justify-between" v-if="form.role_id == 1">
                         <div class="text-gray-900 dark:text-gray-100">Manage Users</div>
-                        <Link :href="route('users.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ User</Link>
+                        <Link :href="route('users.create')" class="bg-ceil hover:bg-jp-indigo dark:hover:bg-independence px-4 py-1 rounded-full text-white active:translate-y-1">+ User</Link>
                     </div>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -64,9 +97,9 @@ defineProps({
                                         {{ user.role.name }}
                                     </td>
                                     <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
-                                        <Link :href="route('users.show', user.id)" class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
+                                        <Link :href="route('users.show', user.id)" class="font-medium text-gray-600 dark:text-lite-steel-blue hover:underline pr-4">Show</Link>
                                         <Link :href="route('users.edit', user.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="deleteRow(user, 'users')">Delete</a>
+                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(user, 'users')">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>

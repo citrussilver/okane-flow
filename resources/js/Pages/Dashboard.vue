@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DataGridLayout from '@/Layouts/DataGridLayout.vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import DataGridLayout from '@/Layouts/DataCardsGridLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
 import { getUser, getSharedData } from '@/functions/helpers.js';
 
 const user = getUser();

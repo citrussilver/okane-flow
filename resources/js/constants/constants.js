@@ -49,4 +49,12 @@ export default {
             name: 'Refund',
         }
     },
+    toasts_detail: {
+        delete: {
+            header: 'Delete Confirmation',
+            message: 'Are you sure?',
+            confirm: 'Delete success',
+            cancel: 'Cancelled'
+        }
+    }
 }
