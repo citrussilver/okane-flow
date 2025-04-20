@@ -48,6 +48,12 @@ const showingNavigationDropdown = ref(false);
                                     Maya Transacts
                                 </NavLink>
                                 <NavLink
+                                    :href="route('maya-accounts.index')" 
+                                    :active="route().current('maya-accounts.*')"
+                                >
+                                    Maya Accounts
+                                </NavLink>
+                                <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"
                                 >
@@ -175,6 +181,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('maya-transactions.*')"
                         >
                             Maya Transacts
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('maya-accounts.index')"
+                            :active="route().current('maya-accounts.*')"
+                        >
+                            Maya Accounts
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('users.index')"

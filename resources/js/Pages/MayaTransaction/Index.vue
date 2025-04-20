@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm} from '@inertiajs/vue3';
 import { getUser, deleteRow } from '@/functions/helpers.js';
+import consts from '@/constants/constants.js';
 
 const user = getUser();
 // for admin activities that require permission
@@ -39,35 +40,8 @@ defineProps({
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-jp-indigo uppercase bg-azureish-white border-b">
                                 <tr>
-                                    <!-- <th v-for="col in consts.maya_transacts_cols" class="px-6 py-3">
+                                    <th v-for="col in consts.maya_transacts_cols" class="px-6 py-3">
                                         {{ col }}
-                                    </th> -->
-                                    <th scope="col" class="px-6 py-3">
-                                        ID
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Maya Acct
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Date Time
-                                    </th>
-                                    <!-- <th scope="col" class="px-6 py-3">
-                                        Type
-                                    </th> -->
-                                    <th scope="col" class="px-6 py-3">
-                                        Current Balance
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Amount
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Post Balance
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Remarks
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Reference ID
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Actions
@@ -80,7 +54,7 @@ defineProps({
                                         {{ maya_transaction.id }}
                                     </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_transaction.maya_acct.account_nickname }}
+                                        {{ maya_transaction.maya_acct == null ? 'N/A' : maya_transaction.maya_acct.account_nickname }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.date_time }}

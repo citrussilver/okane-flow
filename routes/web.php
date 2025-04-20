@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GCashAccountController;
+use App\Http\Controllers\MayaAccountController;
 use App\Http\Controllers\MayaTransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -25,6 +26,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
+    Route::resource('/maya-accounts', MayaAccountController::class);
     Route::resource('/maya-transactions', MayaTransactionController::class);
     Route::resource('/gcash-accts', GCashAccountController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
