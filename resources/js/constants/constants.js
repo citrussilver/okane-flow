@@ -8,11 +8,18 @@ export default {
         'Role Name',
         'Description'
     ],
+    maya_accts_cols: [
+        'ID',
+        'Mobile #',
+        'Acct Nickname',
+        'Last 4 Digits',
+        'Balance'
+    ],
     maya_transacts_cols: [
         'ID',
         'Maya ID',
         'Date Time',
-        'Type',
+        // 'Type',
         'Current Balance',
         'Amount',
         'Post Balance',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\MayaAccount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,8 +19,8 @@ class MayaTransactionResource extends JsonResource
         return [
             'id' => $this->id,
             // 'maya_id' => $this->maya_id,
+            'maya_acct' => MayaAccount::where('id', $this->maya_id)->exists() ? MayaAccountResource::make($this->maya_account) : null,
             // below is based on hasOne relationship
-            'maya_acct' => MayaAccountResource::make($this->maya_account),
             'date_time' => date("F d, Y h:m a", strtotime($this->date_time)),
             'transact_type_id' => $this->transact_type_id,
             'current_maya_balance' => $this->current_maya_balance,

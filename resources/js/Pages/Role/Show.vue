@@ -1,11 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FormInputLabel from '@/Components/FormInputLabel.vue';
-import AltButton from '@/Components/AltButton.vue';
 import ElementsGrouper from '@/Components/ElementsGrouper.vue';
 import FormLabel from '@/Components/FormLabel.vue';
 import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue';
-import { Head, useForm, Link  } from '@inertiajs/vue3';
+import { Head, Link  } from '@inertiajs/vue3';
 
 defineProps({
     role: {
@@ -32,7 +31,7 @@ defineProps({
                     <div class="relative w-full max-w-2xl max-h-full">
 
                         <!-- Form -->
-                        <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="update">
+                        <form class="relative bg-white rounded-lg shadow dark:bg-gray-800">
                             <div class="p-6 space-y-6">
                                 <div class="grid grid-cols-6 gap-6">
                                     <ElementsGrouper>

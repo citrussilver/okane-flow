@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MayaAccount extends Model
 {
@@ -18,4 +19,9 @@ class MayaAccount extends Model
     ];
 
     public $timestamps = false;
+
+    // public function maya_transactions(): HasMany
+    // {
+    //     return $this->hasMany(MayaTransaction::class);
+    // }
 }
