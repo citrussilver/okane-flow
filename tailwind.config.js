@@ -31,7 +31,10 @@ export default {
                 'cafe-noir': 'rgb(78, 46, 29)',
                 'black-choco': 'rgb(31, 23, 20)',
                 'munsell-yellow': 'rgb(244, 203, 1)',
-                'yellow-orange': 'rgb(255, 152, 10)'
+                'yellow-orange': 'rgb(255, 152, 10)',
+                'inbike-green': 'rgb(111, 201, 209)',
+                'inbike-dgreen': 'rgb(68, 97, 99)',
+                'quincy': 'rgb(113, 81, 72)'
             }
         },
     },

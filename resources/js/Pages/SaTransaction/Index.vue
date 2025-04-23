@@ -66,7 +66,7 @@ const confirmDelete = (row, route) => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div class="m-4 flex justify-between" v-if="form.role_id == 1">
                         <div class="text-gray-900 dark:text-gray-100">Savings Account Transactions</div>
-                        <Link :href="route('sa-transactions.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ Savings Acct Transaction</Link>
+                        <Link :href="route('sa-transactions.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ SA Transaction</Link>
                     </div>
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

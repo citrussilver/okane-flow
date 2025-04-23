@@ -1,9 +1,13 @@
 <script setup>
 import ArticleTitleSlot from '@/slots/ArticleTitleSlot.vue';
 import ArticleSubtitleSlot from '@/slots/ArticleSubtitleSlot.vue';
-import { ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import SummaryLabel from '@/Components/SummaryLabel.vue';
 import Details from '@/Components/Details.vue';
+import CustomSvgButton from '@/Components/CustomSvgButton.vue';
+import usePokeAPIFetcher from '@/composables/usePokeAPIFetcher.js';
+import useAniQuoteFetcher from '@/composables/useAniQuoteFetcher.js';
+import { checkIfArrayExists, checkIfArrayExistsBool, titleCasetify } from '@/functions/helpers';
 
 const props = defineProps({
   sharedData: {
@@ -12,7 +16,75 @@ const props = defineProps({
   },
 })
 
-let loading = ref(true)
+let loadingPokeApi = ref(true);
+
+let pokemonData = reactive({});
+
+const fetchDone = ref(false)
+
+const loadPokeApi = () => {
+
+  loadingPokeApi.value = true;
+
+  const { pokemon, isLoading } = usePokeAPIFetcher();
+
+  fetchDone.value = false;
+
+  setTimeout(() => {
+
+    pokemonData = {...pokemon};
+
+    fetchDone.value = true;
+
+    loadingPokeApi.value = !loadingPokeApi.value;
+  }, 3000)
+}
+
+const pokemonImg = ref('')
+
+
+const fetchImg = (url) => {
+  return pokemonImg.value = url
+}
+
+// for use on showdown gif
+const handleImg = (objUrl, target) => {
+  
+  if(objUrl !== null) {
+    return fetchImg(objUrl);
+  } else {
+    console.log('specified showdown url is falsy!');
+    if(target == 'd') {
+      return fetchImg(pokemonData.sprites.front_default);
+    } else {
+      return fetchImg(pokemonData.sprites.front_shiny);
+    }
+  }
+}
+
+let loadingAniQuote = ref(true);
+
+let aniQuoteData = reactive({});
+
+const loadAniQuote = () => {
+  const { aniQuote, isLoading } = useAniQuoteFetcher();
+
+  setTimeout(function(){
+    
+    aniQuoteData = {...aniQuote};
+
+    console.log(aniQuoteData);
+
+    loadingAniQuote.value = false
+  }, 3000);
+  
+}
+
+onMounted(() => {
+  loadPokeApi();
+  loadAniQuote();
+});
+
 </script>
 
 <template>
@@ -119,7 +191,7 @@ let loading = ref(true)
           {{ shpw.balance }}
         </Details>
       </div> -->
-      <div class="grid-tile-item purple-1">
+      <div class="grid-tile-item grid-col-span-2 bg-quincy text-white">
         <p class="tile-title">
           <ArticleTitleSlot>
             Random Anime Quotes
@@ -131,28 +203,73 @@ let loading = ref(true)
           </ArticleSubtitleSlot>
         </p>
         <div id="aniQuote-content">
-            <div class="spinner-wrapper" v-if="loading">
+            <div class="spinner-wrapper" v-if="loadingAniQuote">
               <div class="spinner">
                   <div></div>
                   <div></div>
               </div>
             </div>
-            <!-- <div class="quote-wrapper" v-else>
-              <div id="quote">{{aniQuote.quote}}</div>
-              <div id="character">{{aniQuote.character}}</div>
-              <div id="animeTitle">{{aniQuote.anime}}</div>
-            </div> -->
+            <div class="quote-wrapper" v-else>
+              <div id="quote">{{ aniQuoteData.content}}</div>
+              <div id="character">{{ aniQuoteData.character.name }}</div>
+              <div id="animeTitle">{{ aniQuoteData.anime.name }}</div>
+            </div>
         </div>
-        <div id="custom-button" @click="loadAniQuote">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-click" style="position: absolute;" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <line x1="3" y1="12" x2="6" y2="12" />
-            <line x1="12" y1="3" x2="12" y2="6" />
-            <line x1="7.8" y1="7.8" x2="5.6" y2="5.6" />
-            <line x1="16.2" y1="7.8" x2="18.4" y2="5.6" />
-            <line x1="7.8" y1="16.2" x2="5.6" y2="18.4" />
-            <path d="M12 12l9 3l-4 2l-2 4l-3 -9" />
-          </svg>
+        <div id="custom-click-btn" @click="loadAniQuote" class="relative">
+          <CustomSvgButton />
+        </div>
+      </div>
+      <div class="grid-tile-item bg-inbike-dgreen">
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            Random Pokemon
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+          <ArticleSubtitleSlot>
+            using PokeAPI
+          </ArticleSubtitleSlot>
+        </p>
+        <div id="pokemon-content">
+            <div class="spinner-wrapper" v-if="loadingPokeApi">
+              <div class="spinner">
+                  <div></div>
+                  <div></div>
+              </div>
+            </div>
+            <div class="pokemon-data-wrapper flex gap-x-10" v-else>
+              <!-- left side -->
+              <div id="pokemon-info" class="pokemon-info-wp relative text-white">
+                <div :class="{ 'animateTr' : fetchDone }" >
+                  <div id="pokemon-name">{{ titleCasetify(pokemonData.name) }}</div>
+                  <div id="pokemon-id">No. {{ pokemonData.id }}</div>
+                  <div id="pokemon-types">
+                    <p>Type(s): {{ typeof checkIfArrayExists(pokemonData.types) === "string" ? '-' : pokemonData.types.length }}</p>
+                    <div v-for="typesData in pokemonData.types" v-if="checkIfArrayExistsBool(pokemonData.types)">
+                      {{  titleCasetify(typesData.type.name) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- right side -->
+              <div id="pokemon-sprites" class="pokemon-sprites-div-wp relative">
+                <div :class="{ 'animateTr' : fetchDone }" class="pokemon-sprites-div-wp-l">
+                    <div class="flex flex-col items-center text-xs text-white">
+                      <img :src="fetchImg(pokemonData.sprites.front_default, 'd')" alt="img-front-default">
+                      <p>Default</p>
+                    </div>
+                </div>
+                <div :class="{ 'animateTr' : fetchDone }" class="pokemon-sprites-div-wp-r" >
+                    <div class="flex flex-col items-center text-xs text-white">
+                      <img :src="fetchImg(pokemonData.sprites.front_shiny, 'd')" alt="img-front-default">
+                      <p>Shiny</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="custom-click-btn" @click="loadPokeApi" class="mt-7 relative">
+          <CustomSvgButton/>
         </div>
       </div>
     </div>
@@ -253,24 +370,8 @@ let loading = ref(true)
     /* background-image: linear-gradient(to right, rgb(0, 94, 168) , #f79f14); */
   }
 
-  .red-1 {
-    background-color: #f14668;
-  }
-
-  .yellow-1 {
-    background-color: #ffe08a;
-  }
-
-  .orange-1 {
-    background-color: #fd8506;
-  }
-
   .purple-1 {
     background-color: #6d5c71;
-  }
-
-  .green-1 {
-    background-color: #48c78e;
   }
 
   .dark-grey {
@@ -301,11 +402,20 @@ let loading = ref(true)
     grid-column-start: 1;
   }
 
+  /* .grid-tile-item:nth-last-child(2) {
+    background-color: #48c78e !important;
+    grid-
+  } */
+
   .grid-tile-item:last-child {
     /* grid-column-start: 3; */
     grid-column: 3/5;
     grid-row-start: 1;
     grid-row-end: 3;
+  }
+
+  .grid-col-span-2 {
+    grid-column: span 2;
   }
 
   .tile-title {
@@ -351,7 +461,7 @@ let loading = ref(true)
     content: 'Anime: ';
   }
 
-  #custom-button {
+  #custom-click-btn {
     /* position: absolute;
     bottom: 1.5rem;
     left: 1.5rem; */
@@ -368,11 +478,11 @@ let loading = ref(true)
     transition-timing-function: ease-in-out; */
   }
 
-  #custom-button:hover {
+  #custom-click-btn:hover {
     box-shadow: 3px 2px 22px 1px rgba(89, 126, 141, 1);
   }
 
-  #custom-button:active {
+  #custom-click-btn:active {
     transform: scale(0.9);
   }
 
@@ -436,6 +546,76 @@ let loading = ref(true)
       display: flex;
       flex-direction: column;
       gap: 1rem;
+    }
+  }
+
+  .pokemon-img-div {
+    animation-duration: 0.90s;
+    animation-fill-mode: forwards;
+  }
+
+  .pokemonImgTr {
+    position: absolute;
+    opacity: 1;
+    bottom: -3rem;
+    animation-name: transition-img;
+  }
+
+  .pokemon-sprites-div-wp {
+    /* position: absolute;
+    bottom: -3rem; */
+    position: relative;
+    /* animation-delay: 2s;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards; */
+  }
+
+  /* 
+    Notes
+    Made the div wrapper use tailwind utility class relative
+    at the same time targeting the descendant div and making it absolute
+    and applying the stylings below
+  */
+  .pokemon-sprites-div-wp > div, pokemon-info-wp > div {
+    position: absolute; 
+    bottom: -3rem;
+    opacity: 0;
+    animation-delay: 1.5s;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+  }
+  
+  /* 
+    Notes
+    Without height and width, the image shrinks to whatever reason
+    the height and width is based on the pokemon sprites standard size 
+    of 96x96
+  */
+  .pokemon-sprites-div-wp-l, .pokemon-sprites-div-wp-r {
+    height: 96px; 
+    width: 96px;
+  }
+
+  /* 
+    Notes
+    Due to absolute positioning, which also means their natural flow is 
+    disrupted already, the two divs holding the pokemon sprite
+    lines on top of each other, so applying a margin on the left sprite 
+    makes more sense here
+  */
+  .pokemon-sprites-div-wp-r {
+    margin-left: 7rem;
+  }
+
+  .animateTr {
+    animation-name: transition-img;
+  }
+
+  @keyframes transition-img {
+    to {
+        opacity: 1;
+        /* adjusted to align beside the texts info */
+        bottom: 1.5rem; 
     }
   }
 </style>

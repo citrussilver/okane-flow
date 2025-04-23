@@ -36,3 +36,11 @@ export const objPushToArray = (array_param) => {
 export const checkIfArrayExists = (param) => {
     return param?.length ? param.length : '0';
 }
+
+export const checkIfArrayExistsBool = (param) => {
+    return param?.length ? true : false;
+}
+
+export const titleCasetify = (param) => {
+    return param.replace(/^(.)|\s(.)/g, match => match.toUpperCase());
+}
