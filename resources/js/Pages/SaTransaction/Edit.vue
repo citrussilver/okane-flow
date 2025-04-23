@@ -16,9 +16,12 @@ const props = defineProps({
     }
 });
 
-const form = useForm({ ...props.sa_transaction, sa_account_id: props.sa_transaction.savings_acct.id });
-
-console.log(form);
+const form = useForm({
+    ...props.sa_transaction, 
+    sa_account_id: props.sa_transaction.savings_acct.id,
+    current_balance: props.sa_transaction.savings_acct.balance,
+    current_balance_wc: props.sa_transaction.savings_acct.balance_wc
+});
 
 let transactsList = [];
 

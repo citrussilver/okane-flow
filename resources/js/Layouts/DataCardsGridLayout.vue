@@ -7,7 +7,7 @@ import Details from '@/Components/Details.vue';
 import CustomSvgButton from '@/Components/CustomSvgButton.vue';
 import usePokeAPIFetcher from '@/composables/usePokeAPIFetcher.js';
 import useAniQuoteFetcher from '@/composables/useAniQuoteFetcher.js';
-import { checkIfArrayExists, checkIfArrayExistsBool, titleCasetify } from '@/functions/helpers';
+import { checkIfArrayExists, checkIfArrayExistsBool, titleCasetify, isStrExistsOnName } from '@/functions/helpers';
 
 const props = defineProps({
   sharedData: {
@@ -73,8 +73,6 @@ const loadAniQuote = () => {
     
     aniQuoteData = {...aniQuote};
 
-    console.log(aniQuoteData);
-
     loadingAniQuote.value = false
   }, 3000);
   
@@ -82,6 +80,7 @@ const loadAniQuote = () => {
 
 onMounted(() => {
   loadPokeApi();
+  // encountering cors error on deployment site
   loadAniQuote();
 });
 
@@ -89,136 +88,6 @@ onMounted(() => {
 
 <template>
     <div class="grid-tile">
-      <div 
-        class="grid-tile-item blue-1" 
-        :class="{ 'gcash': gCash.account_nickname.includes('GCash'), 'mora' : gCash.account_nickname.includes('MoraCash') }"
-        v-for="(gCash, index) in sharedData.gcash_accounts" 
-        key="index" 
-      >
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            {{ gCash.account_nickname }}
-          </ArticleTitleSlot>
-        </p>
-        <p class="tile-subtitle">
-            <ArticleSubtitleSlot>
-              Last 4 digits: {{ gCash.last_4_digits }}
-            </ArticleSubtitleSlot>
-        </p>
-        <Details>
-          <SummaryLabel>Balance</SummaryLabel>
-          {{ gCash.balance_wc }}
-        </Details>
-      </div>
-      <div 
-        class="grid-tile-item blue-1" 
-        :class="{ 'maya': maya.account_nickname.includes('Maya'), 'mora' : maya.account_nickname.includes('MoraCash') }"
-        v-for="(maya, index) in sharedData.maya_accounts" 
-        key="index" 
-      >
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            {{ maya.account_nickname }}
-          </ArticleTitleSlot>
-        </p>
-        <p class="tile-subtitle">
-            <ArticleSubtitleSlot>
-              Last 4 digits: {{ maya.last_4_digits }}
-            </ArticleSubtitleSlot>
-        </p>
-        <Details>
-          <SummaryLabel>Balance</SummaryLabel>
-          {{ maya.balance_wc }}
-        </Details>
-      </div>
-      <div 
-        class="grid-tile-item" 
-        :class="{ 
-          'blue-1' : sa.bank_name, 
-          'bpi-red' : sa.bank_abbrev.includes('BPI'), 
-          'security-bank dark-grey' :  sa.bank_abbrev.includes('SB'), 
-          'union-bank' : sa.bank_abbrev.includes('UB')
-        }" 
-        v-for="(sa, index) in sharedData.savings_accounts" 
-        key="index" 
-      >
-          <p class="tile-title">
-            <ArticleTitleSlot>
-              {{ sa.bank_name }}
-            </ArticleTitleSlot>
-          </p>
-          <Details>
-            <SummaryLabel>Balance</SummaryLabel>
-            {{ sa.balance_wc }}
-          </Details>
-      </div>
-      <div 
-        class="grid-tile-item purple-1" 
-        :class="{ 
-          'blue-master-card' : cc.cc_name.includes('Blue Mastercard'),
-          'liyue-platinum' : cc.cc_name.includes('Platinum'),
-          'liyue-gold' : cc.cc_name.includes('Gold')
-        }"
-        v-for="(cc, index) in sharedData.cc_accounts" 
-        key="index" 
-      >
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            {{ cc.cc_name }}
-          </ArticleTitleSlot>
-        </p>
-        <p class="tile-subtitle">
-            <ArticleSubtitleSlot>
-              Last 4 digits: {{ cc.last_4_digits }}
-            </ArticleSubtitleSlot>
-        </p>
-        <Details>
-          <SummaryLabel>Available Credit Limit</SummaryLabel>
-          {{ cc.avail_credit_limit_wc }}
-        </Details>
-      </div>
-      <!-- <div class="grid-tile-item union-bank" 
-        v-for="(shpw, index) in shopeeWalletData" 
-        key="index" 
-      >
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            ShopeePay Wallet
-          </ArticleTitleSlot>
-        </p>
-        <Details>
-          <SummaryLabel>Balance</SummaryLabel>
-          {{ shpw.balance }}
-        </Details>
-      </div> -->
-      <div class="grid-tile-item grid-col-span-2 bg-quincy text-white">
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            Random Anime Quotes
-          </ArticleTitleSlot>
-        </p>
-        <p class="tile-subtitle">
-          <ArticleSubtitleSlot>
-            using Animechan API
-          </ArticleSubtitleSlot>
-        </p>
-        <div id="aniQuote-content">
-            <div class="spinner-wrapper" v-if="loadingAniQuote">
-              <div class="spinner">
-                  <div></div>
-                  <div></div>
-              </div>
-            </div>
-            <div class="quote-wrapper" v-else>
-              <div id="quote">{{ aniQuoteData.content}}</div>
-              <div id="character">{{ aniQuoteData.character.name }}</div>
-              <div id="animeTitle">{{ aniQuoteData.anime.name }}</div>
-            </div>
-        </div>
-        <div id="custom-click-btn" @click="loadAniQuote" class="relative">
-          <CustomSvgButton />
-        </div>
-      </div>
       <div class="grid-tile-item bg-inbike-dgreen">
         <p class="tile-title">
           <ArticleTitleSlot>
@@ -227,7 +96,7 @@ onMounted(() => {
         </p>
         <p class="tile-subtitle">
           <ArticleSubtitleSlot>
-            using PokeAPI
+            powered by PokeAPI
           </ArticleSubtitleSlot>
         </p>
         <div id="pokemon-content">
@@ -270,6 +139,136 @@ onMounted(() => {
         </div>
         <div id="custom-click-btn" @click="loadPokeApi" class="mt-7 relative">
           <CustomSvgButton/>
+        </div>
+      </div>
+      <div 
+        class="grid-tile-item blue-1" 
+        :class="{ 'gcash': isStrExistsOnName(gCash.account_nickname, 'GCash'), 'mora' : isStrExistsOnName(gCash.account_nickname, 'MoraCash') }"
+        v-for="(gCash, index) in sharedData.gcash_accounts" 
+        key="index" 
+      >
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            {{ gCash.account_nickname }}
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+            <ArticleSubtitleSlot>
+              Last 4 digits: {{ gCash.last_4_digits }}
+            </ArticleSubtitleSlot>
+        </p>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
+          {{ gCash.balance_wc }}
+        </Details>
+      </div>
+      <div 
+        class="grid-tile-item blue-1" 
+        :class="{ 'maya': isStrExistsOnName(maya.account_nickname, 'Maya'), 'mora' : isStrExistsOnName(maya.account_nickname, 'MoraCash') }"
+        v-for="(maya, index) in sharedData.maya_accounts" 
+        key="index" 
+      >
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            {{ maya.account_nickname }}
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+            <ArticleSubtitleSlot>
+              Last 4 digits: {{ maya.last_4_digits }}
+            </ArticleSubtitleSlot>
+        </p>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
+          {{ maya.balance_wc }}
+        </Details>
+      </div>
+      <div 
+        class="grid-tile-item" 
+        :class="{ 
+          'blue-1' : sa.bank_name, 
+          'bpi-red' : isStrExistsOnName(sa.bank_abbrev, 'BPI'), 
+          'security-bank dark-grey' :  isStrExistsOnName(sa.bank_abbrev, 'SB'), 
+          'union-bank' : isStrExistsOnName(sa.bank_abbrev, 'UB')
+        }" 
+        v-for="(sa, index) in sharedData.savings_accounts" 
+        key="index" 
+      >
+          <p class="tile-title">
+            <ArticleTitleSlot>
+              {{ sa.bank_name }}
+            </ArticleTitleSlot>
+          </p>
+          <Details>
+            <SummaryLabel>Balance</SummaryLabel>
+            {{ sa.balance_wc }}
+          </Details>
+      </div>
+      <div 
+        class="grid-tile-item purple-1" 
+        :class="{ 
+          'blue-master-card' : isStrExistsOnName(cc.cc_name, 'Blue Mastercard'),
+          'liyue-platinum' : isStrExistsOnName(cc.cc_name, 'Platinum'),
+          'liyue-gold' : isStrExistsOnName(cc.cc_name, 'Gold')
+        }"
+        v-for="(cc, index) in sharedData.cc_accounts" 
+        key="index" 
+      >
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            {{ cc.cc_name }}
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+            <ArticleSubtitleSlot>
+              Last 4 digits: {{ cc.last_4_digits }}
+            </ArticleSubtitleSlot>
+        </p>
+        <Details>
+          <SummaryLabel>Available Credit Limit</SummaryLabel>
+          {{ cc.avail_credit_limit_wc }}
+        </Details>
+      </div>
+      <!-- <div class="grid-tile-item union-bank" 
+        v-for="(shpw, index) in shopeeWalletData" 
+        key="index" 
+      >
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            ShopeePay Wallet
+          </ArticleTitleSlot>
+        </p>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
+          {{ shpw.balance }}
+        </Details>
+      </div> -->
+      <div class="grid-tile-item grid-col-span-2 bg-quincy text-white">
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            Random Anime Quotes
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+          <ArticleSubtitleSlot>
+            powered by Animechan API
+          </ArticleSubtitleSlot>
+        </p>
+        <div id="aniQuote-content">
+            <div class="spinner-wrapper" v-if="loadingAniQuote">
+              <div class="spinner">
+                  <div></div>
+                  <div></div>
+              </div>
+            </div>
+            <div class="quote-wrapper" v-else>
+              <div id="quote">{{ aniQuoteData.content}}</div>
+              <div id="character">{{ aniQuoteData.character.name }}</div>
+              <div id="animeTitle">{{ aniQuoteData.anime.name }}</div>
+            </div>
+        </div>
+        <div id="custom-click-btn" @click="loadAniQuote" class="relative">
+          <CustomSvgButton />
         </div>
       </div>
     </div>
@@ -394,23 +393,15 @@ onMounted(() => {
     /* box-shadow: 2.5rem 3.75rem 3rem 1rem; */
   }
 
-  /* .grid-tile-span-2 {
-    grid-column: span 2;
-  } */
-
-  .grid-tile-item:nth-child(3), .grid-tile-item:nth-child(5)  {
-    grid-column-start: 1;
-  }
-
-  /* .grid-tile-item:nth-last-child(2) {
-    background-color: #48c78e !important;
-    grid-
-  } */
-
-  .grid-tile-item:last-child {
-    /* grid-column-start: 3; */
+  /* pokemon api grid-tile */
+  .grid-tile-item:first-child {
     grid-column: 3/5;
     grid-row-start: 1;
+    grid-row-end: 3;
+  }
+
+  .grid-tile-item:last-child {    
+    grid-row-start: 4;
     grid-row-end: 3;
   }
 
@@ -576,11 +567,11 @@ onMounted(() => {
     at the same time targeting the descendant div and making it absolute
     and applying the stylings below
   */
-  .pokemon-sprites-div-wp > div, pokemon-info-wp > div {
+  .pokemon-sprites-div-wp > div {
     position: absolute; 
     bottom: -3rem;
     opacity: 0;
-    animation-delay: 1.5s;
+    animation-delay: 0.25s;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
   }
@@ -615,7 +606,7 @@ onMounted(() => {
     to {
         opacity: 1;
         /* adjusted to align beside the texts info */
-        bottom: 1.5rem; 
+        bottom: 1rem; 
     }
   }
 </style>
