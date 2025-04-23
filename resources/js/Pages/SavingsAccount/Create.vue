@@ -1,35 +1,40 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import MayaAccountForm from './MayaAccountForm.vue';
+import SavingsAccountForm from './SavingsAccountForm.vue';
 import consts from '@/constants/constants.js';
+import { objPushToArray } from '@/functions/helpers.js';
 
 defineProps({
     // probably mobile number
 })
 
 const form = useForm({
-    mobile_number: '',
-    account_nickname: '',
-    last_4_digits: '',
+    bank_name: '',
+    bank_abbrev: '',
+    account_number: '',
     balance: '1'
 });
 
+let transactsList = [];
+
+transactsList = objPushToArray(consts.savings_accts_transacts);
+
 const store = () => {
 
-    form.post(route('maya-accounts.store'), {
+    form.post(route('savings-accounts.store'), {
         onSuccess: () => form.reset(),
     });
 };
 </script>
 
 <template>
-    <Head title="New Maya Account" />
+    <Head title="New Savings Account" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Maya Account
+                Savings Account
             </h2>
         </template>
 
@@ -38,7 +43,7 @@ const store = () => {
                 <div class="flex items-center justify-center">
                     <div class="relative w-full max-w-2xl max-h-full">
 
-                        <MayaAccountForm :form="form" operation="Save" @submit="store" />
+                        <SavingsAccountForm :form="form" operation="Save" @submit="store" />
                         
                     </div>
                 </div>

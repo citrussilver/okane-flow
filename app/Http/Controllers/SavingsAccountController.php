@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SavingsAccountRequest;
+use App\Http\Resources\SavingsAccountResource;
+use App\Models\SavingsAccount;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SavingsAccountController extends Controller
 {
@@ -11,7 +15,9 @@ class SavingsAccountController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('SavingsAccount/Index', [
+            'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all())
+        ]);
     }
 
     /**
@@ -19,7 +25,7 @@ class SavingsAccountController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('SavingsAccount/Create', []);
     }
 
     /**
@@ -27,38 +33,53 @@ class SavingsAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        SavingsAccount::create([
+            'bank_name' => $request->bank_name,
+            'bank_abbrev' => $request->bank_abbrev,
+            'account_number' => $request->account_number,
+            'balance' => $request->balance
+        ]);
+
+        return redirect()->route('savings-accounts.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SavingsAccount $savings_account)
     {
-        //
+        return Inertia::render('SavingsAccount/Show', [
+            'savings_account' => SavingsAccountResource::make($savings_account)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(SavingsAccount $savings_account)
     {
-        //
+        return Inertia::render('SavingsAccount/Edit', [
+            'savings_account' => SavingsAccountResource::make($savings_account)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SavingsAccountRequest $request, SavingsAccount $savings_account)
     {
-        //
+        $savings_account->update($request->validated());
+
+        return redirect()->route('savings-accounts.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SavingsAccount $savings_account)
     {
-        //
+        $savings_account->delete();
+
+        return back();
     }
 }

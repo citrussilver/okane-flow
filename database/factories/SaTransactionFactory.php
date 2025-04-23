@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MayaTransaction>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SaTransaction>
  */
-class MayaTransactionFactory extends Factory
+class SaTransactionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,26 +16,35 @@ class MayaTransactionFactory extends Factory
      */
     public function definition(): array
     {
-
         $transact_name = pick_one([
-            'Cash-In',
-            'Online Payment',
-            'QR Pay',
-            'Self Buy Load',
+            'Deposit',
+            'Withdraw',
             'Bills Payment',
+            'Pay Credit Card',
+            'GCash Cash-in',
+            'Maya Cash-in',
+            'Reload Prepaid Card',
+            'Transfer Money',
+            'Store payment',
             'Adjustment',
-            'Refund'
+            'Earn Interest',
+            'Tax Witheld',
+            'Salary / Income',
+            'Shopee - Online Banking',
+            'Bank Charge',
+            'ShopeePay Cash-in',
         ]);
 
         return [
-            'maya_id' => fake()->randomDigitNot(0),
+            'sa_account_id' => fake()->randomDigitNot(0),
             'date_time' => fake()->date('Y_m_d') . ' ' . fake()->time(),
             'transact_type_id' => fake()->randomDigitNot(0),
             'current_balance' => fake()->randomNumber(5, true),
             'amount' => fake()->randomNumber(5, true),
             'post_balance' => fake()->randomNumber(5, true),
+            'location' => fake()->word(),
             'remarks' => '[' . $transact_name . '] ' . fake()->sentence(),
-            'reference_id' => fake()->regexify('[A-Z]{5}[0-4]{8}')
+            'reference_number' => fake()->regexify('[A-Z]{5}[0-4]{8}')
         ];
     }
 }

@@ -16,6 +16,7 @@ class SavingsAccountResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
+            'id' => $this->id,
             'bank_name' => $this->bank_name,
             'bank_abbrev' => $this->bank_abbrev,
             'account_number' => $this->account_number,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MayaTransactionRequest;
 use App\Http\Resources\MayaAccountResource;
 use App\Http\Resources\MayaTransactionResource;
 use App\Models\MayaAccount;
@@ -41,16 +42,16 @@ class MayaTransactionController extends Controller
             'maya_id' => $request->maya_id,
             'date_time' => $request->date_time,
             'transact_type_id' => $request->transact_type_id,
-            'current_maya_balance' => $request->current_maya_balance,
+            'current_balance' => $request->current_balance,
             'amount' => $request->amount,
-            'post_maya_balance' => $request->post_maya_balance,
+            'post_balance' => $request->post_balance,
             'remarks' => $request->remarks,
             'reference_id' => $request->reference_id,
         ]);
 
         // update the balance in parent table - MayaAccounts
         MayaAccount::where('id', $request->maya_id)
-            ->update(['balance' => $request->post_maya_balance]);
+            ->update(['balance' => $request->post_balance]);
 
 
         return redirect()->route('maya-transactions.index');
@@ -59,32 +60,41 @@ class MayaTransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(MayaTransaction $maya_transaction)
     {
-        //
+        return Inertia::render('MayaTransaction/Show', [
+            'maya_transaction' => MayaTransactionResource::make($maya_transaction)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(MayaTransaction $maya_transaction)
     {
-        //
+        return Inertia::render('MayaTransaction/Edit', [
+            'maya_transaction' => MayaTransactionResource::make($maya_transaction),
+            'maya_accounts' => MayaAccountResource::collection(MayaAccount::all())
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MayaTransactionRequest $request, MayaTransaction $maya_transaction)
     {
-        //
+        $maya_transaction->update($request->validated());
+
+        return redirect()->route('maya-transactions.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(MayaTransaction $maya_transaction)
     {
-        //
+        $maya_transaction->delete();
+
+        return back();
     }
 }

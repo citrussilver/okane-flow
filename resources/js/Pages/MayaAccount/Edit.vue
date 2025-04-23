@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MayaAccountForm from './MayaAccountForm.vue';
-import { Head, useForm, Link  } from '@inertiajs/vue3';
+import { useForm  } from '@inertiajs/vue3';
 
 const props = defineProps({
     maya_account: {
