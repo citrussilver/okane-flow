@@ -133,7 +133,9 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
-                            <ThemeSwitcher />
+                            <div class="mr-2">
+                                <ThemeSwitcher />
+                            </div>
                             <button
                                 @click="
                                     showingNavigationDropdown =
