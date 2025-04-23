@@ -5,6 +5,8 @@ use App\Http\Controllers\MayaAccountController;
 use App\Http\Controllers\MayaTransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SaTransactionController;
+use App\Http\Controllers\SavingsAccountController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +28,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
+    Route::resource('/savings-accounts', SavingsAccountController::class);
+    Route::resource('/sa-transactions', SaTransactionController::class);
     Route::resource('/maya-accounts', MayaAccountController::class);
     Route::resource('/maya-transactions', MayaTransactionController::class);
     Route::resource('/gcash-accts', GCashAccountController::class);

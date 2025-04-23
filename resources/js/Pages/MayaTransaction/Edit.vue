@@ -1,35 +1,31 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 import MayaTransactForm from './MayaTransactForm.vue';
-import { roundNumber } from '@/functions/helpers.js';
+import { useForm  } from '@inertiajs/vue3';
+import { objPushToArray, roundNumber } from '@/functions/helpers.js';
 import consts from '@/constants/constants.js';
-import { objPushToArray } from '@/functions/helpers.js';
 
-defineProps({
+const props = defineProps({
     maya_accounts: {
         type: Array,
         required: true
+    },
+    maya_transaction: {
+        type: Object,
+        required: true
     }
-})
-
-const form = useForm({
-    maya_id: 1,
-    date_time: '',
-    transact_type_id: -1,
-    current_balance: 0,
-    amount: 1,
-    post_balance: 0,
-    remarks: '',
-    reference_id: ''
 });
+
+const form = useForm({...props.maya_transaction, maya_id: props.maya_transaction.maya_acct.id });
 
 let transactsList = [];
 
 transactsList = objPushToArray(consts.maya_transacts);
 
-const store = () => {
-    
+const update = () => {
+
+    form.maya_acct = props.maya_accounts.find(maya_acct => form.maya_id === maya_acct.id);
+
     if(form.transact_type_id == consts.maya_transacts.cash_in.id || form.transact_type_id == consts.maya_transacts.refund.id) {
         form.post_balance = parseFloat(form.current_balance) + parseFloat(form.amount);
     } else {
@@ -38,20 +34,18 @@ const store = () => {
 
     form.post_balance = roundNumber(form.post_balance, 2)
 
-
-    form.post(route('maya-transactions.store'), {
+    form.put(route('maya-transactions.update', form.id), {
         onSuccess: () => form.reset(),
     });
 };
+
 </script>
 
 <template>
-    <Head title="New Maya Transaction" />
-
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Maya Transaction
+                Edit Maya Transaction
             </h2>
         </template>
 
@@ -60,8 +54,8 @@ const store = () => {
                 <div class="flex items-center justify-center">
                     <div class="relative w-full max-w-2xl max-h-full">
 
-                        <MayaTransactForm :form="form" :maya_accounts="maya_accounts" :transactsList="transactsList" operation="Save" @submit="store" />
-                        
+                        <MayaTransactForm :form="form" :maya_accounts="maya_accounts" :transactsList="transactsList" operation="Update" @submit="update" />
+
                     </div>
                 </div>
             </div>

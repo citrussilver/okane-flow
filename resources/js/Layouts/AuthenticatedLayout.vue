@@ -4,6 +4,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import MaterialIconRenderer from '@/Components/MaterialIconRenderer.vue';
 import { ref } from 'vue';
 import { Link} from '@inertiajs/vue3';
 import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
@@ -25,9 +26,10 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo
+                                    <!-- <ApplicationLogo
                                         class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                                    />
+                                    /> -->
+                                    <MaterialIconRenderer class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" mIcon="finance" textLabel="" />
                                 </Link>
                             </div>
 
@@ -39,31 +41,43 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    <MaterialIconRenderer mIcon="dashboard" textLabel="" />
+                                </NavLink>
+                                <NavLink
+                                    :href="route('sa-transactions.index')" 
+                                    :active="route().current('sa-transactions.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="receipt_long" textLabel="SA Transacts" />
+                                </NavLink>
+                                <NavLink
+                                    :href="route('savings-accounts.index')" 
+                                    :active="route().current('savings-accounts.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
                                 </NavLink>
                                 <NavLink
                                     :href="route('maya-transactions.index')" 
                                     :active="route().current('maya-transactions.*')"
                                 >
-                                    Maya Transacts
+                                    <MaterialIconRenderer mIcon="request_quote" textLabel="Maya Transacts" />
                                 </NavLink>
                                 <NavLink
                                     :href="route('maya-accounts.index')" 
                                     :active="route().current('maya-accounts.*')"
                                 >
-                                    Maya Accounts
+                                    <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
                                 </NavLink>
                                 <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"
                                 >
-                                    Users
+                                    <MaterialIconRenderer mIcon="patient_list" textLabel="" />
                                 </NavLink>
                                 <NavLink
                                     :href="route('roles.index')" 
                                     :active="route().current('roles.*')"
                                 >
-                                    Roles
+                                    <MaterialIconRenderer mIcon="assignment_ind" textLabel="" />
                                 </NavLink>
                             </div>
                         </div>
@@ -174,31 +188,43 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            <MaterialIconRenderer mIcon="dashboard" textLabel="Dashboard" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('sa-transactions.index')"
+                            :active="route().current('sa-transactions.*')"
+                        >
+                            <MaterialIconRenderer mIcon="receipt_long" textLabel="SA Transacts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('savings-accounts.index')"
+                            :active="route().current('savings-accounts.*')"
+                        >
+                            <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('maya-transactions.index')"
                             :active="route().current('maya-transactions.*')"
                         >
-                            Maya Transacts
+                            <MaterialIconRenderer mIcon="request_quote" textLabel="Maya Transacts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('maya-accounts.index')"
                             :active="route().current('maya-accounts.*')"
                         >
-                            Maya Accounts
+                            <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('users.index')"
                             :active="route().current('users.*')"
                         >
-                            Users
+                            <MaterialIconRenderer mIcon="patient_list" textLabel="Users" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('roles.index')"
                             :active="route().current('roles.*')"
                         >
-                            Roles
+                            <MaterialIconRenderer mIcon="assignment_ind" textLabel="Roles" />
                         </ResponsiveNavLink>
                     </div>
 

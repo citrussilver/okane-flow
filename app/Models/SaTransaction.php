@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MayaTransaction extends Model
+class SaTransaction extends Model
 {
-    /** @use HasFactory<\Database\Factories\MayaTransactionFactory> */
+    /** @use HasFactory<\Database\Factories\SaTransactionFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'maya_id',
+        'sa_account_id',
         'date_time',
         'transact_type_id',
         'current_balance',
         'amount',
         'post_balance',
+        'location',
         'remarks',
-        'reference_id'
+        'reference_number'
     ];
 
-    public function maya_account()
+    public function savings_account()
     {
-        return $this->hasOne(MayaAccount::class, 'id', 'maya_id');
+        return $this->hasOne(SavingsAccount::class, 'id', 'sa_account_id');
     }
 }

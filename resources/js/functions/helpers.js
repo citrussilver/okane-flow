@@ -20,13 +20,19 @@ export const roundNumber = (number, decimals) => {
     return parseFloat(newnumber); 
 }
 
-export const objPushToArray = () => {
+export const objPushToArray = (array_param) => {
     let new_array = [];
-    for (let key in consts.maya_transacts) {
-        if (consts.maya_transacts.hasOwnProperty(key)) {
-            new_array.push(consts.maya_transacts[key]);
+    for (let key in array_param) {
+        if (array_param.hasOwnProperty(key)) {
+            new_array.push(array_param[key]);
         }
     }
 
     return new_array;
+}
+
+// optional chainring Elvis operator ECMAScript 2020
+// checks if array and array.length are truthy
+export const checkIfArrayExists = (param) => {
+    return param?.length ? param.length : '0';
 }

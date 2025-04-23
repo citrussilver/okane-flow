@@ -16,14 +16,14 @@ class SavingsAccountFactory extends Factory
      */
     public function definition(): array
     {
-        $bank_abbrev = pick_one(PH_BANK_ABBREVS);
+        $bank_abbrev = pick_one(['BPI', 'SB', 'UB']);
         $bank_name = randomize_name($bank_abbrev, 8);
 
         return [
             'bank_name' => $bank_name,
             'bank_abbrev' => $bank_abbrev,
             'account_number' => fake()->regexify('[0-9]{15}'),
-            'balance' => fake()->randomNumber(6, true)
+            'balance' => fake()->randomNumber(5, true)
         ];
     }
 }

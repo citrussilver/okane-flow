@@ -15,7 +15,7 @@ const form = useForm({
 })
 
 defineProps({
-    maya_accounts: {
+    sa_transactions: {
         type: Array,
         required: true
     }
@@ -49,7 +49,7 @@ const confirmDelete = (row, route) => {
 </script>
 
 <template>
-    <Head title="Maya Accounts" />
+    <Head title="Savings Account Transactions" />
 
     <Toast />
     <ConfirmDialog />
@@ -57,25 +57,23 @@ const confirmDelete = (row, route) => {
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Maya Accounts
+                Savings Account Transactions
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-screen sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-                    <!-- header label -->
                     <div class="m-4 flex justify-between" v-if="form.role_id == 1">
-                        <div class="text-gray-900 dark:text-gray-100">Maya Accounts</div>
-                        <Link :href="route('maya-accounts.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ Maya Account</Link>
+                        <div class="text-gray-900 dark:text-gray-100">Savings Account Transactions</div>
+                        <Link :href="route('sa-transactions.create')" class="bg-ceil hover:bg-jp-indigo px-4 py-1 rounded-full text-white active:translate-y-1">+ Savings Acct Transaction</Link>
                     </div>
-
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-jp-indigo uppercase bg-azureish-white border-b">
                                 <tr>
-                                    <th v-for="col in consts.maya_accts_cols" class="px-6 py-3">
+                                    <th v-for="col in consts.savings_accts_transacts_cols" class="px-6 py-3">
                                         {{ col }}
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -84,26 +82,40 @@ const confirmDelete = (row, route) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="maya_account in maya_accounts" :key="maya_account.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-independence">
+                                <tr v-for="sa_transaction in sa_transactions" :key="sa_transaction.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-independence">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
+                                        {{ sa_transaction.id }}
+                                    </th>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_account.id }}
+                                        {{ sa_transaction.savings_acct == null ? 'N/A' : sa_transaction.savings_acct.bank_name }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_account.mobile_number }}
+                                        {{ sa_transaction.date_time_em }}
+                                    </td>
+                                    <!-- <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
+                                        {{ sa_transaction.transact_type_id }}
+                                    </td> -->
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
+                                        {{ sa_transaction.current_balance_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_account.account_nickname }}
+                                        {{ sa_transaction.amount_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_account.last_4_digits }}
+                                        {{ sa_transaction.post_balance_wc }}
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
+                                        <div class="line-clamp-1">
+                                            {{ sa_transaction.remarks }}
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_account.balance }}
+                                        {{ sa_transaction.reference_number }}
                                     </td>
                                     <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
-                                        <Link :href="route('maya-accounts.show', maya_account.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
-                                        <Link :href="route('maya-accounts.edit', maya_account.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(maya_account, 'maya-accounts')">Delete</a>
+                                        <Link :href="route('sa-transactions.show', sa_transaction.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
+                                        <Link :href="route('sa-transactions.edit', sa_transaction.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
+                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(sa_transaction, 'sa-transactions')">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,7 +123,7 @@ const confirmDelete = (row, route) => {
 
                         <!-- Temporary Pagination Template -->
                         <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between py-2 px-4" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ checkIfArrayExists(maya_accounts) }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
+                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ checkIfArrayExists(sa_transactions) }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
                             <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
                                 <li>
                                     <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">1</a>

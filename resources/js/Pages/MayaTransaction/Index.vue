@@ -1,8 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm} from '@inertiajs/vue3';
-import { getUser, deleteRow } from '@/functions/helpers.js';
+import { getUser, deleteRow, checkIfArrayExists } from '@/functions/helpers.js';
 import consts from '@/constants/constants.js';
+import ConfirmDialog from '@/volt/ConfirmDialog.vue';
+import Toast from '@/volt/Toast.vue';
+import { useConfirm } from 'primevue/useconfirm';
+import { useToast } from 'primevue/usetoast';
 
 const user = getUser();
 // for admin activities that require permission
@@ -16,10 +20,39 @@ defineProps({
         required: true
     }
 })
+
+const confirm = useConfirm();
+const toast = useToast();
+
+const confirmDelete = (row, route) => {
+
+    confirm.require({
+        message: consts.toasts_detail.delete.message,
+        header: consts.toasts_detail.delete.header,
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Confirm'
+        },
+        accept: () => {
+            toast.add({ severity: 'info', summary: 'Confirmed', detail: consts.toasts_detail.delete.confirm, life: 3000 });
+            deleteRow(row, route)
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Rejected', detail: consts.toasts_detail.delete.cancel, life: 3000 });
+        }
+    });
+};
 </script>
 
 <template>
     <Head title="Maya Transactions" />
+
+    <Toast />
+    <ConfirmDialog />
 
     <AuthenticatedLayout>
         <template #header>
@@ -57,19 +90,19 @@ defineProps({
                                         {{ maya_transaction.maya_acct == null ? 'N/A' : maya_transaction.maya_acct.account_nickname }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_transaction.date_time }}
+                                        {{ maya_transaction.date_time_em }}
                                     </td>
                                     <!-- <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.transact_type_id }}
                                     </td> -->
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_transaction.current_maya_balance_wc }}
+                                        {{ maya_transaction.current_balance_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ maya_transaction.amount_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ maya_transaction.post_maya_balance_wc }}
+                                        {{ maya_transaction.post_balance_wc }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
                                         <div class="line-clamp-1">
@@ -82,7 +115,7 @@ defineProps({
                                     <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
                                         <Link :href="route('maya-transactions.show', maya_transaction.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
                                         <Link :href="route('maya-transactions.edit', maya_transaction.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="deleteRow(maya_transaction, 'maya-transactions')">Delete</a>
+                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(maya_transaction, 'maya-transactions')">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -90,7 +123,7 @@ defineProps({
 
                         <!-- Temporary Pagination Template -->
                         <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between py-2 px-4" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ maya_transactions.length }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
+                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ checkIfArrayExists(maya_transactions) }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
                             <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
                                 <li>
                                     <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">1</a>
