@@ -16,7 +16,12 @@ const props = defineProps({
     }
 });
 
-const form = useForm({...props.maya_transaction, maya_id: props.maya_transaction.maya_acct.id });
+const form = useForm({
+    ...props.maya_transaction, 
+    maya_id: props.maya_transaction.maya_acct.id, 
+    current_balance: props.maya_transaction.maya_acct.balance,
+    current_balance_wc: props.maya_transaction.maya_acct.balance_wc
+});
 
 let transactsList = [];
 

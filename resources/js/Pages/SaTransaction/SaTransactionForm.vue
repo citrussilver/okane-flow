@@ -7,6 +7,7 @@ import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue'
 import { Link } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import InputError from '@/Components/InputError.vue';
+import { propsParser } from '@/functions/helpers';
 
 
 const selected_acct_balance = ref('');
@@ -29,22 +30,27 @@ const props = defineProps({
     }
 });
 
-// to properly parse date_time to html datetime-local tag
 const refDateTime = ref('');
 
-refDateTime.value = props.form.date_time;
+// to properly parse date_time to html datetime-local tag
+propsParser(refDateTime, props.form.date_time);
+
+const handleCurrentBalance = () => {
+    props.form.savings_acct = props.savings_accounts.find(savings_acct => props.form.sa_account_id === savings_acct.id);
+            
+    props.form.current_balance = props.form.savings_acct.balance;
+    propsParser(selected_acct_balance, props.form.current_balance);
+}
 
 const trackSelection = (val, target) => {
 
     if(target == 'savings_account') {
-        // get the balance with comma
-        selected_acct_balance.value = props.savings_accounts[val-1].balance_wc;
-        // update the form's current balance
-        props.form.current_balance = props.savings_accounts[val-1].balance;
+        handleCurrentBalance();
     }
 
     if(target == 'transact_type') {
-        props.form.remarks = `[${props.transactsList[val-1].name}] `;
+        props.form.transact_type = props.transactsList.find(transaxn => props.form.transact_type_id === transaxn.id);
+        props.form.remarks = `[${props.form.transact_type.name}] `;
     }
 };
 
@@ -52,15 +58,7 @@ const trackSelection = (val, target) => {
 const emit = defineEmits(['submit']);
 
 onMounted(() => {
-    // explicitly display the current balance of the first account
-
-    if(props.operation == 'Update') {
-        selected_acct_balance.value = props.form.current_balance_wc;
-        props.form.current_balance = props.form.current_balance;
-    } else {
-        selected_acct_balance.value = props.savings_accounts[0].balance_wc;
-        props.form.current_balance = props.savings_accounts[0].balance;
-    }
+    handleCurrentBalance();
 });
 
 </script>
@@ -110,7 +108,7 @@ onMounted(() => {
                         id="current_balance" 
                         type="text" 
                         class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
-                        v-model="selected_acct_balance" 
+                        v-model="form.current_balance" 
                         disabled
                     />
                 </ElementsGrouper>

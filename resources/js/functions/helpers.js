@@ -44,3 +44,13 @@ export const checkIfArrayExistsBool = (param) => {
 export const titleCasetify = (param) => {
     return param.replace(/^(.)|\s(.)/g, match => match.toUpperCase());
 }
+
+// to properly show date on html datetime-local tag and money balances
+export const propsParser = (ref, props) => {
+    ref.value = props;
+    props = ref.value;
+}
+
+export const isStrExistsOnName = (objKey, strParam) => {
+    return objKey.includes(strParam) ? true : false;
+}
