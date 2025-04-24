@@ -5,11 +5,89 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import MaterialIconRenderer from '@/Components/MaterialIconRenderer.vue';
-import { ref } from 'vue';
-import { Link} from '@inertiajs/vue3';
+import { ref, computed, onMounted } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
 import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
+import Button from '@/volt/Button.vue';
+import Menu from '@/volt/Menu.vue';
+import consts from '@/constants/constants.js';
 
 const showingNavigationDropdown = ref(false);
+
+const saMenuOv = ref();
+const saMenuItems = ref([
+    {
+        label: 'Savings Account',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/sa-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Accounts',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/savings-accounts', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const mayaMenuOv = ref();
+const mayaMenuItems = ref([
+    {
+        label: 'Maya',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/maya-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Accounts',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/maya-accounts', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const saToggle = (event) => {
+    saMenuOv.value.toggle(event);
+};
+
+const mayaToggle = (event) => {
+    mayaMenuOv.value.toggle(event);
+};
+
+const saMenuActive = ref(false);
+
+const saMenuClasses = computed(() =>
+    saMenuActive.value 
+    ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out'
+    : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out',
+);
+
+const mayaMenuActive = ref(false);
+
+const mayaMenuClasses = computed(() =>
+    mayaMenuActive.value 
+    ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out'
+    : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out',
+);
+
+onMounted(() => {
+    saMenuActive.value = consts.global_page_routes.savings_acct.includes(route().current()) ? true : false;
+    mayaMenuActive.value = consts.global_page_routes.maya.includes(route().current()) ? true : false;
+});
 
 </script>
 
@@ -43,8 +121,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     <MaterialIconRenderer mIcon="dashboard" textLabel="" />
                                 </NavLink>
-                                <NavLink
-                                    :href="route('sa-transactions.index')" 
+                                <div :class="saMenuClasses">
+                                    <Button id="saMenu" type="button" icon="pi pi-home" plain @click="saToggle" aria-haspopup="true" aria-controls="overlay_menu" />
+                                    <Menu ref="saMenuOv" id="sa_overlay_menu" :model="saMenuItems" :popup="true" />
+                                </div>
+                                <!-- <NavLink 
+                                    :href="route('sa-transactions.index')"
                                     :active="route().current('sa-transactions.*')"
                                 >
                                     <MaterialIconRenderer mIcon="receipt_long" textLabel="SA Transacts" />
@@ -54,8 +136,18 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('savings-accounts.*')"
                                 >
                                     <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
-                                </NavLink>
+                                </NavLink> -->
                                 <NavLink
+                                    :href="route('credit-cards.index')" 
+                                    :active="route().current('credit-cards.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="credit_card" textLabel="Credit Cards" />
+                                </NavLink>
+                                <div :class="mayaMenuClasses">
+                                    <Button id="mayaMenu" type="button" icon="pi pi-ellipsis-v" plain @click="mayaToggle" aria-haspopup="true" aria-controls="overlay_menu" />
+                                    <Menu ref="mayaMenuOv" id="maya_overlay_menu" :model="mayaMenuItems" :popup="true" />
+                                </div>
+                                <!-- <NavLink
                                     :href="route('maya-transactions.index')" 
                                     :active="route().current('maya-transactions.*')"
                                 >
@@ -66,7 +158,7 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('maya-accounts.*')"
                                 >
                                     <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
-                                </NavLink>
+                                </NavLink> -->
                                 <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"
@@ -203,6 +295,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('savings-accounts.*')"
                         >
                             <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('credit-cards.index')"
+                            :active="route().current('credit-cards.*')"
+                        >
+                            <MaterialIconRenderer mIcon="credit_card" textLabel="Credit Cards" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('maya-transactions.index')"

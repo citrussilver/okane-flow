@@ -1,34 +1,31 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import MayaAccountForm from './MayaAccountForm.vue';
+import CreditCardForm from './CreditCardForm.vue';
+import { useForm  } from '@inertiajs/vue3';
 
-defineProps({
-    // probably mobile number
+const props = defineProps({
+    credit_card: {
+        type: Object,
+        required: true
+    }
 })
 
-const form = useForm({
-    mobile_number: '',
-    account_nickname: '',
-    last_4_digits: '',
-    balance: '1'
-});
+const form = useForm({...props.credit_card})
 
-const store = () => {
+const update = () => {
 
-    form.post(route('maya-accounts.store'), {
+    form.put(route('credit-cards.update', form.id), {
         onSuccess: () => form.reset(),
     });
 };
+
 </script>
 
 <template>
-    <Head title="New Maya Account" />
-
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Maya Account
+                Edit Credit Card
             </h2>
         </template>
 
@@ -37,8 +34,8 @@ const store = () => {
                 <div class="flex items-center justify-center">
                     <div class="relative w-full max-w-2xl max-h-full">
 
-                        <MayaAccountForm :form="form" operation="Save" @submit="store" />
-                        
+                        <CreditCardForm :form="form" operation="Update" @submit="update" />
+
                     </div>
                 </div>
             </div>

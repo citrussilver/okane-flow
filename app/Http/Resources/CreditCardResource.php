@@ -17,6 +17,7 @@ class CreditCardResource extends JsonResource
         // return parent::toArray($request);
 
         return [
+            'id' => $this->id,
             'last_4_digits' => $this->last_4_digits,
             'cc_name' => $this->cc_name,
             'credit_limit' => $this->credit_limit,

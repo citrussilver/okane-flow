@@ -92,6 +92,13 @@ export default {
             name: 'ShopeePay Cash-in',
         }
     },
+    credit_cards_cols: [
+        'ID',
+        'Last 4 Digits',
+        'Name',
+        'Credit Limit',
+        'Avail Limit'
+    ],
     maya_accts_cols: [
         'ID',
         'Mobile #',
@@ -147,5 +154,15 @@ export default {
             confirm: 'Delete success',
             cancel: 'Cancelled'
         }
+    },
+    global_page_routes: {
+        savings_acct: [
+            'savings-accounts.index',
+            'sa-transactions.index'
+        ],
+        maya: [
+            'maya-accounts.index',
+            'maya-transactions.index'
+        ]
     }
 }

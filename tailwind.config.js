@@ -35,6 +35,8 @@ export default {
                 'inbike-green': 'rgb(111, 201, 209)',
                 'inbike-dgreen': 'rgb(68, 97, 99)',
                 'quincy': 'rgb(113, 81, 72)',
+                'snow': 'rgb(255, 251, 252)',
+                'lotion': 'rgb(252, 252, 252)',
                 'pokedex-normal': 'rgb(159, 161, 159)',
                 'pokedex-fire': 'rgb(230, 40, 41)',
                 'pokedex-fighting': 'rgb(255, 128, 0)',
