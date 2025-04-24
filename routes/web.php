@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\GCashAccountController;
 use App\Http\Controllers\MayaAccountController;
 use App\Http\Controllers\MayaTransactionController;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/roles', RoleController::class);
     Route::resource('/savings-accounts', SavingsAccountController::class);
     Route::resource('/sa-transactions', SaTransactionController::class);
+    Route::resource('/credit-cards', CreditCardController::class);
     Route::resource('/maya-accounts', MayaAccountController::class);
     Route::resource('/maya-transactions', MayaTransactionController::class);
     Route::resource('/gcash-accts', GCashAccountController::class);

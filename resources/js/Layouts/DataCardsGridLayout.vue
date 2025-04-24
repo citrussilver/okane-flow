@@ -38,8 +38,6 @@ const loadPokeApi = () => {
 
     queriedPokemonName.value = pokemonData.name;
 
-    console.log(`queriedPokemonName.value: ${queriedPokemonName.value}`);
-
     fetchDone.value = true;
 
     loadingPokeApi.value = !loadingPokeApi.value;
