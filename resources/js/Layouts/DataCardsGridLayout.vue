@@ -1,13 +1,13 @@
 <script setup>
 import ArticleTitleSlot from '@/slots/ArticleTitleSlot.vue';
 import ArticleSubtitleSlot from '@/slots/ArticleSubtitleSlot.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, computed } from 'vue';
 import SummaryLabel from '@/Components/SummaryLabel.vue';
 import Details from '@/Components/Details.vue';
 import CustomSvgButton from '@/Components/CustomSvgButton.vue';
 import usePokeAPIFetcher from '@/composables/usePokeAPIFetcher.js';
 import useAniQuoteFetcher from '@/composables/useAniQuoteFetcher.js';
-import { checkIfArrayExists, checkIfArrayExistsBool, titleCasetify, isStrExistsOnName } from '@/functions/helpers';
+import { checkIfArrayExistsBool, titleCasetify, isStrExistsOnName } from '@/functions/helpers';
 
 const props = defineProps({
   sharedData: {
@@ -19,6 +19,8 @@ const props = defineProps({
 let loadingPokeApi = ref(true);
 
 let pokemonData = reactive({});
+
+let queriedPokemonName = ref('');
 
 const fetchDone = ref(false)
 
@@ -33,6 +35,10 @@ const loadPokeApi = () => {
   setTimeout(() => {
 
     pokemonData = {...pokemon};
+
+    queriedPokemonName.value = pokemonData.name;
+
+    console.log(`queriedPokemonName.value: ${queriedPokemonName.value}`);
 
     fetchDone.value = true;
 
@@ -78,16 +84,84 @@ const loadAniQuote = () => {
   
 }
 
+// tried to refactor on helpers.js but class styling won't apply
+const handleBgColor = (param) => {
+
+switch (param) {
+    case 'normal':
+        return 'bg-pokedex-normal px-4 rounded-xl';
+
+    case 'fire':
+        return 'bg-pokedex-fire px-4 rounded-xl';
+
+    case 'fighting':
+        return 'bg-pokedex-fighting px-4 rounded-xl';
+
+    case 'water':
+        return 'bg-pokedex-water px-4 rounded-xl';
+
+    case 'flying':
+        return 'bg-pokedex-flying px-4 rounded-xl';
+
+    case 'grass':
+        return 'bg-pokedex-grass px-4 rounded-xl';
+
+    case 'poison': 
+        return 'bg-pokedex-poison px-4 rounded-xl';
+
+    case 'electric': 
+        return 'bg-pokedex-electric px-4 rounded-xl';
+
+    case 'ground': 
+        return 'bg-pokedex-ground px-4 rounded-xl';
+
+    case 'psychic': 
+        return 'bg-pokedex-psychic px-4 rounded-xl';
+
+    case 'rock': 
+        return 'bg-pokedex-rock px-4 rounded-xl';
+        
+    case 'ice': 
+        return 'bg-pokedex-ice px-4 rounded-xl';
+
+    case 'bug': 
+        return 'bg-pokedex-bug px-4 rounded-xl';
+
+    case 'dragon': 
+        return 'bg-pokedex-dragon px-4 rounded-xl';
+
+    case 'ghost': 
+        return 'bg-pokedex-ghost px-4 rounded-xl';
+
+    case 'dark': 
+        return 'bg-pokedex-dark px-4 rounded-xl';
+
+    case 'steel': 
+        return 'bg-pokedex-steel px-4 rounded-xl';
+
+    case 'fairy': 
+        return 'bg-pokedex-fairy px-4 rounded-xl';
+
+    case 'stellar': 
+        return 'bg-pokedex-stellar px-4 rounded-xl';
+
+    default:
+        return 'bg-pokedex-normal px-4 rounded-xl';
+}
+
+}
+
 onMounted(() => {
   loadPokeApi();
   // encountering cors error on deployment site
-  loadAniQuote();
+  // loadAniQuote();
 });
 
 </script>
 
 <template>
     <div class="grid-tile">
+
       <div class="grid-tile-item bg-inbike-dgreen">
         <p class="tile-title">
           <ArticleTitleSlot>
@@ -106,62 +180,70 @@ onMounted(() => {
                   <div></div>
               </div>
             </div>
-            <div class="pokemon-data-wrapper flex gap-x-10" v-else>
-              <!-- left side -->
-              <div id="pokemon-info" class="pokemon-info-wp relative text-white">
-                <div :class="{ 'animateTr' : fetchDone }" >
-                  <div id="pokemon-name">{{ titleCasetify(pokemonData.name) }}</div>
-                  <div id="pokemon-id">No. {{ pokemonData.id }}</div>
-                  <div id="pokemon-types">
-                    <p>Type(s): {{ typeof checkIfArrayExists(pokemonData.types) === "string" ? '-' : pokemonData.types.length }}</p>
-                    <div v-for="typesData in pokemonData.types" v-if="checkIfArrayExistsBool(pokemonData.types)">
-                      {{  titleCasetify(typesData.type.name) }}
+            <div id="pokemon-dynamic-content-wp" class="flex" v-else>
+
+              <div class="pokemon-data-wp relative">
+
+                <div :class="{ 'animateTr' : fetchDone }" class="pokemon-data-wp-sub flex items-center justify-center gap-2">
+
+                  <!-- left side -->
+                  <div id="pokemon-info" class="pokemon-info-wp p-4 text-white">
+                    <div class="pokemon-info-wp-all">
+                      <div id="pokemon-id">No. {{ pokemonData.id }}</div>
+                      <div id="pokemon-name" class="text-2xl">
+                        <a 
+                          :href="`https://bulbapedia.bulbagarden.net/wiki/${queriedPokemonName}_(Pok%C3%A9mon)`" 
+                          target="_blank"
+                        >
+                          {{ titleCasetify(pokemonData.name) }}
+                        </a>
+                      </div>
+                      <div id="pokemon-types" class="lg:flex lg:gap-1 mt-1">
+                        <div v-for="typesData in pokemonData.types" v-if="checkIfArrayExistsBool(pokemonData.types)" class="flex mt-1">
+                          <div :class="handleBgColor(typesData.type.name)">{{ titleCasetify(typesData.type.name) }}</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <!-- right side -->
-              <div id="pokemon-sprites" class="pokemon-sprites-div-wp relative">
-                <div :class="{ 'animateTr' : fetchDone }" class="pokemon-sprites-div-wp-l">
-                    <div class="flex flex-col items-center text-xs text-white">
-                      <img :src="fetchImg(pokemonData.sprites.front_default, 'd')" alt="img-front-default">
-                      <p>Default</p>
+    
+                  <!-- right side -->
+                  <div id="pokemon-sprites" class="flex text-white gap-2">
+                    <div>
+                      <a 
+                        :href="`https://bulbapedia.bulbagarden.net/wiki/${queriedPokemonName}_(Pok%C3%A9mon)`" 
+                        target="_blank"
+                      >
+                        <div class="flex flex-col items-center text-xs">
+                          <img :src="fetchImg(pokemonData.sprites.front_default, 'd')" alt="img-front-default">
+                          <p>Default</p>
+                        </div>
+                      </a>
                     </div>
-                </div>
-                <div :class="{ 'animateTr' : fetchDone }" class="pokemon-sprites-div-wp-r" >
-                    <div class="flex flex-col items-center text-xs text-white">
-                      <img :src="fetchImg(pokemonData.sprites.front_shiny, 'd')" alt="img-front-default">
-                      <p>Shiny</p>
+                    <div>
+                      <a 
+                        :href="`https://bulbapedia.bulbagarden.net/wiki/${queriedPokemonName}_(Pok%C3%A9mon)`" 
+                        target="_blank"
+                      >
+                        <div class="flex flex-col items-center text-xs">
+                          <img :src="fetchImg(pokemonData.sprites.front_shiny, 'd')" alt="img-front-default">
+                          <p>Shiny</p>
+                        </div>
+                      </a>
                     </div>
+                  </div>
+
                 </div>
+
               </div>
+
             </div>
         </div>
         <div id="custom-click-btn" @click="loadPokeApi" class="mt-7 relative">
           <CustomSvgButton/>
         </div>
       </div>
-      <div 
-        class="grid-tile-item blue-1" 
-        :class="{ 'gcash': isStrExistsOnName(gCash.account_nickname, 'GCash'), 'mora' : isStrExistsOnName(gCash.account_nickname, 'MoraCash') }"
-        v-for="(gCash, index) in sharedData.gcash_accounts" 
-        key="index" 
-      >
-        <p class="tile-title">
-          <ArticleTitleSlot>
-            {{ gCash.account_nickname }}
-          </ArticleTitleSlot>
-        </p>
-        <p class="tile-subtitle">
-            <ArticleSubtitleSlot>
-              Last 4 digits: {{ gCash.last_4_digits }}
-            </ArticleSubtitleSlot>
-        </p>
-        <Details>
-          <SummaryLabel>Balance</SummaryLabel>
-          {{ gCash.balance_wc }}
-        </Details>
-      </div>
+      
+      <!-- Maya Accounts -->
       <div 
         class="grid-tile-item blue-1" 
         :class="{ 'maya': isStrExistsOnName(maya.account_nickname, 'Maya'), 'mora' : isStrExistsOnName(maya.account_nickname, 'MoraCash') }"
@@ -183,6 +265,31 @@ onMounted(() => {
           {{ maya.balance_wc }}
         </Details>
       </div>
+
+            <!-- GCash Accounts -->
+            <div 
+        class="grid-tile-item blue-1" 
+        :class="{ 'gcash': isStrExistsOnName(gCash.account_nickname, 'GCash'), 'mora' : isStrExistsOnName(gCash.account_nickname, 'MoraCash') }"
+        v-for="(gCash, index) in sharedData.gcash_accounts" 
+        key="index" 
+      >
+        <p class="tile-title">
+          <ArticleTitleSlot>
+            {{ gCash.account_nickname }}
+          </ArticleTitleSlot>
+        </p>
+        <p class="tile-subtitle">
+            <ArticleSubtitleSlot>
+              Last 4 digits: {{ gCash.last_4_digits }}
+            </ArticleSubtitleSlot>
+        </p>
+        <Details>
+          <SummaryLabel>Balance</SummaryLabel>
+          {{ gCash.balance_wc }}
+        </Details>
+      </div>
+
+      <!-- Savings Accounts -->
       <div 
         class="grid-tile-item" 
         :class="{ 
@@ -204,6 +311,8 @@ onMounted(() => {
             {{ sa.balance_wc }}
           </Details>
       </div>
+
+      <!-- Credit Cards -->
       <div 
         class="grid-tile-item purple-1" 
         :class="{ 
@@ -229,6 +338,7 @@ onMounted(() => {
           {{ cc.avail_credit_limit_wc }}
         </Details>
       </div>
+
       <!-- <div class="grid-tile-item union-bank" 
         v-for="(shpw, index) in shopeeWalletData" 
         key="index" 
@@ -243,6 +353,8 @@ onMounted(() => {
           {{ shpw.balance }}
         </Details>
       </div> -->
+
+      <!-- Anime Quotes API -->
       <div class="grid-tile-item grid-col-span-2 bg-quincy text-white">
         <p class="tile-title">
           <ArticleTitleSlot>
@@ -271,6 +383,7 @@ onMounted(() => {
           <CustomSvgButton />
         </div>
       </div>
+
     </div>
 </template>
 
@@ -540,38 +653,18 @@ onMounted(() => {
     }
   }
 
-  .pokemon-img-div {
-    animation-duration: 0.90s;
-    animation-fill-mode: forwards;
-  }
-
-  .pokemonImgTr {
-    position: absolute;
-    opacity: 1;
-    bottom: -3rem;
-    animation-name: transition-img;
-  }
-
-  .pokemon-sprites-div-wp {
-    /* position: absolute;
-    bottom: -3rem; */
-    position: relative;
-    /* animation-delay: 2s;
-    animation-duration: 0.8s;
-    animation-fill-mode: forwards; */
-  }
-
   /* 
     Notes
     Made the div wrapper use tailwind utility class relative
     at the same time targeting the descendant div and making it absolute
     and applying the stylings below
   */
-  .pokemon-sprites-div-wp > div {
+  .pokemon-data-wp > div {
     position: absolute; 
+    top: 0rem;
     bottom: -3rem;
     opacity: 0;
-    animation-delay: 0.25s;
+    animation-delay: 0.85s;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
   }
@@ -585,6 +678,11 @@ onMounted(() => {
   .pokemon-sprites-div-wp-l, .pokemon-sprites-div-wp-r {
     height: 96px; 
     width: 96px;
+  }
+
+  .pokemon-data-wp {
+    height: 150px;
+    width: 500px;
   }
 
   /* 
