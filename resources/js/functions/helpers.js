@@ -1,5 +1,4 @@
 import { usePage, router } from '@inertiajs/vue3';
-import consts from '@/constants/constants.js';
 
 export const getUser = () => {
     return usePage().props.auth.user;
