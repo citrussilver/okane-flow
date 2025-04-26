@@ -8,6 +8,7 @@ import CustomSvgButton from '@/Components/CustomSvgButton.vue';
 import usePokeAPIFetcher from '@/composables/usePokeAPIFetcher.js';
 import useAniQuoteFetcher from '@/composables/useAniQuoteFetcher.js';
 import { checkIfArrayExistsBool, titleCasetify, isStrExistsOnName } from '@/functions/helpers';
+import Skeleton from '@/volt/Skeleton.vue';
 
 const props = defineProps({
   sharedData: {
@@ -172,11 +173,18 @@ onMounted(() => {
           </ArticleSubtitleSlot>
         </p>
         <div id="pokemon-content">
-            <div class="spinner-wrapper" v-if="loadingPokeApi">
+            <div v-if="loadingPokeApi">
               <div class="spinner">
                   <div></div>
                   <div></div>
               </div>
+              <!-- TODO -->
+              <!-- <div class="relative">
+                <div class="flex justify-center gap-2">
+                  <Skeleton width="10rem" height="4rem"></Skeleton>
+                  <Skeleton width="10rem" height="4rem"></Skeleton>
+                </div>
+              </div> -->
             </div>
             <div id="pokemon-dynamic-content-wp" class="flex" v-else>
 

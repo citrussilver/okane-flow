@@ -163,6 +163,9 @@ export default {
         maya: [
             'maya-accounts.index',
             'maya-transactions.index'
+        ],
+        cc: [
+            'credit-cards.index'
         ]
     }
 }

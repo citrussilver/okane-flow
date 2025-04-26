@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Rules\Recaptcha;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,6 +30,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'captcha_token'  => [new Recaptcha],
+        ]);
+
         $request->authenticate();
 
         $request->session()->regenerate();

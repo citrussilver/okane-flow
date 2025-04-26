@@ -30,7 +30,7 @@ defineProps({
                     <div class="relative w-full max-w-2xl max-h-full">
 
                         <!-- Form -->
-                        <form class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                        <form class="relative bg-white rounded-lg shadow-sm dark:bg-gray-800">
                             <div class="p-6 space-y-6">
                                 <div class="grid grid-cols-6 gap-6">
                                     <ElementsGrouper>
@@ -55,8 +55,8 @@ defineProps({
 
 
                                     <BlockWideElementsGrouper>
-                                        <Link :href="route('maya-accounts.edit', maya_account.id)" class="text-white bg-jp-indigo hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit</Link>
-                                        <Link :href="route('maya-accounts.index')" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
+                                        <Link :href="route('maya-accounts.edit', maya_account.id)" class="text-white bg-jp-indigo hover:bg-indigo-800 focus:ring-4 focus:outline-hidden focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit</Link>
+                                        <Link :href="route('maya-accounts.index')" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
                                     </BlockWideElementsGrouper>
                                 </div>
                             </div>
