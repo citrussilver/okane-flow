@@ -64,14 +64,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <form class="relative bg-white rounded-lg shadow dark:bg-gray-800" @submit.prevent="emit('submit')">
+    <form class="relative bg-white rounded-lg shadow-sm dark:bg-gray-800" @submit.prevent="emit('submit')">
         <div class="p-6 space-y-6">
             <div class="grid grid-cols-6 gap-6">
 
                 <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="sa_account_id" value="Savings Acct" />
                     <select 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         name="role_id" 
                         v-model="form.sa_account_id" id="sa_account_id" 
                         @change="trackSelection($event.target.selectedIndex, 'savings_account')"
@@ -83,7 +83,7 @@ onMounted(() => {
 
                 <ElementsGrouper>
                     <FormInputLabel for="date_time" value="Date" />
-                    <input type="datetime-local" id="date_time" v-model="form.date_time" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600">
+                    <input type="datetime-local" id="date_time" v-model="form.date_time" class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600">
                     <InputError class="mt-2" :message="form.errors.date_time" />
                 </ElementsGrouper>
 
@@ -91,7 +91,7 @@ onMounted(() => {
                     <FormInputLabel for="transact_type_id" value="Transaction" />
                     <select 
                         id="transact_type_id" 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         name="transact_type_id" 
                         v-model="form.transact_type_id" 
                         @change="trackSelection($event.target.selectedIndex, 'transact_type')"
@@ -107,7 +107,7 @@ onMounted(() => {
                     <input 
                         id="current_balance" 
                         type="text" 
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.current_balance" 
                         disabled
                     />
@@ -118,7 +118,7 @@ onMounted(() => {
                     <input
                         id="amount"
                         type="text"
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.amount" 
                         autofocus
                     />
@@ -127,7 +127,7 @@ onMounted(() => {
 
                 <div class="col-span-6 sm:col-span-6">
                     <FormInputLabel for="remarks" value="Remarks" />
-                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
+                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
                     <InputError class="mt-2" :message="form.errors.remarks" />
                 </div>
 
@@ -136,7 +136,7 @@ onMounted(() => {
                     <input
                         id="location"
                         type="text"
-                        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.location" 
                         autofocus
                     />
@@ -163,7 +163,7 @@ onMounted(() => {
                     >
                         {{ operation }}
                     </AltButton>
-                    <Link :href="route('sa-transactions.index')" as="button" :disabled="form.processing" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
+                    <Link :href="route('sa-transactions.index')" as="button" :disabled="form.processing" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
                 </BlockWideElementsGrouper>
             </div>
         </div>
