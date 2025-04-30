@@ -5,6 +5,7 @@ import AltButton from '@/Components/AltButton.vue';
 import ElementsGrouper from '@/Components/ElementsGrouper.vue';
 import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue';
 import { Link } from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
 
 const props = defineProps({
     form: {
@@ -33,6 +34,7 @@ const emit = defineEmits(['submit'])
                         v-model="form.mobile_number" 
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.mobile_number" />
                 </ElementsGrouper>
 
                 <ElementsGrouper>
@@ -44,6 +46,7 @@ const emit = defineEmits(['submit'])
                         v-model="form.account_nickname" 
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.account_nickname" />
                 </ElementsGrouper>
 
                 <ElementsGrouper>
@@ -55,6 +58,7 @@ const emit = defineEmits(['submit'])
                         v-model="form.last_4_digits" 
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.last_4_digits" />
                 </ElementsGrouper>
 
                 <ElementsGrouper>
@@ -66,6 +70,7 @@ const emit = defineEmits(['submit'])
                         v-model="form.balance" 
                         required
                     />
+                    <InputError class="mt-2" :message="form.errors.balance" />
                 </ElementsGrouper>
 
                 <BlockWideElementsGrouper>
