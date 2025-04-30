@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve, join } from 'path';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import ClosePlugin from './vite-plugin-close.ts';
 
 export default defineConfig({
     plugins: [
@@ -17,6 +18,7 @@ export default defineConfig({
                 },
             },
         }),
+        ClosePlugin()
     ],
     resolve: {
         alias: [
