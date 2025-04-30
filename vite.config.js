@@ -20,6 +20,17 @@ export default defineConfig({
         }),
         ClosePlugin()
     ],
+    build: {
+        watch: false,
+        rollupOptions: {
+          watch: false,
+          treeshake: false,
+          preserveEntrySignatures: true,
+          output: {
+            dynamicImportInCjs: false,
+          }
+        }
+    },
     resolve: {
         alias: [
             // { find: "@/", replacement: path.resolve(__dirname, "./resources/js/") }
