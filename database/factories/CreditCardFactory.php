@@ -16,16 +16,13 @@ class CreditCardFactory extends Factory
      */
     public function definition(): array
     {
-        // $randomize = fake()->randomElement(['Blue Mastercard', 'Platinum', 'Gold']);
-        // $cc_name = fake()->regexify("[A-Za-z]{4}'s " . $randomize);
-
-        $cc_name = randomize_name(['Blue Mastercard', 'Platinum', 'Gold'], 5);
+        $cc_name = randomize_name(['Blue Mastercard', 'JCB', 'Visa', 'AMEX', 'Citi'], 5);
 
         return [
             'last_4_digits' => fake()->regexify('[0-9]{4}'),
             'cc_name' => $cc_name,
-            'credit_limit' => fake()->randomNumber(6, true),
-            'avail_credit_limit' => fake()->randomNumber(6, true)
+            'credit_limit' => fake()->randomNumber(5, true),
+            'avail_credit_limit' => fake()->randomNumber(5, true)
         ];
     }
 }

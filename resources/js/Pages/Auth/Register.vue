@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useReCaptcha } from 'vue-recaptcha-v3'
 
 const props = defineProps({
     roles: {
@@ -19,7 +20,20 @@ const form = useForm({
     role_id: 0,
     password: '',
     password_confirmation: '',
+    captcha_token: ''
 });
+
+const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
+
+const recaptcha = async () => {
+    // (optional) Wait until recaptcha has been loaded.
+    await recaptchaLoaded()
+
+    // Execute reCAPTCHA with action "login".
+    form.captcha_token = await executeRecaptcha('login')
+    submit();
+    // Do stuff with the received token.
+};
 
 const submit = () => {
     form.post(route('register'), {
@@ -33,7 +47,7 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="recaptcha">
             <div>
                 <InputLabel for="full_name" value="Full Name" />
 
@@ -67,7 +81,7 @@ const submit = () => {
 
             <div class="mt-4">
                 <InputLabel for="role_id" value="Role" />
-                <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100">
+                <select name="role_id" v-model="form.role_id" id="role_id" class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-800 dark:text-gray-100">
                     <option value="-1" disabled>-- Select a role --</option>
                     <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                 </select>
@@ -112,7 +126,7 @@ const submit = () => {
             <div class="mt-4 flex items-center justify-end">
                 <Link
                     :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                 >
                     Already registered?
                 </Link>
@@ -125,6 +139,9 @@ const submit = () => {
                 >
                     Register
                 </PrimaryButton>
+                <div class="text-red-600" v-if="form.errors.captcha_token">
+                    {{ form.errors.captcha_token }}
+                </div>
             </div>
         </form>
     </GuestLayout>

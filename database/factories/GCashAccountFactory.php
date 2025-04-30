@@ -20,7 +20,7 @@ class GCashAccountFactory extends Factory
             'mobile_number' => fake()->regexify('[0-9]{11}'),
             'account_nickname' => fake()->regexify("[A-Za-z]{5}'s GCash"),
             'last_4_digits' => fake()->regexify('[0-9]{4}'),
-            'balance' => fake()->randomNumber(6, true)
+            'balance' => fake()->randomNumber(5, true)
         ];
     }
 }

@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoleSeeder::class,
             GCashAccountSeeder::class,
+            MayaAccountSeeder::class,
+            MayaTransactionSeeder::class,
             SavingsAccountSeeder::class,
+            SaTransactionSeeder::class,
             CreditCardSeeder::class
 
         ]);

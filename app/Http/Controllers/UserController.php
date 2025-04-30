@@ -19,7 +19,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        // dd(auth());
         $users = auth()->user()->get();
         return Inertia::render('User/Index', [
             'users' => UserResource::collection($users)

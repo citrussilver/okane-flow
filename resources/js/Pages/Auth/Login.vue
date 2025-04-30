@@ -5,7 +5,9 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useReCaptcha } from 'vue-recaptcha-v3';
 
 defineProps({
     canResetPassword: {
@@ -20,7 +22,19 @@ const form = useForm({
     email: '',
     password: '',
     remember: false,
+    captcha_token: '',
 });
+
+const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
+
+const recaptcha = async () => {
+    await recaptchaLoaded()
+
+    // Execute reCAPTCHA with action "login".
+    form.captcha_token = await executeRecaptcha('login')
+    submit();
+    // Do stuff with the received token.
+};
 
 const submit = () => {
     form.post(route('login'), {
@@ -37,7 +51,7 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="recaptcha">
             <div>
                 <InputLabel for="email" value="Email" />
 
@@ -82,7 +96,7 @@ const submit = () => {
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                 >
                     Forgot your password?
                 </Link>
@@ -94,6 +108,9 @@ const submit = () => {
                 >
                     Log in
                 </PrimaryButton>
+            </div>
+            <div class="text-red-600" v-if="form.errors.captcha_token">
+                {{ form.errors.captcha_token }}
             </div>
         </form>
     </GuestLayout>

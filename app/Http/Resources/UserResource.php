@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'full_name' => $this->full_name,
             'email' => $this->email,
+            // below is based on hasOne relationship
             'role' => RoleResource::make($this->role),
         ];
     }

@@ -4,11 +4,129 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { ref } from 'vue';
-import { Link} from '@inertiajs/vue3';
+import MaterialIconRenderer from '@/Components/MaterialIconRenderer.vue';
+import { ref, computed, onMounted } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
 import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
+import Button from '@/volt/Button.vue';
+import Menu from '@/volt/Menu.vue';
+import consts from '@/constants/constants.js';
 
 const showingNavigationDropdown = ref(false);
+
+const activeClass = ref('inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-hidden focus:border-indigo-700 transition duration-150 ease-in-out');
+const inactiveClass = ref('inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-hidden focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out');
+
+const saMenuActive = ref(false);
+
+const saMenuClasses = computed(() =>
+    saMenuActive.value 
+    ? activeClass.value
+    : inactiveClass.value
+);
+
+const saMenuOv = ref();
+const saMenuItems = ref([
+    {
+        label: 'Savings Account',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/sa-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Accounts',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/savings-accounts', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const saToggle = (event) => {
+    saMenuOv.value.toggle(event);
+};
+
+const mayaMenuActive = ref(false);
+
+const mayaMenuClasses = computed(() =>
+    mayaMenuActive.value 
+    ? activeClass.value
+    : inactiveClass.value,
+);
+
+const mayaMenuOv = ref();
+const mayaMenuItems = ref([
+    {
+        label: 'Maya',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/maya-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Accounts',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/maya-accounts', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const mayaToggle = (event) => {
+    mayaMenuOv.value.toggle(event);
+};
+
+const ccMenuActive = ref(false);
+
+const ccMenuClasses = computed(() =>
+    ccMenuActive.value 
+    ? activeClass.value
+    : inactiveClass.value,
+);
+
+const ccMenuOv = ref();
+const ccMenuItems = ref([
+    {
+        label: 'Credit Cards',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    // router.visit('/cc-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Cards',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/credit-cards', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const ccToggle= (event) => {
+    ccMenuOv.value.toggle(event);
+};
+
+onMounted(() => {
+    saMenuActive.value = consts.global_page_routes.savings_acct.includes(route().current()) ? true : false;
+    mayaMenuActive.value = consts.global_page_routes.maya.includes(route().current()) ? true : false;
+    ccMenuActive.value = consts.global_page_routes.cc.includes(route().current()) ? true : false;
+});
 
 </script>
 
@@ -25,9 +143,10 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo
+                                    <!-- <ApplicationLogo
                                         class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                                    />
+                                    /> -->
+                                    <MaterialIconRenderer class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" mIcon="finance" textLabel="" />
                                 </Link>
                             </div>
 
@@ -39,19 +158,75 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    <MaterialIconRenderer mIcon="dashboard" textLabel="" />
                                 </NavLink>
+                                <div :class="saMenuClasses">
+                                    <div class="hover:cursor-pointer flex items-center" @click="saToggle">
+                                        <span class="material-symbols-outlined">receipt_long</span>
+                                    </div>
+                                    <!-- <Button 
+                                        id="saMenu" 
+                                        type="button" 
+                                        icon="pi pi-home" 
+                                        plain 
+                                        @click="saToggle" 
+                                        aria-haspopup="true" 
+                                        aria-controls="overlay_menu" 
+                                        class="bg-transparent hover:bg-jp-indigo text-white"
+                                    /> -->
+                                    <Menu ref="saMenuOv" id="sa_overlay_menu" :model="saMenuItems" :popup="true" />
+                                </div>
+                                <div :class="ccMenuClasses">
+                                    <div class="hover:cursor-pointer flex items-center" @click="ccToggle">
+                                        <span class="material-symbols-outlined">credit_card</span>
+                                    </div>
+                                    <Menu ref="ccMenuOv" id="cc_overlay_menu" :model="ccMenuItems" :popup="true" />
+                                </div>
+                                <!-- <NavLink
+                                    :href="route('credit-cards.index')" 
+                                    :active="route().current('credit-cards.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="credit_card" textLabel="Credit Cards" />
+                                </NavLink> -->
+                                <div :class="mayaMenuClasses">
+                                    <div class="hover:cursor-pointer flex items-center" @click="mayaToggle">
+                                        <span class="material-symbols-outlined">request_quote</span>
+                                    </div>
+                                    <!-- <Button 
+                                        id="mayaMenu" 
+                                        type="button" 
+                                        icon="pi pi-ellipsis-v" 
+                                        plain 
+                                        @click="mayaToggle" 
+                                        aria-haspopup="true" 
+                                        aria-controls="overlay_menu" 
+                                        class="bg-transparent hover:bg-ceil"
+                                    /> -->
+                                    <Menu ref="mayaMenuOv" id="maya_overlay_menu" :model="mayaMenuItems" :popup="true" />
+                                </div>
+                                <!-- <NavLink
+                                    :href="route('maya-transactions.index')" 
+                                    :active="route().current('maya-transactions.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="request_quote" textLabel="Maya Transacts" />
+                                </NavLink>
+                                <NavLink
+                                    :href="route('maya-accounts.index')" 
+                                    :active="route().current('maya-accounts.*')"
+                                >
+                                    <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
+                                </NavLink> -->
                                 <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"
                                 >
-                                    Users
+                                    <MaterialIconRenderer mIcon="patient_list" textLabel="" />
                                 </NavLink>
                                 <NavLink
                                     :href="route('roles.index')" 
-                                    :active="route().current('roles.*')"
+                                    :active="route().current('roles.*')" 
                                 >
-                                    Roles
+                                    <MaterialIconRenderer mIcon="assignment_ind" textLabel="" />
                                 </NavLink>
                             </div>
                         </div>
@@ -67,7 +242,7 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-hidden dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                             >
                                                 {{ $page.props.auth.user.full_name }}
 
@@ -107,12 +282,15 @@ const showingNavigationDropdown = ref(false);
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
+                            <div class="mr-2">
+                                <ThemeSwitcher />
+                            </div>
                             <button
                                 @click="
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-hidden dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -161,19 +339,49 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            <MaterialIconRenderer mIcon="dashboard" textLabel="Dashboard" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('sa-transactions.index')"
+                            :active="route().current('sa-transactions.*')"
+                        >
+                            <MaterialIconRenderer mIcon="receipt_long" textLabel="SA Transacts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('savings-accounts.index')"
+                            :active="route().current('savings-accounts.*')"
+                        >
+                            <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('credit-cards.index')"
+                            :active="route().current('credit-cards.*')"
+                        >
+                            <MaterialIconRenderer mIcon="credit_card" textLabel="Credit Cards" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('maya-transactions.index')"
+                            :active="route().current('maya-transactions.*')"
+                        >
+                            <MaterialIconRenderer mIcon="request_quote" textLabel="Maya Transacts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('maya-accounts.index')"
+                            :active="route().current('maya-accounts.*')"
+                        >
+                            <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('users.index')"
                             :active="route().current('users.*')"
                         >
-                            Users
+                            <MaterialIconRenderer mIcon="patient_list" textLabel="Users" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('roles.index')"
                             :active="route().current('roles.*')"
                         >
-                            Roles
+                            <MaterialIconRenderer mIcon="assignment_ind" textLabel="Roles" />
                         </ResponsiveNavLink>
                     </div>
 
@@ -210,7 +418,7 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Heading -->
             <header
-                class="bg-white shadow dark:bg-gray-800 flex items-center justify-between"
+                class="bg-white shadow-sm dark:bg-gray-800 flex items-center justify-between"
                 v-if="$slots.header"
             >
                 <div class="max-w-7xl px-4 py-6 sm:px-6 lg:px-8 justify-s`tart">

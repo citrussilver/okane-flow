@@ -1,3 +1,73 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@import "tailwindcss-primeui";
+@plugin '@tailwindcss/forms';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans:
+    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-jp-indigo: rgb(41, 61, 77);
+  --color-ceil: rgb(147, 174, 197);
+  --color-lite-steel-blue: rgb(175, 197, 220);
+  --color-columbia-blue: rgb(198, 214, 226);
+  --color-azureish-white: rgb(216, 227, 235);
+  --color-anti-flash-white: rgb(235, 242, 246);
+  --color-pastel-gray: rgb(201, 213, 192);
+  --color-beige: rgb(245, 238, 223);
+  --color-timberwolf: rgb(224, 220, 209);
+  --color-spanish-gray: rgb(156, 156, 156);
+  --color-independence: rgb(81, 73, 99);
+  --color-cafe-noir: rgb(78, 46, 29);
+  --color-black-choco: rgb(31, 23, 20);
+  --color-munsell-yellow: rgb(244, 203, 1);
+  --color-yellow-orange: rgb(255, 152, 10);
+  --color-inbike-green: rgb(111, 201, 209);
+  --color-inbike-dgreen: rgb(68, 97, 99);
+  --color-quincy: rgb(113, 81, 72);
+  --color-snow: rgb(255, 251, 252);
+  --color-lotion: rgb(252, 252, 252);
+  --color-pokedex-normal: rgb(159, 161, 159);
+  --color-pokedex-fire: rgb(230, 40, 41);
+  --color-pokedex-fighting: rgb(255, 128, 0);
+  --color-pokedex-water: rgb(41, 128, 239);
+  --color-pokedex-flying: rgb(129, 185, 239);
+  --color-pokedex-grass: rgb(63, 161, 41);
+  --color-pokedex-poison: rgb(145, 65, 203);
+  --color-pokedex-electric: rgb(250, 192, 0);
+  --color-pokedex-ground: rgb(145, 81, 33);
+  --color-pokedex-psychic: rgb(239, 65, 121);
+  --color-pokedex-rock: rgb(175, 169, 129);
+  --color-pokedex-ice: rgb(61, 206, 243);
+  --color-pokedex-bug: rgb(145, 161, 25);
+  --color-pokedex-dragon: rgb(80, 96, 225);
+  --color-pokedex-ghost: rgb(112, 65, 112);
+  --color-pokedex-dark: rgb(98, 77, 78);
+  --color-pokedex-steel: rgb(96, 161, 184);
+  --color-pokedex-fairy: rgb(239, 112, 239);
+  --color-pokedex-stellar: rgb(64, 181, 165);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
