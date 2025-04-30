@@ -31,14 +31,15 @@ class MayaAccountController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MayaAccountRequest $request, MayaAccount $maya_accounts)
     {
-        MayaAccount::create([
-            'mobile_number' => $request->mobile_number,
-            'account_nickname' => $request->account_nickname,
-            'last_4_digits' => $request->last_4_digits,
-            'balance' => $request->balance
-        ]);
+        $maya_accounts->create($request->validated());
+        // MayaAccount::create([
+        //     'mobile_number' => $request->mobile_number,
+        //     'account_nickname' => $request->account_nickname,
+        //     'last_4_digits' => $request->last_4_digits,
+        //     'balance' => $request->balance
+        // ]);
 
         return redirect()->route('maya-accounts.index');
     }

@@ -48,8 +48,8 @@ class HandleInertiaRequests extends Middleware
                 'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all()),
                 'maya_accounts' => MayaAccountResource::collection(MayaAccount::all()),
                 'cc_accounts' => CreditCardResource::collection(CreditCard::all()),
-                'recaptcha_site_key' => config('services.recaptcha.site_key'),
-            ],
+                'recaptcha_site_key' => config('services.recaptcha.site_key')
+            ]
         ];
     }
 }
