@@ -9,7 +9,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
-import { VueReCaptcha, useReCaptcha } from 'vue-recaptcha-v3'
+import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
