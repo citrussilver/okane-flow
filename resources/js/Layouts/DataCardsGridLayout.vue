@@ -173,7 +173,7 @@ onMounted(() => {
           </ArticleSubtitleSlot>
         </p>
         <div id="pokemon-content">
-            <div v-if="loadingPokeApi">
+            <div v-if="loadingPokeApi" class="flex justify-center">
               <div class="spinner">
                   <div></div>
                   <div></div>
@@ -626,14 +626,14 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     border: 10px solid transparent;
-    border-top-color: #ad60f5;
+    border-top-color: rgb(152, 123, 96);
     border-radius: 50%;
     animation: spinnerOne 1.2s linear infinite;
   }
 
   .spinner div:nth-child(2) {
     border: 10px solid transparent;
-    border-bottom-color: #ad60f5;
+    border-bottom-color: rgb(152, 123, 96);
   }
 
   @keyframes spinnerOne {

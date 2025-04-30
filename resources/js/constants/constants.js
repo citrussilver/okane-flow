@@ -90,6 +90,10 @@ export default {
         shopee_pay_cash_in: {
             id: 16,
             name: 'ShopeePay Cash-in',
+        },
+        globe_one_purchase: {
+            id: 17,
+            name: 'Globe One Buy Promo/Load'
         }
     },
     credit_cards_cols: [
