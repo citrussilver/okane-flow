@@ -103,6 +103,39 @@ export default {
         'Credit Limit',
         'Avail Limit'
     ],
+    cc_transacts_cols: [
+        'ID',
+        'Credit Card ID',
+        'Date Time',
+        'Description',
+        'Current Credit Limit',
+        'Amount',
+        'Post Credit Limit',
+        'Remarks',
+        'Ref No.'
+    ],
+    cc_transacts: {
+        online_payment: {
+            id: 1,
+            name: 'Online Payment'
+        },
+        non_online_payment: {
+            id: 2,
+            name: 'Non-Online Payment'
+        },
+        loan_promo: {
+            id: 3,
+            name: 'Credit-to-Cash Loan'
+        },
+        cc_refund: {
+            id: 4,
+            name: 'Refund'
+        },
+        adjustment: {
+            id: 5,
+            name: 'Adjustment'
+        }
+    },
     maya_accts_cols: [
         'ID',
         'Mobile #',

@@ -17,7 +17,7 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    savings_accounts: {
+    credit_cards: {
         type: Array,
         required: true
     },
@@ -36,15 +36,15 @@ const refDateTime = ref('');
 propsParser(refDateTime, props.form.date_time);
 
 const handleCurrentBalance = () => {
-    props.form.savings_acct = props.savings_accounts.find(savings_acct => props.form.sa_account_id === savings_acct.id);
+    props.form.credit_card = props.credit_cards.find(credit_card => props.form.credit_card_id === credit_card.id);
             
-    props.form.current_balance = props.form.savings_acct.balance;
-    propsParser(selected_acct_balance, props.form.current_balance);
+    props.form.current_credit_limit = props.form.credit_card.credit_limit;
+    propsParser(selected_acct_balance, props.form.current_credit_limit);
 }
 
 const trackSelection = (val, target) => {
 
-    if(target == 'savings_account') {
+    if(target == 'credit_card') {
         handleCurrentBalance();
     }
 
@@ -53,11 +53,6 @@ const trackSelection = (val, target) => {
         props.form.remarks = `[${props.form.transact_type.name}] `;
     }
 };
-
-const updateCurrentBalance = (amount) => {
-    props.form.current_balance = props.form.savings_acct.balance - amount;
-    propsParser(selected_acct_balance, props.form.current_balance);
-}
 
 // call in template
 const emit = defineEmits(['submit']);
@@ -74,15 +69,15 @@ onMounted(() => {
             <div class="grid grid-cols-6 gap-6">
 
                 <div class="col-span-6 sm:col-span-6">
-                    <FormInputLabel for="sa_account_id" value="Savings Acct" />
+                    <FormInputLabel for="credit_card_id" value="Credit Card" />
                     <select 
                         class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
-                        name="role_id" 
-                        v-model="form.sa_account_id" id="sa_account_id" 
-                        @change="trackSelection($event.target.selectedIndex, 'savings_account')"
+                        name="credit_card_id" 
+                        v-model="form.credit_card_id" id="credit_card_id" 
+                        @change="trackSelection($event.target.selectedIndex, 'credit_card')"
                     >
-                        <option value="-1" disabled>-- Select Savings Account--</option>
-                        <option v-for="savings_account in savings_accounts" :key="savings_account.id" :value="savings_account.id">ID: {{ savings_account.id }} - {{ savings_account.bank_name }} - {{ savings_account.account_number }}</option>
+                        <option value="-1" disabled>-- Select Credit Card --</option>
+                        <option v-for="credit_card in credit_cards" :key="credit_card.id" :value="credit_card.id">ID: {{ credit_card.id }} - {{ credit_card.cc_name }} - {{ credit_card.last_4_digits }}</option>
                     </select>
                 </div>
 
@@ -101,21 +96,22 @@ onMounted(() => {
                         v-model="form.transact_type_id" 
                         @change="trackSelection($event.target.selectedIndex, 'transact_type')"
                     >
-                        <option value="-1" disabled>-- Select Transaction--</option>
+                        <option value="-1" disabled>-- Select Transaction --</option>
                         <option v-for="transaction in transactsList" :key="transaction.id" :value="transaction.id">{{ transaction.name }}</option>
                     </select>
                     <InputError class="mt-2" :message="form.errors.transact_type_id" />
                 </ElementsGrouper>
 
                 <ElementsGrouper>
-                    <FormInputLabel for="current_balance" value="Current Balance" />
+                    <FormInputLabel for="current_credit_limit" value="Avail Credit Limit" />
                     <input 
-                        id="current_balance" 
+                        id="current_credit_limit" 
                         type="text" 
                         class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
-                        v-model="form.current_balance" 
+                        v-model="form.current_credit_limit" 
                         disabled
                     />
+                    <InputError class="mt-2" :message="form.errors.current_credit_limit" />
                 </ElementsGrouper>
 
                 <ElementsGrouper>
@@ -125,42 +121,42 @@ onMounted(() => {
                         type="text"
                         class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.amount" 
-                        @input="updateCurrentBalance(form.amount)"
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.amount" />
                 </ElementsGrouper>
 
-                <div class="col-span-6 sm:col-span-6">
-                    <FormInputLabel for="remarks" value="Remarks" />
-                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
-                    <InputError class="mt-2" :message="form.errors.remarks" />
-                </div>
-
-                <ElementsGrouper>
-                    <FormInputLabel for="location" value="Location" />
-                    <input
-                        id="location"
-                        type="text"
-                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
-                        v-model="form.location" 
-                        autofocus
-                    />
-                    <InputError class="mt-2" :message="form.errors.location" />
-                </ElementsGrouper>
-
-                <ElementsGrouper>
-                    <FormInputLabel for="ref_id" value="Ref. #" />
+                <BlockWideElementsGrouper>
+                    <FormInputLabel for="description" value="Description" />
                     <TextInput
-                        id="ref_id"
+                        id="description"
                         type="text"
                         class="mt-1 block w-full"
-                        v-model="form.reference_number" 
+                        v-model="form.description" 
                         required
                         autofocus
                     />
-                </ElementsGrouper>
+                    <InputError class="mt-2" :message="form.errors.description" />
+                </BlockWideElementsGrouper>
 
+                <BlockWideElementsGrouper>
+                    <FormInputLabel for="remarks" value="Remarks" />
+                    <textarea name="remarks" v-model="form.remarks" id="description" class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600" rows="3"></textarea>
+                    <InputError class="mt-2" :message="form.errors.remarks" />
+                </BlockWideElementsGrouper>
+
+                <ElementsGrouper>
+                    <FormInputLabel for="ref_no" value="Ref. No." />
+                    <TextInput
+                        id="ref_no"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.ref_no" 
+                        required
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.ref_no" />
+                </ElementsGrouper>
 
                 <BlockWideElementsGrouper>
                     <AltButton
@@ -169,7 +165,7 @@ onMounted(() => {
                     >
                         {{ operation }}
                     </AltButton>
-                    <Link :href="route('sa-transactions.index')" as="button" :disabled="form.processing" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
+                    <Link :href="route('cc-transactions.index')" as="button" :disabled="form.processing" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
                 </BlockWideElementsGrouper>
             </div>
         </div>
