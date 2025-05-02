@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Support\Constants;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SaTransaction>
@@ -16,24 +17,7 @@ class SaTransactionFactory extends Factory
      */
     public function definition(): array
     {
-        $transact_name = pick_one([
-            'Deposit',
-            'Withdraw',
-            'Bills Payment',
-            'Pay Credit Card',
-            'GCash Cash-in',
-            'Maya Cash-in',
-            'Reload Prepaid Card',
-            'Transfer Money',
-            'Store payment',
-            'Adjustment',
-            'Earn Interest',
-            'Tax Witheld',
-            'Salary / Income',
-            'Shopee - Online Banking',
-            'Bank Charge',
-            'ShopeePay Cash-in',
-        ]);
+        $transact_name = pick_one(SAVINGS_ACCT_TRANSACTS);
 
         return [
             'sa_account_id' => fake()->randomDigitNot(0),

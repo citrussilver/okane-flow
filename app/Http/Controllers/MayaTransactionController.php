@@ -85,6 +85,10 @@ class MayaTransactionController extends Controller
     {
         $maya_transaction->update($request->validated());
 
+        // update the balance in parent table - MayaAccounts
+        MayaAccount::where('id', $request->maya_id)
+            ->update(['balance' => $request->post_balance]);
+
         return redirect()->route('maya-transactions.index');
     }
 
@@ -93,6 +97,14 @@ class MayaTransactionController extends Controller
      */
     public function destroy(MayaTransaction $maya_transaction)
     {
+        // return the amount to the parent table
+        $amount = $maya_transaction->amount;
+        $post_bal = $maya_transaction->post_balance;
+        $maya_id = $maya_transaction->maya_id;
+        $maya_acct = MayaAccount::find($maya_id);
+        $maya_acct->balance = $post_bal + $amount;
+        $maya_acct->save();
+
         $maya_transaction->delete();
 
         return back();
