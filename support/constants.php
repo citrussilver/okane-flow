@@ -37,11 +37,22 @@ if (!defined('SAVINGS_ACCT_TRANSACTS')) {
         'Salary / Income',
         'Shopee - Online Banking',
         'Bank Charge',
-        'ShopeePay Cash-in',
+        'ShopeePay Cash-in'
     ]);
 }
 
 if (!defined('SA_TRANSACTS_PLUS')) {
     // 1: deposit, 8: earn interest ,10: salary income
     define('SA_TRANSACTS_PLUS', [1, 8, 10]);
+}
+
+
+if (!defined('CC_TRANSACTS')) {
+    define('CC_TRANSACTS', [
+        'Online Payment',
+        'Non-Online Payment',
+        'Credit-to-Cash Loan',
+        'Refund',
+        'Adjustment'
+    ]);
 }

@@ -1,7 +1,7 @@
 <script setup>
 import ArticleTitleSlot from '@/slots/ArticleTitleSlot.vue';
 import ArticleSubtitleSlot from '@/slots/ArticleSubtitleSlot.vue';
-import { onMounted, reactive, ref, computed } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import SummaryLabel from '@/Components/SummaryLabel.vue';
 import Details from '@/Components/Details.vue';
 import CustomSvgButton from '@/Components/CustomSvgButton.vue';
@@ -153,7 +153,7 @@ switch (param) {
 onMounted(() => {
   loadPokeApi();
   // encountering cors error on deployment site
-  // loadAniQuote();
+  loadAniQuote();
 });
 
 </script>

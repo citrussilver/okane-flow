@@ -21,6 +21,7 @@ class CreditCardResource extends JsonResource
             'last_4_digits' => $this->last_4_digits,
             'cc_name' => $this->cc_name,
             'credit_limit' => $this->credit_limit,
+            'credit_limit_wc' => number_format($this->credit_limit, 2, '.', ','),
             'avail_credit_limit' => $this->avail_credit_limit,
             'avail_credit_limit_wc' => number_format($this->avail_credit_limit, 2, '.', ',')
         ];

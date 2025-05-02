@@ -76,6 +76,10 @@ class SaTransactionController extends Controller
     {
         $sa_transaction->update($request->validated());
 
+        // update the balance in parent table - SavingsAccount
+        SavingsAccount::where('id', $request->sa_account_id)
+            ->update(['balance' => $request->post_balance]);
+
         return redirect()->route('sa-transactions.index');
     }
 
@@ -84,6 +88,14 @@ class SaTransactionController extends Controller
      */
     public function destroy(SaTransaction $sa_transaction)
     {
+        // return the amount to the parent table
+        $amount = $sa_transaction->amount;
+        $post_bal = $sa_transaction->post_balance;
+        $sa_id = $sa_transaction->sa_account_id;
+        $sa_acct = SavingsAccount::find($sa_id);
+        $sa_acct->balance = $post_bal + $amount;
+        $sa_acct->save();
+
         $sa_transaction->delete();
 
         return back();

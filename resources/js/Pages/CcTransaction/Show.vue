@@ -7,7 +7,7 @@ import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue'
 import { Head, Link  } from '@inertiajs/vue3';
 
 defineProps({
-    sa_transaction: {
+    cc_transaction: {
         type: Object,
         required: true
     }
@@ -15,12 +15,12 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Show Savings Acct Transaction" />
+    <Head title="Show Credit Card Transaction" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-100">
-                Show Savings Acct Transaction
+                Show Credit Card Transaction
             </h2>
         </template>
         
@@ -34,54 +34,54 @@ defineProps({
                             <div class="p-6 space-y-6">
                                 <div class="grid grid-cols-6 gap-6">
                                     <ElementsGrouper>
-                                        <FormInputLabel for="sa_account_id" value="Savings Acct" />
-                                        <FormLabel>{{ sa_transaction.savings_acct == null ? 'N/A' : sa_transaction.savings_acct.bank_name }}</FormLabel>
+                                        <FormInputLabel for="credit_card_id" value="Savings Acct" />
+                                        <FormLabel>{{ cc_transaction.credit_card == null ? 'N/A' : cc_transaction.credit_card.cc_name }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <ElementsGrouper>
                                         <FormInputLabel for="date_time" value="Date Time" />
-                                        <FormLabel>{{ sa_transaction.date_time }}</FormLabel>
+                                        <FormLabel>{{ cc_transaction.date_time }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <!-- <ElementsGrouper>
                                         <FormInputLabel for="transact_type_id" value="Transact Type ID" />
-                                        <FormLabel>{{ sa_transaction.transact_type_id }}</FormLabel>
+                                        <FormLabel>{{ cc_transaction.transact_type_id }}</FormLabel>
                                     </ElementsGrouper> -->
 
                                     <ElementsGrouper>
-                                        <FormInputLabel for="balance" value="Current Balance" />
-                                        <FormLabel>{{ sa_transaction.current_balance }}</FormLabel>
+                                        <FormInputLabel for="description" value="Description" />
+                                        <FormLabel>{{ cc_transaction.description }}</FormLabel>
+                                    </ElementsGrouper>
+
+                                    <ElementsGrouper>
+                                        <FormInputLabel for="current_credit_limit" value="Current Credit Limit" />
+                                        <FormLabel>{{ cc_transaction.current_credit_limit }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <ElementsGrouper>
                                         <FormInputLabel for="amount" value="Amount" />
-                                        <FormLabel>{{ sa_transaction.amount }}</FormLabel>
+                                        <FormLabel>{{ cc_transaction.amount }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <ElementsGrouper>
-                                        <FormInputLabel for="post_balance" value="Post Balance" />
-                                        <FormLabel>{{ sa_transaction.post_balance }}</FormLabel>
-                                    </ElementsGrouper>
-
-                                    <ElementsGrouper>
-                                        <FormInputLabel for="location" value="Location" />
-                                        <FormLabel>{{ sa_transaction.location }}</FormLabel>
+                                        <FormInputLabel for="post_credit_limit" value="Post Credit Limit" />
+                                        <FormLabel>{{ cc_transaction.post_credit_limit }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <ElementsGrouper>
                                         <FormInputLabel for="remarks" value="Remarks" />
-                                        <FormLabel>{{ sa_transaction.remarks }}</FormLabel>
+                                        <FormLabel>{{ cc_transaction.remarks }}</FormLabel>
                                     </ElementsGrouper>
 
                                     <ElementsGrouper>
-                                        <FormInputLabel for="reference_number" value="Ref. #" />
-                                        <FormLabel>{{ sa_transaction.reference_number }}</FormLabel>
+                                        <FormInputLabel for="ref_no" value="Ref. No." />
+                                        <FormLabel>{{ cc_transaction.ref_no }}</FormLabel>
                                     </ElementsGrouper>
 
 
                                     <BlockWideElementsGrouper>
-                                        <Link :href="route('sa-transactions.edit', sa_transaction.id)" class="text-white bg-jp-indigo hover:bg-indigo-800 focus:ring-4 focus:outline-hidden focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit</Link>
-                                        <Link :href="route('sa-transactions.index')" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
+                                        <Link :href="route('cc-transactions.edit', cc_transaction.id)" class="text-white bg-jp-indigo hover:bg-indigo-800 focus:ring-4 focus:outline-hidden focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Edit</Link>
+                                        <Link :href="route('cc-transactions.index')" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
                                     </BlockWideElementsGrouper>
                                 </div>
                             </div>

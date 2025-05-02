@@ -104,7 +104,7 @@ const ccMenuItems = ref([
                 label: 'Transactions',
                 icon: 'pi pi-plus',
                 command: () => {
-                    // router.visit('/cc-transactions', { method: 'get'});
+                    router.visit('/cc-transactions', { method: 'get'});
                 }
             },
             {

@@ -27,7 +27,7 @@ export default function useAniQuoteFetcher() {
 
             const url = 'https://api.animechan.io/v1/quotes/random';
 
-            const response = await fetch(proxyCorsFix + url);
+            const response = await fetch(url);
 
             if(!response.ok) {
                 throw new Error("Could not fetch resource");
