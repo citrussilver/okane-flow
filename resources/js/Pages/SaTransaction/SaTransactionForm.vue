@@ -54,11 +54,6 @@ const trackSelection = (val, target) => {
     }
 };
 
-const updateCurrentBalance = (amount) => {
-    props.form.current_balance = props.form.savings_acct.balance - amount;
-    propsParser(selected_acct_balance, props.form.current_balance);
-}
-
 // call in template
 const emit = defineEmits(['submit']);
 
@@ -125,7 +120,6 @@ onMounted(() => {
                         type="text"
                         class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.amount" 
-                        @input="updateCurrentBalance(form.amount)"
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.amount" />
