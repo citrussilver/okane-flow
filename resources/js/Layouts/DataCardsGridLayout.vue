@@ -151,9 +151,8 @@ switch (param) {
 }
 
 onMounted(() => {
-  // loadPokeApi();
-  // encountering cors error on deployment site
-  // loadAniQuote();
+  loadPokeApi();
+  loadAniQuote();
 });
 
 </script>
