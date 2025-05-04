@@ -408,7 +408,7 @@ onMounted(() => {
                             <MaterialIconRenderer mIcon="money" textLabel="ShopeePay Transacts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            :href="route('maya-accounts.index')"
+                            :href="route('shopee-pays.index')"
                             :active="route().current('shopee-pays.*')"
                         >
                             <MaterialIconRenderer mIcon="price_change" textLabel="ShopeePay Accounts" />
