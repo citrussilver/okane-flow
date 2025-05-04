@@ -6,10 +6,12 @@ use App\Http\Resources\CreditCardResource;
 use App\Http\Resources\GCashAccountResource;
 use App\Http\Resources\MayaAccountResource;
 use App\Http\Resources\SavingsAccountResource;
+use App\Http\Resources\ShopeePayResource;
 use App\Models\CreditCard;
 use App\Models\GCashAccount;
 use App\Models\MayaAccount;
 use App\Models\SavingsAccount;
+use App\Models\ShopeePay;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -48,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all()),
                 'maya_accounts' => MayaAccountResource::collection(MayaAccount::all()),
                 'cc_accounts' => CreditCardResource::collection(CreditCard::all()),
+                'shopeepay_wallets' => ShopeePayResource::collection(ShopeePay::all()),
                 'recaptcha_site_key' => config('services.recaptcha.site_key')
             ]
         ];
