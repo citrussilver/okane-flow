@@ -378,10 +378,16 @@ onMounted(() => {
                             <MaterialIconRenderer mIcon="savings" textLabel="SA Accts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
+                            :href="route('cc-transactions.index')"
+                            :active="route().current('cc-transactions.*')"
+                        >
+                            <MaterialIconRenderer mIcon="credit_card" textLabel="CC Transacts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
                             :href="route('credit-cards.index')"
                             :active="route().current('credit-cards.*')"
                         >
-                            <MaterialIconRenderer mIcon="credit_card" textLabel="Credit Cards" />
+                            <MaterialIconRenderer mIcon="credit_card_gear" textLabel="Credit Cards" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('maya-transactions.index')"
@@ -394,6 +400,18 @@ onMounted(() => {
                             :active="route().current('maya-accounts.*')"
                         >
                             <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('shopee-pay-transactions.index')"
+                            :active="route().current('shopee-pay-transactions.*')"
+                        >
+                            <MaterialIconRenderer mIcon="money" textLabel="ShopeePay Transacts" />
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('maya-accounts.index')"
+                            :active="route().current('shopee-pays.*')"
+                        >
+                            <MaterialIconRenderer mIcon="price_change" textLabel="ShopeePay Accounts" />
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('users.index')"
