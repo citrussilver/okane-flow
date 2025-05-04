@@ -184,6 +184,42 @@ export default {
             name: 'Refund',
         }
     },
+    shopee_pay_cols: [
+        'ID',
+        'Username',
+        'Balance'
+    ],
+    shopee_pay_transacts_cols: [
+        'ID',
+        'ShopeePay Wallet',
+        'Date Time',
+        // 'Type',
+        'Description',
+        'Current Balance',
+        'Amount',
+        'Post Balance',
+        'Remarks',
+        'Order SN',
+        'Reference ID'
+    ],
+    shopee_pay_transacts: {
+        cash_in: {
+            id: 1,
+            name: 'Cash-In',
+        },
+        payment: {
+            id: 2,
+            name: 'Payment',
+        },
+        spaylater_payment: {
+            id: 2,
+            name: 'SPayLater Payment',
+        },
+        refund: {
+            id: 4,
+            name: 'Refund',
+        }
+    },
     toasts_detail: {
         delete: {
             header: 'Delete Confirmation',
@@ -203,6 +239,10 @@ export default {
         ],
         cc: [
             'credit-cards.index'
+        ],
+        shopee_pays: [
+            'shopee-pays.index',
+            'shopee-pay-transactions.index'
         ]
     }
 }

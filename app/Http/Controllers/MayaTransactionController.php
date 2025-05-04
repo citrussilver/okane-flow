@@ -36,18 +36,20 @@ class MayaTransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MayaTransactionRequest $request, MayaTransaction $maya_transactions)
     {
-        MayaTransaction::create([
-            'maya_id' => $request->maya_id,
-            'date_time' => $request->date_time,
-            'transact_type_id' => $request->transact_type_id,
-            'current_balance' => $request->current_balance,
-            'amount' => $request->amount,
-            'post_balance' => $request->post_balance,
-            'remarks' => $request->remarks,
-            'reference_id' => $request->reference_id,
-        ]);
+        $maya_transactions->create($request->validated());
+
+        // MayaTransaction::create([
+        //     'maya_id' => $request->maya_id,
+        //     'date_time' => $request->date_time,
+        //     'transact_type_id' => $request->transact_type_id,
+        //     'current_balance' => $request->current_balance,
+        //     'amount' => $request->amount,
+        //     'post_balance' => $request->post_balance,
+        //     'remarks' => $request->remarks,
+        //     'reference_id' => $request->reference_id,
+        // ]);
 
         // update the balance in parent table - MayaAccounts
         MayaAccount::where('id', $request->maya_id)

@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaTransactionController;
 use App\Http\Controllers\SavingsAccountController;
+use App\Http\Controllers\ShopeePayController;
+use App\Http\Controllers\ShopeePayTransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/maya-accounts', MayaAccountController::class);
     Route::resource('/maya-transactions', MayaTransactionController::class);
     Route::resource('/gcash-accts', GCashAccountController::class);
+    Route::resource('/shopee-pays', ShopeePayController::class);
+    Route::resource('/shopee-pay-transactions', ShopeePayTransactionController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

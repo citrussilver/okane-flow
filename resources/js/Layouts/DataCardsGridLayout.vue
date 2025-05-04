@@ -151,9 +151,9 @@ switch (param) {
 }
 
 onMounted(() => {
-  loadPokeApi();
+  // loadPokeApi();
   // encountering cors error on deployment site
-  loadAniQuote();
+  // loadAniQuote();
 });
 
 </script>
@@ -345,20 +345,20 @@ onMounted(() => {
         </Details>
       </div>
 
-      <!-- <div class="grid-tile-item union-bank" 
-        v-for="(shpw, index) in shopeeWalletData" 
+      <div class="grid-tile-item union-bank" 
+        v-for="(shopeePayWallet, index) in sharedData.shopeepay_wallets" 
         key="index" 
       >
         <p class="tile-title">
           <ArticleTitleSlot>
-            ShopeePay Wallet
+            {{ shopeePayWallet.shopee_username }}
           </ArticleTitleSlot>
         </p>
         <Details>
           <SummaryLabel>Balance</SummaryLabel>
-          {{ shpw.balance }}
+          {{ shopeePayWallet.balance_wc }}
         </Details>
-      </div> -->
+      </div>
 
       <!-- Anime Quotes API -->
       <div class="grid-tile-item grid-col-span-2 bg-quincy text-white">
