@@ -17,6 +17,7 @@ const showingNavigationDropdown = ref(false);
 const activeClass = ref('inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-hidden focus:border-indigo-700 transition duration-150 ease-in-out');
 const inactiveClass = ref('inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-hidden focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out');
 
+// Savings Acct Menu
 const saMenuActive = ref(false);
 
 const saMenuClasses = computed(() =>
@@ -52,6 +53,7 @@ const saToggle = (event) => {
     saMenuOv.value.toggle(event);
 };
 
+// Maya Menu
 const mayaMenuActive = ref(false);
 
 const mayaMenuClasses = computed(() =>
@@ -87,6 +89,7 @@ const mayaToggle = (event) => {
     mayaMenuOv.value.toggle(event);
 };
 
+// Credit Cards Menu
 const ccMenuActive = ref(false);
 
 const ccMenuClasses = computed(() =>
@@ -122,10 +125,47 @@ const ccToggle= (event) => {
     ccMenuOv.value.toggle(event);
 };
 
+// ShopeePay Wallet Menu
+const shopeePayMenuActive = ref(false);
+
+const shopeePayMenuClasses = computed(() =>
+    shopeePayMenuActive.value 
+    ? activeClass.value
+    : inactiveClass.value,
+);
+
+const shopeePayMenuOv = ref();
+const shopeePayMenuItems = ref([
+    {
+        label: 'ShopeePay',
+        items: [
+            {
+                label: 'Transactions',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/shopee-pay-transactions', { method: 'get'});
+                }
+            },
+            {
+                label: 'Wallets',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.visit('/shopee-pays', { method: 'get' });
+                }
+            }
+        ]
+    }
+]);
+
+const shopeePayToggle = (event) => {
+    shopeePayMenuOv.value.toggle(event);
+};
+
 onMounted(() => {
     saMenuActive.value = consts.global_page_routes.savings_acct.includes(route().current()) ? true : false;
     mayaMenuActive.value = consts.global_page_routes.maya.includes(route().current()) ? true : false;
     ccMenuActive.value = consts.global_page_routes.cc.includes(route().current()) ? true : false;
+    shopeePayMenuActive.value = consts.global_page_routes.shopee_pays.includes(route().current()) ? true: false;
 });
 
 </script>
@@ -192,30 +232,14 @@ onMounted(() => {
                                     <div class="hover:cursor-pointer flex items-center" @click="mayaToggle">
                                         <span class="material-symbols-outlined">request_quote</span>
                                     </div>
-                                    <!-- <Button 
-                                        id="mayaMenu" 
-                                        type="button" 
-                                        icon="pi pi-ellipsis-v" 
-                                        plain 
-                                        @click="mayaToggle" 
-                                        aria-haspopup="true" 
-                                        aria-controls="overlay_menu" 
-                                        class="bg-transparent hover:bg-ceil"
-                                    /> -->
                                     <Menu ref="mayaMenuOv" id="maya_overlay_menu" :model="mayaMenuItems" :popup="true" />
                                 </div>
-                                <!-- <NavLink
-                                    :href="route('maya-transactions.index')" 
-                                    :active="route().current('maya-transactions.*')"
-                                >
-                                    <MaterialIconRenderer mIcon="request_quote" textLabel="Maya Transacts" />
-                                </NavLink>
-                                <NavLink
-                                    :href="route('maya-accounts.index')" 
-                                    :active="route().current('maya-accounts.*')"
-                                >
-                                    <MaterialIconRenderer mIcon="price_change" textLabel="Maya Accounts" />
-                                </NavLink> -->
+                                <div :class="shopeePayMenuClasses">
+                                    <div class="hover:cursor-pointer flex items-center" @click="shopeePayToggle">
+                                        <span class="material-symbols-outlined">money</span>
+                                    </div>
+                                    <Menu ref="shopeePayMenuOv" id="shopeePay_overlay_menu" :model="shopeePayMenuItems" :popup="true" />
+                                </div>
                                 <NavLink
                                     :href="route('users.index')" 
                                     :active="route().current('users.*')"

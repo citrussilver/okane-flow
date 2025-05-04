@@ -56,3 +56,12 @@ if (!defined('CC_TRANSACTS')) {
         'Adjustment'
     ]);
 }
+
+if (!defined('SHOPEEPAY_TRANSACTS')) {
+    define('SHOPEEPAY_TRANSACTS', [
+        'Cash-In',
+        'Payment',
+        'SPayLater Payment',
+        'Refund'
+    ]);
+}
