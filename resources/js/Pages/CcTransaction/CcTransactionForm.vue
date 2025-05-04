@@ -38,7 +38,7 @@ propsParser(refDateTime, props.form.date_time);
 const handleCurrentBalance = () => {
     props.form.credit_card = props.credit_cards.find(credit_card => props.form.credit_card_id === credit_card.id);
             
-    props.form.current_credit_limit = props.form.credit_card.credit_limit;
+    props.form.current_credit_limit = props.form.credit_card.avail_credit_limit;
     propsParser(selected_acct_balance, props.form.current_credit_limit);
 }
 
