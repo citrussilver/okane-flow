@@ -26,6 +26,17 @@ export default {
         'Remarks',
         'Reference #'
     ],
+    sa_transacts_table: [
+        { field: 'id', header: 'ID' },
+        { field: 'savings_acct.bank_name', header: 'SA Acct' },
+        { field: 'date_time_em', header: 'Date Time' },
+        { field: 'current_balance_wc', header: 'Current Balance' },
+        { field: 'amount', header: 'Amount' },
+        { field: 'post_balance_wc', header: 'Post Balance' },
+        { field: 'remarks', header: 'Remarks' },
+        { field: 'location', header: 'Location' },
+        { field: 'reference_number', header: 'Ref #' }
+    ],
     savings_accts_transacts: {
         deposit: { 
             id: 1,
@@ -113,6 +124,17 @@ export default {
         'Post Credit Limit',
         'Remarks',
         'Ref No.'
+    ],
+    cc_transacts_table: [
+        { field: 'id', header: 'ID' },
+        { field: 'credit_card.cc_name', header: 'Credit Card' },
+        { field: 'date_time_em', header: 'Date Time' },
+        { field: 'description', header: 'Description' },
+        { field: 'current_credit_limit_wc', header: 'Current Credit Limit' },
+        { field: 'amount', header: 'Amount' },
+        { field: 'post_credit_limit_wc', header: 'Post Credit Limit' },
+        { field: 'remarks', header: 'Remarks' },
+        { field: 'ref_no', header: 'Ref No.' }
     ],
     cc_transacts: {
         online_payment: {
@@ -244,5 +266,25 @@ export default {
             'shopee-pays.index',
             'shopee-pay-transactions.index'
         ]
+    },
+    global_data_table_pt_style: {
+        column: {
+            headerCell: {
+                class: 'p-4 text-xs text-jp-indigo uppercase bg-azureish-white border-b'
+            },
+            bodyCell: {
+                class: 'p-4 text-sm text-black-choco dark:bg-white border-b dark:bg-gray-800 dark:text-azureish-white'
+            }
+        },
+        pcPaginator: {
+            paginatorContainer: {
+                class: 'py-2',
+            }
+        }
+    },
+    global_data_table_search: {
+        root: {
+            class: 'text-black-choco dark:bg-gray-800 border-b dark:text-azureish-white rounded-sm mb-2 lg:mr-2 focus:border-ceil'
+        }
     }
 }

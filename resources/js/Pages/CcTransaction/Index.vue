@@ -1,12 +1,17 @@
 <script setup>
+import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm} from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { getUser, deleteRow, checkIfArrayExists } from '@/functions/helpers.js';
 import consts from '@/constants/constants.js';
 import ConfirmDialog from '@/volt/ConfirmDialog.vue';
 import Toast from '@/volt/Toast.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
+import DataTable from '@/volt/DataTable.vue';
+import Column from 'primevue/column';
+import { FilterMatchMode } from '@primevue/core/api';
+import InputText from '@/volt/InputText.vue';
 
 const user = getUser();
 // for admin activities that require permission
@@ -14,12 +19,20 @@ const form = useForm({
     role_id: user.role_id
 })
 
-defineProps({
+const props = defineProps({
     cc_transactions: {
         type: Array,
         required: true
     }
-})
+});
+
+const cc_transacts = ref([]);
+
+cc_transacts.value = [...props.cc_transactions]
+
+const cc_transacts_data_cols = ref([]);
+
+cc_transacts_data_cols.value = [...consts.cc_transacts_table];
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -46,6 +59,16 @@ const confirmDelete = (row, route) => {
         }
     });
 };
+
+const dataTablePtStyle = ref({...consts.global_data_table_pt_style});
+const dataTableSearchPtStyle = ref({...consts.global_data_table_search});
+
+const ccFilterFields = ref(consts.cc_transacts_table.map(q => q.field));
+
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+});
+
 </script>
 
 <template>
@@ -70,71 +93,36 @@ const confirmDelete = (row, route) => {
                     </div>
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-jp-indigo uppercase bg-azureish-white border-b">
-                                <tr>
-                                    <th v-for="col in consts.cc_transacts_cols" class="px-6 py-3">
-                                        {{ col }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="cc_transaction in cc_transactions" :key="cc_transaction.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-independence">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.id }}
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.credit_card == null ? 'N/A' : cc_transaction.credit_card.cc_name }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.date_time_em }}
-                                    </td>
-                                    <!-- <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.transact_type_id }}
-                                    </td> -->
-                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
-                                        <div class="line-clamp-1">
-                                            {{ cc_transaction.description }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.current_credit_limit_wc }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.amount_wc }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.post_credit_limit_wc }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">
-                                        <div class="line-clamp-1">
-                                            {{ cc_transaction.remarks }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ cc_transaction.ref_no }}
-                                    </td>
-                                    <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
-                                        <Link :href="route('cc-transactions.show', cc_transaction.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
-                                        <Link :href="route('cc-transactions.edit', cc_transaction.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(cc_transaction, 'cc-transactions')">Delete</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Temporary Pagination Template -->
-                        <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between py-2 px-4" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-{{ checkIfArrayExists(cc_transactions) }}</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
-                            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                                <li>
-                                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">1</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <DataTable 
+                            :value="cc_transacts" 
+                            dataKey="id" 
+                            paginator 
+                            :rows="10" 
+                            v-model:filters="filters" 
+                            pt:table="min-w-200" 
+                            :pt="dataTablePtStyle" 
+                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" 
+                            :rowsPerPageOptions="[5, 10, 25]"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} transactions" 
+                            :globalFilterFields="ccFilterFields"
+                        >
+                            <template #header>
+                                <div class="flex flex-wrap gap-2 items-center justify-end">
+                                    <div class="relative">
+                                        <i class="pi pi-search absolute top-1/2 -mt-2 text-surface-400 leading-none start-3 z-1" />
+                                        <InputText v-model="filters['global'].value" placeholder="Search..." :pt="dataTableSearchPtStyle" />
+                                    </div>
+                                </div>
+                            </template>
+                            <Column v-for="col of cc_transacts_data_cols" :key="col.field" :field="col.field" :header="col.header"></Column>
+                            <Column header="Actions">
+                                <template #body="slotProps">
+                                    <Link :href="route('cc-transactions.show', slotProps.data.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
+                                    <Link :href="route('cc-transactions.edit', slotProps.data.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
+                                    <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(slotProps.data, 'cc-transactions')">Delete</a>
+                                </template>
+                            </Column>
+                        </DataTable>
                     </div>
                 </div>
             </div>
