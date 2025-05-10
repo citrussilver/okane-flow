@@ -19,7 +19,7 @@ class CcTransactionController extends Controller
     public function index()
     {
         return Inertia::render('CcTransaction/Index', [
-            'cc_transactions' => CcTransactionResource::collection(CcTransaction::all())
+            'cc_transactions' => CcTransactionResource::collection(CcTransaction::orderBy('date_time', 'desc')->get())
         ]);
     }
 
