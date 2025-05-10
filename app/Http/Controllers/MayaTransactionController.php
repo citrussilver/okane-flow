@@ -19,7 +19,7 @@ class MayaTransactionController extends Controller
     public function index()
     {
         return Inertia::render('MayaTransaction/Index', [
-            'maya_transactions' => MayaTransactionResource::collection(MayaTransaction::all())
+            'maya_transactions' => MayaTransactionResource::collection(MayaTransaction::orderBy('date_time', 'desc')->get())
         ]);
     }
 

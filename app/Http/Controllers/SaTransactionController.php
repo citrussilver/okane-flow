@@ -29,7 +29,7 @@ class SaTransactionController extends Controller
     public function create()
     {
         return Inertia::render('SaTransaction/Create', [
-            'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::all())
+            'savings_accounts' => SavingsAccountResource::collection(SavingsAccount::orderBy('date_time', 'desc')->get())
         ]);
     }
 
