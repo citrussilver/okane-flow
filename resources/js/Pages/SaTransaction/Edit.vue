@@ -31,7 +31,7 @@ const update = () => {
 
     form.savings_acct = props.savings_accounts.find(savings_acct => form.sa_account_id === savings_acct.id);
 
-    if(form.transact_type_id === consts.savings_accts_transacts.deposit.id || form.transact_type_id === consts.savings_accts_transacts.earn_interest.id || form.transact_type_id === consts.savings_accts_transacts.salary_income.id) {
+    if(form.transact_type_id === consts.savings_accts_transacts.deposit.id || form.transact_type_id === consts.savings_accts_transacts.earn_interest.id || form.transact_type_id === consts.savings_accts_transacts.salary_income.id || form.transact_type_id === consts.savings_accts_transacts.adjustment_2.id) {
         form.post_balance = parseFloat(form.current_balance) + parseFloat(form.amount);
     } else {
         form.post_balance = parseFloat(form.current_balance) - parseFloat(form.amount);

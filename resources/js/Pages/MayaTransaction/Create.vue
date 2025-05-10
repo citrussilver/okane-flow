@@ -30,7 +30,7 @@ transactsList = objPushToArray(consts.maya_transacts);
 
 const store = () => {
     
-    if(form.transact_type_id == consts.maya_transacts.cash_in.id || form.transact_type_id == consts.maya_transacts.refund.id) {
+    if(form.transact_type_id == consts.maya_transacts.cash_in.id || form.transact_type_id == consts.maya_transacts.refund.id || form.transact_type_id === consts.maya_transacts.adjustment_2.id) {
         form.post_balance = parseFloat(form.current_balance) + parseFloat(form.amount);
     } else {
         form.post_balance = parseFloat(form.current_balance) - parseFloat(form.amount);
