@@ -31,7 +31,7 @@ transactsList = objPushToArray(consts.cc_transacts);
 
 const store = () => {
     
-    if(form.transact_type_id === consts.cc_transacts.cc_refund.id) {
+    if(form.transact_type_id === consts.cc_transacts.cc_refund.id || form.transact_type_id === consts.cc_transacts.adjustment_2.id) {
         form.post_credit_limit = parseFloat(form.current_credit_limit) + parseFloat(form.amount);
     } else {
         form.post_credit_limit = parseFloat(form.current_credit_limit) - parseFloat(form.amount);
