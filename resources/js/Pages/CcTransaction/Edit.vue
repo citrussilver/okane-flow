@@ -32,7 +32,7 @@ const update = () => {
     
     form.credit_card = props.credit_cards.find(credit_card => form.credit_card_id === credit_card.id);
 
-    if(form.transact_type_id === consts.cc_transacts.cc_refund.id) {
+    if(form.transact_type_id === consts.cc_transacts.cc_refund.id || form.transact_type_id === consts.cc_transacts.adjustment_2.id) {
         form.post_credit_limit = parseFloat(form.current_credit_limit) + parseFloat(form.amount);
     } else {
         form.post_credit_limit = parseFloat(form.current_credit_limit) - parseFloat(form.amount);

@@ -74,9 +74,13 @@ export default {
             id: 12,
             name: 'Store payment',
         },
-        adjustment: { 
-            id: 7,
-            name: 'Adjustment',
+        adjustment_1: { 
+            id: 71,
+            name: 'Adjustment - Deduct',
+        },
+        adjustment_2: { 
+            id: 72,
+            name: 'Adjustment - Add',
         },
         earn_interest: { 
             id: 8,
@@ -153,10 +157,15 @@ export default {
             id: 4,
             name: 'Refund'
         },
-        adjustment: {
-            id: 5,
-            name: 'Adjustment'
+        adjustment_1: {
+            id: 51,
+            name: 'Adjustment - Deduct'
+        },
+        adjustment_2: {
+            id: 52,
+            name: 'Adjustment - Add'
         }
+
     },
     maya_accts_cols: [
         'ID',
@@ -197,9 +206,13 @@ export default {
             id: 4,
             name: 'Bills Payment',
         },
-        adjustment: {
-            id: 8,
-            name: 'Adjustment',
+        adjustment_1: {
+            id: 81,
+            name: 'Adjustment - Deduct',
+        },
+        adjustment_2: {
+            id: 82,
+            name: 'Adjustment - Add',
         },
         refund: {
             id: 10,
