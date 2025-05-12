@@ -18,7 +18,7 @@ class ShopeePayTransactionController extends Controller
     public function index()
     {
         return Inertia::render('ShopeePayTransaction/Index', [
-            'shopee_pay_transactions' => ShopeePayTransactionResource::collection(ShopeePayTransaction::all())
+            'shopee_pay_transactions' => ShopeePayTransactionResource::collection(ShopeePayTransaction::orderBy('date_time', 'desc')->get())
         ]);
     }
 
