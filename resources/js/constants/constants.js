@@ -217,6 +217,10 @@ export default {
         refund: {
             id: 10,
             name: 'Refund',
+        },
+        voucher_giveaway: {
+            id: 6,
+            name: 'Voucher Giveaway'
         }
     },
     shopee_pay_cols: [
