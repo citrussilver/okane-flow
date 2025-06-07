@@ -24,8 +24,8 @@ class CreditCardRequest extends FormRequest
         return [
             'last_4_digits' => ['required', 'string'],
             'cc_name' => ['required', 'string'],
-            'credit_limit' => ['required', 'numeric'],
-            'avail_credit_limit' => ['required', 'numeric'],
+            'credit_limit' => ['required', 'numeric', 'gt:0'],
+            'avail_credit_limit' => ['required', 'numeric', 'gt:0'],
         ];
     }
 }

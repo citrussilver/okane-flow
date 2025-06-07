@@ -25,7 +25,7 @@ class MayaAccountRequest extends FormRequest
             'mobile_number' => ['required', 'string'],
             'account_nickname' => ['required', 'string'],
             'last_4_digits' => ['required', 'string'],
-            'balance' => ['required', 'numeric']
+            'balance' => ['required', 'numeric', 'gt:0']
         ];
     }
 }

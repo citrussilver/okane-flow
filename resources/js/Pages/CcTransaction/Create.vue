@@ -19,7 +19,7 @@ const form = useForm({
     description: '',
     transact_type_id: -1,
     current_credit_limit: 0,
-    amount: 1,
+    amount: 0,
     post_credit_limit: 0,
     remarks: '',
     ref_no: ''

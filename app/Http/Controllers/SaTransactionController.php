@@ -41,6 +41,15 @@ class SaTransactionController extends Controller
         // using Request to utilize validation rules
         $sa_transactions->create($request->validated());
 
+        $sa_transacts = constant('SA_TRANSACTS_AS_AR');
+
+        if($request->transact_type_id == $sa_transacts['transfer_money']['id'])
+        {
+            // Transfer to the acct
+            SavingsAccount::where('id', $request->transfer_to_sa_account_id)
+                ->update(['balance' => $request->target_sa_acct_balance]);
+        }
+
         // update the balance in parent table - SavingsAccount
         SavingsAccount::where('id', $request->sa_account_id)
             ->update(['balance' => $request->post_balance]);
@@ -99,5 +108,7 @@ class SaTransactionController extends Controller
         $sa_transaction->delete();
 
         return back();
+
+        // return redirect()->route('sa-transactions.index')->with('success', 'Transaction deleted successfully');
     }
 }

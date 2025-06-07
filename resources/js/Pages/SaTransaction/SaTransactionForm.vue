@@ -5,12 +5,13 @@ import AltButton from '@/Components/AltButton.vue';
 import ElementsGrouper from '@/Components/ElementsGrouper.vue';
 import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue';
 import { Link } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, nextTick } from 'vue';
 import InputError from '@/Components/InputError.vue';
-import { propsParser } from '@/functions/helpers';
+import { propsParser, formatDateTimeForInput } from '@/functions/helpers';
 
 
 const selected_acct_balance = ref('');
+const target_selected_transfer_to_acct_balance = ref('')
 
 const props = defineProps({
     form: {
@@ -32,8 +33,10 @@ const props = defineProps({
 
 const refDateTime = ref('');
 
+let isTransferMoney = ref(false);
+
 // to properly parse date_time to html datetime-local tag
-propsParser(refDateTime, props.form.date_time);
+// propsParser(refDateTime, props.form.date_time);
 
 const handleCurrentBalance = () => {
     props.form.savings_acct = props.savings_accounts.find(savings_acct => props.form.sa_account_id === savings_acct.id);
@@ -42,22 +45,79 @@ const handleCurrentBalance = () => {
     propsParser(selected_acct_balance, props.form.current_balance);
 }
 
+const handleAltBalance = () => {
+    const alternativeAccount = props.savings_accounts.find(
+      acc => acc.id === props.form.transfer_to_sa_account_id
+    );
+            
+    props.form.target_sa_acct_balance = alternativeAccount.balance;
+    propsParser(target_selected_transfer_to_acct_balance, props.form.target_sa_acct_balance);
+}
+
 const trackSelection = (val, target) => {
+
+    console.log(val, target);
 
     if(target == 'savings_account') {
         handleCurrentBalance();
     }
 
+    if(target == 'alt_savings_account') {
+        console.log('>>>alt_savings_account()');
+        handleAltBalance();
+    }
+
     if(target == 'transact_type') {
         props.form.transact_type = props.transactsList.find(transaxn => props.form.transact_type_id === transaxn.id);
         props.form.remarks = `[${props.form.transact_type.name}] `;
+
+        console.log(props.transactsList);
+        console.log(props.form.transact_type);
+
+        isTransferMoney.value = props.form.transact_type.name == 'Transfer Money' ? true : false;
+
+        props.form.instaPayFee = isTransferMoney.value ? 10 : 0;
     }
 };
+
+// Watch for changes in `sa_account_id`
+watch(
+  () => props.form.sa_account_id,
+  (newSelectedId) => {
+    // Avoid doing anything if no valid ID is selected
+    if (!newSelectedId) return;
+
+    console.log(props.savings_accounts);
+
+    // Find an alternative account for the transfer dropdown
+    const alternativeAccount = props.savings_accounts.find(
+      acc => acc.id !== newSelectedId
+    );
+
+    // Update the transfer account automatically
+    if (alternativeAccount) {
+      props.form.transfer_to_sa_account_id = alternativeAccount.id;
+      props.form.target_sa_acct_balance = alternativeAccount.balance;
+      console.log(`props.form.target_sa_acct_balance: ${props.form.target_sa_acct_balance}`);
+    } else {
+      // If there's no other account, clear the transfer account field
+      props.form.transfer_to_sa_account_id = null;
+    }
+  }
+);
+
+// Function to automatically update form.date_time every second
+const updateDateTime = () => {
+  // Update form.date_time with the current time formatted to match `datetime-local`
+  props.form.date_time = formatDateTimeForInput(new Date());
+};
+
 
 // call in template
 const emit = defineEmits(['submit']);
 
 onMounted(() => {
+    updateDateTime(); 
     handleCurrentBalance();
 });
 
@@ -120,9 +180,51 @@ onMounted(() => {
                         type="text"
                         class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                         v-model="form.amount" 
+                        min="1"
                         autofocus
                     />
                     <InputError class="mt-2" :message="form.errors.amount" />
+                </ElementsGrouper>
+                
+                <div class="col-span-6 sm:col-span-6" v-if="isTransferMoney">
+                    <FormInputLabel for="sa_account_id" value="Transfer to Savings Acct" />
+                    <select 
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        name="role_id" 
+                        v-model="form.transfer_to_sa_account_id" id="transfer_to_sa_account_id" 
+                        @change="trackSelection($event.target.selectedIndex, 'alt_savings_account')"
+                    >
+                        <option value="-1" disabled>-- Select Savings Account--</option>
+                        <option 
+                            v-for="savings_account in savings_accounts" 
+                            :key="savings_account.id" 
+                            :value="savings_account.id"
+                            :disabled="savings_account.id === form.sa_account_id"
+                        >ID: {{ savings_account.id }} - {{ savings_account.bank_name }} - {{ savings_account.account_number }}: Php {{ savings_account.balance  }}</option>
+                    </select>
+                </div>
+
+                <!-- <ElementsGrouper v-if="isTransferMoney">
+                    <FormInputLabel for="target_sa_acct_balance" value="Transfer to Acct Balance" />
+                    <input 
+                        id="target_sa_acct_balance" 
+                        type="text" 
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        v-model="form.target_sa_acct_balance" 
+                        disabled
+                    />
+                </ElementsGrouper> -->
+
+                <ElementsGrouper v-if="isTransferMoney">
+                    <FormInputLabel for="instaPayFee" value="InstaPay Fee" />
+                    <input
+                        id="instaPayFee"
+                        type="text"
+                        class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                        v-model="form.instaPayFee" 
+                        autofocus
+                    />
+                    <InputError class="mt-2" :message="form.errors.instaPayFee" />
                 </ElementsGrouper>
 
                 <div class="col-span-6 sm:col-span-6">

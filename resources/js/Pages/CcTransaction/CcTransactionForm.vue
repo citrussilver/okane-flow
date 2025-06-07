@@ -7,7 +7,7 @@ import BlockWideElementsGrouper from '@/Components/BlockWideElementsGrouper.vue'
 import { Link } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import InputError from '@/Components/InputError.vue';
-import { propsParser } from '@/functions/helpers';
+import { propsParser, formatDateTimeForInput  } from '@/functions/helpers';
 
 
 const selected_acct_balance = ref('');
@@ -54,10 +54,17 @@ const trackSelection = (val, target) => {
     }
 };
 
+// Function to automatically update form.date_time every second
+const updateDateTime = () => {
+  // Update form.date_time with the current time formatted to match `datetime-local`
+  props.form.date_time = formatDateTimeForInput(new Date());
+};
+
 // call in template
 const emit = defineEmits(['submit']);
 
 onMounted(() => {
+    updateDateTime(); 
     handleCurrentBalance();
 });
 

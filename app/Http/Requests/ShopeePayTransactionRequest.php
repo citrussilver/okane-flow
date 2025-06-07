@@ -27,7 +27,7 @@ class ShopeePayTransactionRequest extends FormRequest
             'transact_type_id' => ['required', 'numeric', 'gt:0'],
             'description' => ['required', 'string'],
             'current_balance' => ['required', 'numeric'],
-            'amount' => ['required', 'numeric'],
+            'amount' => ['required', 'numeric', 'gt:0'],
             'post_balance' => ['required', 'numeric'],
             'remarks' => ['required', 'string'],
             'order_sn' => ['required', 'string'],

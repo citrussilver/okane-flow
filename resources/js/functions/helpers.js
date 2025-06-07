@@ -53,3 +53,16 @@ export const propsParser = (ref, props) => {
 export const isStrExistsOnName = (objKey, strParam) => {
     return objKey.includes(strParam) ? true : false;
 }
+
+// Function to convert a Date object into a format compatible with `datetime-local`
+export const formatDateTimeForInput = (date) => {
+  const localDate = new Date(date);
+  
+  const year = localDate.getFullYear();
+  const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const day = String(localDate.getDate()).padStart(2, '0');
+  const hours = String(localDate.getHours()).padStart(2, '0');
+  const minutes = String(localDate.getMinutes()).padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};

@@ -15,14 +15,17 @@ const props = defineProps({
 
 const form = useForm({
     sa_account_id: 1,
-    date_time: '',
+    transfer_to_sa_account_id: 2, //set this to 2 coz sa_account_id is 1, and to make the watcher run smooth
+    date_time: new Date().toISOString(),
     transact_type_id: -1,
     current_balance: 0,
-    amount: 1,
+    target_sa_acct_balance: 0,
+    amount: 0,
     post_balance: 0,
     remarks: '',
     location: '',
-    reference_number: ''
+    reference_number: '',
+    instaPayFee: 0
 });
 
 let transactsList = [];
@@ -31,13 +34,23 @@ transactsList = objPushToArray(consts.savings_accts_transacts);
 
 const store = () => {
     
+    // add instaPay for now, its zero if transaction is not Transfer Money
     if(form.transact_type_id === consts.savings_accts_transacts.deposit.id || form.transact_type_id === consts.savings_accts_transacts.earn_interest.id || form.transact_type_id === consts.savings_accts_transacts.salary_income.id || form.transact_type_id === consts.savings_accts_transacts.adjustment_2.id) {
-        form.post_balance = parseFloat(form.current_balance) + parseFloat(form.amount);
+        form.post_balance = parseFloat(form.current_balance) + (parseFloat(form.amount) + parseFloat(form.instaPayFee));
     } else {
-        form.post_balance = parseFloat(form.current_balance) - parseFloat(form.amount);
+        form.post_balance = parseFloat(form.current_balance) - (parseFloat(form.amount) + parseFloat(form.instaPayFee));
+    }
+
+    console.log(`form.instaPayFee: ${form.instaPayFee}`);
+
+    if(form.instaPayFee > 0) {
+        form.target_sa_acct_balance = parseFloat(form.target_sa_acct_balance) + parseFloat(form.amount);
     }
 
     form.post_balance = roundNumber(form.post_balance, 2);
+
+    console.log(`form.post_balance: ${form.post_balance}`);
+    console.log(`form.target_sa_acct_balance: ${form.target_sa_acct_balance}`);
 
     form.post(route('sa-transactions.store'), {
         onSuccess: () => form.reset(),
