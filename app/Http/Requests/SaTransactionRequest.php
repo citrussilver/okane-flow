@@ -26,7 +26,7 @@ class SaTransactionRequest extends FormRequest
             'date_time' => ['required', 'string'],
             'transact_type_id' => ['required', 'numeric', 'gt:0'],
             'current_balance' => ['required', 'numeric'],
-            'amount' => ['required', 'numeric'],
+            'amount' => ['required', 'numeric', 'gt:0'],
             'post_balance' => ['required', 'numeric'],
             'remarks' => ['required', 'string'],
             'location' => ['required', 'string'],

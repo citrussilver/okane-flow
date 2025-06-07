@@ -23,7 +23,7 @@ class ShopeePayRequest extends FormRequest
     {
         return [
             'shopee_username' => ['required', 'string'],
-            'balance' => ['required', 'numeric']
+            'balance' => ['required', 'numeric', 'gt:0']
         ];
     }
 }

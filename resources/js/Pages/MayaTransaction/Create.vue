@@ -18,7 +18,7 @@ const form = useForm({
     date_time: '',
     transact_type_id: -1,
     current_balance: 0,
-    amount: 1,
+    amount: 0,
     post_balance: 0,
     remarks: '',
     reference_id: ''

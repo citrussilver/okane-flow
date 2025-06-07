@@ -79,6 +79,8 @@ const confirmDelete = (row, route) => {
                                         {{ col }}
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Outstanding Balance</th>
+                                    <th scope="col" class="px-6 py-3">
                                         Actions
                                     </th>
                                 </tr>
@@ -99,6 +101,9 @@ const confirmDelete = (row, route) => {
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                                         {{ credit_card.avail_credit_limit_wc }}
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
+                                        {{ credit_card.credit_limit - credit_card.avail_credit_limit }}
                                     </td>
                                     <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
                                         <Link :href="route('credit-cards.show', credit_card.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
