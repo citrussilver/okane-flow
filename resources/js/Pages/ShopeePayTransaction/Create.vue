@@ -19,7 +19,7 @@ const form = useForm({
     transact_type_id: -1,
     description: '',
     current_balance: 0,
-    amount: 1,
+    amount: 0,
     post_balance: 0,
     remarks: '',
     order_sn: '',

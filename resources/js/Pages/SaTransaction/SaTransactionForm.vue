@@ -56,23 +56,17 @@ const handleAltBalance = () => {
 
 const trackSelection = (val, target) => {
 
-    console.log(val, target);
-
     if(target == 'savings_account') {
         handleCurrentBalance();
     }
 
     if(target == 'alt_savings_account') {
-        console.log('>>>alt_savings_account()');
         handleAltBalance();
     }
 
     if(target == 'transact_type') {
         props.form.transact_type = props.transactsList.find(transaxn => props.form.transact_type_id === transaxn.id);
         props.form.remarks = `[${props.form.transact_type.name}] `;
-
-        console.log(props.transactsList);
-        console.log(props.form.transact_type);
 
         isTransferMoney.value = props.form.transact_type.name == 'Transfer Money' ? true : false;
 
@@ -87,8 +81,6 @@ watch(
     // Avoid doing anything if no valid ID is selected
     if (!newSelectedId) return;
 
-    console.log(props.savings_accounts);
-
     // Find an alternative account for the transfer dropdown
     const alternativeAccount = props.savings_accounts.find(
       acc => acc.id !== newSelectedId
@@ -98,7 +90,6 @@ watch(
     if (alternativeAccount) {
       props.form.transfer_to_sa_account_id = alternativeAccount.id;
       props.form.target_sa_acct_balance = alternativeAccount.balance;
-      console.log(`props.form.target_sa_acct_balance: ${props.form.target_sa_acct_balance}`);
     } else {
       // If there's no other account, clear the transfer account field
       props.form.transfer_to_sa_account_id = null;
@@ -106,7 +97,7 @@ watch(
   }
 );
 
-// Function to automatically update form.date_time every second
+
 const updateDateTime = () => {
   // Update form.date_time with the current time formatted to match `datetime-local`
   props.form.date_time = formatDateTimeForInput(new Date());
@@ -204,7 +195,7 @@ onMounted(() => {
                     </select>
                 </div>
 
-                <!-- <ElementsGrouper v-if="isTransferMoney">
+                <ElementsGrouper v-if="isTransferMoney">
                     <FormInputLabel for="target_sa_acct_balance" value="Transfer to Acct Balance" />
                     <input 
                         id="target_sa_acct_balance" 
@@ -213,7 +204,7 @@ onMounted(() => {
                         v-model="form.target_sa_acct_balance" 
                         disabled
                     />
-                </ElementsGrouper> -->
+                </ElementsGrouper>
 
                 <ElementsGrouper v-if="isTransferMoney">
                     <FormInputLabel for="instaPayFee" value="InstaPay Fee" />
