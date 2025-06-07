@@ -25,7 +25,7 @@ class SavingsAccountRequest extends FormRequest
             'bank_name' => ['required', 'string'],
             'bank_abbrev' => ['required', 'string'],
             'account_number' => ['required', 'string'],
-            'balance' => ['required', 'numeric']
+            'balance' => ['required', 'numeric', 'gt:0']
         ];
     }
 }

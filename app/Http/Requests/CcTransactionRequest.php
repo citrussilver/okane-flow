@@ -27,7 +27,7 @@ class CcTransactionRequest extends FormRequest
             'description' => ['required', 'string'],
             'transact_type_id' => ['required', 'numeric', 'gt:0'],
             'current_credit_limit' => ['required', 'numeric'],
-            'amount' => ['required', 'numeric'],
+            'amount' => ['required', 'numeric', 'gt:0'],
             'post_credit_limit' => ['required', 'numeric'],
             'remarks' => ['required', 'string'],
             'ref_no' => ['required', 'string']
