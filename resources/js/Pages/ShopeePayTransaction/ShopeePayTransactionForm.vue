@@ -54,7 +54,6 @@ const trackSelection = (val, target) => {
     }
 };
 
-// Function to automatically update form.date_time every second
 const updateDateTime = () => {
   // Update form.date_time with the current time formatted to match `datetime-local`
   props.form.date_time = formatDateTimeForInput(new Date());
