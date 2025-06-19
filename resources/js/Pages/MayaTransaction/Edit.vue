@@ -23,8 +23,6 @@ const form = useForm({
     current_balance_wc: props.maya_transaction.maya_acct.balance_wc
 });
 
-console.log(form);
-
 let transactsList = [];
 
 transactsList = objPushToArray(consts.maya_transacts);
