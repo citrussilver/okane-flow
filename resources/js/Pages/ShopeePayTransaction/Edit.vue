@@ -23,8 +23,6 @@ const form = useForm({
     current_balance_wc: props.shopee_pay_transaction.shopee_pay.balance_wc
 });
 
-console.log(form);
-
 let transactsList = [];
 
 transactsList = objPushToArray(consts.shopee_pay_transacts);

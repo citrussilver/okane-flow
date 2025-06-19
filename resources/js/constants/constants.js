@@ -109,7 +109,11 @@ export default {
         globe_one_purchase: {
             id: 17,
             name: 'Globe One Buy Promo/Load'
-        }
+        },
+        spaylater_payment: {
+            id: 18,
+            name: 'SPayLater Payment',
+        },
     },
     credit_cards_cols: [
         'ID',
