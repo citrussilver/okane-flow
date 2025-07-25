@@ -1,13 +1,14 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import ThemeSwitcher from '@/Components/ThemeSwitcher.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useReCaptcha } from 'vue-recaptcha-v3';
+
+import { useToast } from '@/composables/useToast';
+const { handleShowToast } = useToast()
 
 defineProps({
     canResetPassword: {
@@ -38,7 +39,14 @@ const recaptcha = async () => {
 
 const submit = () => {
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+        // onFinish: () => form.reset('password'),
+            
+        onSuccess: () => {
+            handleShowToast('Login successful!', 'success');
+        },
+        onFinish: () => {
+            form.reset('password');
+        },
     });
 };
 </script>
