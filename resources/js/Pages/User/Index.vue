@@ -1,12 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { getUser, deleteRow } from '@/functions/helpers.js';
+import { getUser } from '@/functions/helpers.js';
+import { useCrud } from '@/composables/useCrud';
 import consts from '@/constants/constants.js';
-import ConfirmDialog from '@/volt/ConfirmDialog.vue';
-import Toast from '@/volt/Toast.vue';
-import { useConfirm } from 'primevue/useconfirm';
-import { useToast } from 'primevue/usetoast';
+import DataTable from '@/Components/DataTable.vue';
 
 const user = getUser();
 
@@ -23,39 +21,14 @@ defineProps({
     }
 })
 
-const confirm = useConfirm();
-const toast = useToast();
 
-const confirmDelete = (row, route) => {
-
-    confirm.require({
-        message: consts.toasts_detail.delete.message,
-        header: consts.toasts_detail.delete.header,
-        rejectProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Confirm'
-        },
-        accept: () => {
-            toast.add({ severity: 'info', summary: 'Confirmed', detail: consts.toasts_detail.delete.confirm, life: 3000 });
-            deleteRow(row, route)
-        },
-        reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: consts.toasts_detail.delete.cancel, life: 3000 });
-        }
-    });
-};
+// const { confirmDelete } = useCrud('multi-word-route', { toast: true, snackbar: true });
+const { confirmDelete } = useCrud('users', { toast: true });
 
 </script>
 
 <template>
     <Head title="Users" />
-
-    <Toast />
-    <ConfirmDialog />
 
     <AuthenticatedLayout>
         <template #header>
@@ -73,53 +46,15 @@ const confirmDelete = (row, route) => {
                         <div class="text-gray-900 dark:text-gray-100">Manage Users</div>
                         <Link :href="route('users.create')" class="bg-ceil hover:bg-jp-indigo dark:hover:bg-independence px-4 py-1 rounded-full text-white active:translate-y-1">+ User</Link>
                     </div>
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-jp-indigo uppercase bg-azureish-white border-b">
-                                <tr>
-                                    <th v-for="user_table_col in consts.user_table_cols" class="px-6 py-3">
-                                        {{ user_table_col }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3" v-if="form.role_id == 1">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="user in users" :key="user.id" class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-independence">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
-                                        {{ user.full_name }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ user.email }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ user.role.name }}
-                                    </td>
-                                    <td class="px-6 py-4 space-x-2" v-if="form.role_id == 1">
-                                        <Link :href="route('users.show', user.id)" class="font-medium text-gray-600 dark:text-lite-steel-blue hover:underline pr-4">Show</Link>
-                                        <Link :href="route('users.edit', user.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                        <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(user, 'users')">Delete</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Temporary Pagination Template -->
-                        <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between py-2 px-4" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-700 mb-4 md:mb-0 block w-full md:inline md:w-auto dark:text-gray-100">Showing <span class="font-semibold text-gray-700 dark:text-gray-100">1-10</span> of <span class="font-semibold text-gray-700 dark:text-gray-100">1</span></span>
-                            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                                <!-- <li><a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 hover:text-gray-700">Previous</a></li> -->
-                                <li><a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700 dark:text-gray-100">1</a></li>
-                                <!-- <li><a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">2</a></li>
-                                <li><a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 hover:text-blue-700">3</a></li>
-                                <li><a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">4</a></li>
-                                <li><a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">5</a></li> -->
-                                <!-- <li><a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700">Next</a></li> -->
-                            </ul>
-                        </nav>
+                    <div class="p-4">
+                        <DataTable 
+                            :cols="consts.USER_TABLE_COLS" 
+                            :rows="users" 
+                            @edit-row="(row) => router.visit(route('users.edit', row.id))" 
+                            @delete-row="confirmDelete" 
+                            selectable 
+                        />
                     </div>
-                    
                 </div>
             </div>
         </div>

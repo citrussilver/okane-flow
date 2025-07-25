@@ -76,7 +76,14 @@ const emit = defineEmits(['submit'])
                     >
                         {{ operation }}
                     </AltButton>
-                    <Link :href="route('maya-accounts.index')" as="button" :disabled="form.processing" class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">Cancel</Link>
+                    <Link
+                      :href="route('credit-cards.index')"
+                      as="button"
+                      :disabled="form.processing"
+                      class="text-gray-900 bg-white border border-gray-300 focus:outline-hidden hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5"
+                    >
+                      Cancel
+                    </Link>
                 </BlockWideElementsGrouper>
             </div>
         </div>

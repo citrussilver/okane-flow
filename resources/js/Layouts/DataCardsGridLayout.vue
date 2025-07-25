@@ -8,7 +8,6 @@ import CustomSvgButton from '@/Components/CustomSvgButton.vue';
 import usePokeAPIFetcher from '@/composables/usePokeAPIFetcher.js';
 import useAniQuoteFetcher from '@/composables/useAniQuoteFetcher.js';
 import { checkIfArrayExistsBool, titleCasetify, isStrExistsOnName } from '@/functions/helpers';
-import Skeleton from '@/volt/Skeleton.vue';
 
 const props = defineProps({
   sharedData: {

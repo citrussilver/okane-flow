@@ -1,17 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { getUser, deleteRow, checkIfArrayExists } from '@/functions/helpers.js';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { getUser } from '@/functions/helpers.js';
+import { useCrud } from '@/composables/useCrud';
 import consts from '@/constants/constants.js';
-import ConfirmDialog from '@/volt/ConfirmDialog.vue';
-import Toast from '@/volt/Toast.vue';
-import { useConfirm } from 'primevue/useconfirm';
-import { useToast } from 'primevue/usetoast';
-import DataTable from '@/volt/DataTable.vue';
-import Column from 'primevue/column';
-import { FilterMatchMode } from '@primevue/core/api';
-import InputText from '@/volt/InputText.vue';
+import DataTable from '@/Components/DataTable.vue';
 
 const user = getUser();
 // for admin activities that require permission
@@ -19,63 +13,20 @@ const form = useForm({
     role_id: user.role_id
 })
 
-const props = defineProps({
+defineProps({
     cc_transactions: {
         type: Array,
         required: true
     }
 });
 
-const cc_transacts = ref([]);
-
-cc_transacts.value = [...props.cc_transactions]
-
-const cc_transacts_data_cols = ref([]);
-
-cc_transacts_data_cols.value = [...consts.cc_transacts_table];
-
-const confirm = useConfirm();
-const toast = useToast();
-
-const confirmDelete = (row, route) => {
-
-    confirm.require({
-        message: consts.toasts_detail.delete.message,
-        header: consts.toasts_detail.delete.header,
-        rejectProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Confirm'
-        },
-        accept: () => {
-            toast.add({ severity: 'info', summary: 'Confirmed', detail: consts.toasts_detail.delete.confirm, life: 3000 });
-            deleteRow(row, route)
-        },
-        reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: consts.toasts_detail.delete.cancel, life: 3000 });
-        }
-    });
-};
-
-const dataTablePtStyle = ref({...consts.global_data_table_pt_style});
-const dataTableSearchPtStyle = ref({...consts.global_data_table_search});
-
-const ccFilterFields = ref(consts.cc_transacts_table.map(q => q.field));
-
-const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-});
+// const { confirmDelete } = useCrud('multi-word-route', { toast: true, snackbar: true });
+const { confirmDelete } = useCrud('cc-transactions', { toast: true });
 
 </script>
 
 <template>
     <Head title="Credit Card Transactions" />
-
-    <Toast />
-    <ConfirmDialog />
 
     <AuthenticatedLayout>
         <template #header>
@@ -93,36 +44,15 @@ const filters = ref({
                     </div>
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <DataTable 
-                            :value="cc_transacts" 
-                            dataKey="id" 
-                            paginator 
-                            :rows="10" 
-                            v-model:filters="filters" 
-                            pt:table="min-w-200" 
-                            :pt="dataTablePtStyle" 
-                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" 
-                            :rowsPerPageOptions="[5, 10, 25]"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} transactions" 
-                            :globalFilterFields="ccFilterFields"
-                        >
-                            <template #header>
-                                <div class="flex flex-wrap gap-2 items-center justify-end">
-                                    <div class="relative">
-                                        <i class="pi pi-search absolute top-1/2 -mt-2 text-surface-400 leading-none start-3 z-1" />
-                                        <InputText v-model="filters['global'].value" placeholder="Search..." :pt="dataTableSearchPtStyle" />
-                                    </div>
-                                </div>
-                            </template>
-                            <Column v-for="col of cc_transacts_data_cols" :key="col.field" :field="col.field" :header="col.header"></Column>
-                            <Column header="Actions">
-                                <template #body="slotProps">
-                                    <Link :href="route('cc-transactions.show', slotProps.data.id)"  class="font-medium text-gray-600 hover:underline pr-4">Show</Link>
-                                    <Link :href="route('cc-transactions.edit', slotProps.data.id)" class="font-medium text-blue-600 hover:underline pr-4">Edit</Link>
-                                    <a href="#" class="font-medium text-red-600 hover:underline" @click.prevent="confirmDelete(slotProps.data, 'cc-transactions')">Delete</a>
-                                </template>
-                            </Column>
-                        </DataTable>
+                        <div class="p-4">
+                            <DataTable 
+                                :cols="consts.CC_TRANSACTS_COLS" 
+                                :rows="cc_transactions" 
+                                @edit-row="(row) => router.visit(route('sa-transactions.edit', row.id))" 
+                                @delete-row="confirmDelete" 
+                                selectable 
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- temporary darkmode apply -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
