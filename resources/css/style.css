@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@theme {
+    /* Fonts */
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-body: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace';
+
+    --color-jp-indigo: rgb(41, 61, 77);
+    --color-ceil: rgb(147, 174, 197);
+    --color-lite-steel-blue: rgb(175, 197, 220);
+    --color-columbia-blue: rgb(198, 214, 226);
+    --color-azureish-white: rgb(216, 227, 235);
+    --color-anti-flash-white: rgb(235, 242, 246);
+    --color-pastel-gray: rgb(201, 213, 192);
+    --color-beige: rgb(245, 238, 223);
+    --color-timberwolf: rgb(224, 220, 209);
+    --color-spanish-gray: rgb(156, 156, 156);
+    --color-independence: rgb(81, 73, 99);
+    --color-cafe-noir: rgb(78, 46, 29);
+    --color-black-choco: rgb(31, 23, 20);
+    --color-munsell-yellow: rgb(244, 203, 1);
+    --color-yellow-orange: rgb(255, 152, 10);
+    --color-inbike-green: rgb(111, 201, 209);
+    --color-inbike-dgreen: rgb(68, 97, 99);
+    --color-quincy: rgb(113, 81, 72);
+    --color-snow: rgb(255, 251, 252);
+    --color-lotion: rgb(252, 252, 252);
+    --color-pokedex-normal: rgb(159, 161, 159);
+    --color-pokedex-fire: rgb(230, 40, 41);
+    --color-pokedex-fighting: rgb(255, 128, 0);
+    --color-pokedex-water: rgb(41, 128, 239);
+    --color-pokedex-flying: rgb(129, 185, 239);
+    --color-pokedex-grass: rgb(63, 161, 41);
+    --color-pokedex-poison: rgb(145, 65, 203);
+    --color-pokedex-electric: rgb(250, 192, 0);
+    --color-pokedex-ground: rgb(145, 81, 33);
+    --color-pokedex-psychic: rgb(239, 65, 121);
+    --color-pokedex-rock: rgb(175, 169, 129);
+    --color-pokedex-ice: rgb(61, 206, 243);
+    --color-pokedex-bug: rgb(145, 161, 25);
+    --color-pokedex-dragon: rgb(80, 96, 225);
+    --color-pokedex-ghost: rgb(112, 65, 112);
+    --color-pokedex-dark: rgb(98, 77, 78);
+    --color-pokedex-steel: rgb(96, 161, 184);
+    --color-pokedex-fairy: rgb(239, 112, 239);
+    --color-pokedex-stellar: rgb(64, 181, 165);
+
+
+    /* Zen Design */
+    --color-royal-brown: rgb(86, 70, 53);
+    --color-beaver: rgb(158, 136, 111);
+    --color-dark-vanilla: rgb(210, 192, 167);
+    --color-white-coffee: rgb(230, 221, 212);
+    --color-mid-green-yello: rgb(171, 187, 108);
+    --color-palm-leaf: rgb(136, 157, 53);
+
+    /* Cinnamon Slate Elegance */
+
+    --color-cinnamon-satin: rgb(191, 90, 118);
+    --color-deep-taupe: rgb(115, 84, 109);
+    --color-dark-liver: rgb(89, 70, 81);
+    --color-rocket-metallic: rgb(137, 116, 117);
+    --color-grullo: rgb(163, 138, 139);
+    --color-silver-pink: rgb(191, 173, 166);
+
+    /* Koi Fish in the Pond */
+    --color-electric-red: rgb(231, 15, 0);
+    --color-tawny: rgb(215, 93, 0);
+    --color-harvest-gold: rgb(230, 145, 0);
+    --color-pale-silver: rgb(200, 193, 186);
+    --color-vampire-black: rgb(5, 6, 6);
+
+    /* A Bird In The Grassland */
+    --color-crayolas-outerspace: rgb(45, 52, 72);
+    --color-crayolas-gold: rgb(236, 192, 134);
+    --color-alabaster: rgb(241, 237, 233);
+    --color-olivine-500: rgb(166, 167, 106);
+    --color-moss-green: rgb(143, 142, 102);
+
+    /* Dried Leaves Of Cabbage */
+
+    --color-shadow-blue: rgb(128, 141, 163);
+    --color-auro-metal-saurus: rgb(109, 115, 126);
+    --color-cadet: rgb(91, 106, 111);
+
+    --color-dark-elec-blue: rgb(91, 111, 120);
+    --color-jet: rgb(56, 50, 57);
+}
+
+/* Prevent NProgress from injecting directly into body */
+#nprogress {
+  pointer-events: none;
+  position: fixed !important;
+  top: 4rem !important; /* Adjust this if you want to place it below the navbar */
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+#nprogress .bar {
+    position: absolute !important;
+    width: 100%;
+    /* background: linear-gradient(270deg, #94BBE9, #EEAECA) !important; */
+    background: linear-gradient(270deg, #FDBB2D 0%, #3A1C71 100%) !important;
+    background-size: 600% 600%;
+    animation: gradientShift 3s ease infinite;
+    height: 0.15rem !important;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(148, 187, 233, 0.6);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

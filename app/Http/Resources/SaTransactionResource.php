@@ -19,7 +19,7 @@ class SaTransactionResource extends JsonResource
         return [
             'id' => $this->id,
             // below is based on hasOne relationship
-            'savings_acct' => SavingsAccount::where('id', $this->sa_account_id)->exists() ? SavingsAccountResource::make($this->savings_account) : null,
+            'savings_acct' => optional($this->savings_account)->exists() ? SavingsAccountResource::make($this->savings_account) : null,
             'date_time_em' => date("F d, Y h:m a", strtotime($this->date_time)),
             'date_time' => date("Y-m-d h:m", strtotime($this->date_time)),
             'transact_type_id' => $this->transact_type_id,

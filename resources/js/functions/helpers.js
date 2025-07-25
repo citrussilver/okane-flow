@@ -8,12 +8,6 @@ export const getSharedData = () => {
     return usePage().props.global_shared_data;
 }
 
-export const deleteRow = (obj, routeStr) => {
-    router.delete(route(`${routeStr}.destroy`, obj.id), {
-        preserveScroll: true
-    })
-}
-
 export const roundNumber = (number, decimals) => {
     let newnumber = new Number(number+'').toFixed(parseInt(decimals))
     return parseFloat(newnumber); 

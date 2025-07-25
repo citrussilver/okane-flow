@@ -1,41 +1,31 @@
 export default {
-    user_table_cols: [
-        'User Full name',
-        'Email',
-        'Role'
+    APP_NAME: import.meta.env.VITE_APP_NAME,
+    USER_TABLE_COLS: [
+        { label: 'User Full name', key: 'full_name', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Email', key: 'email', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Role', key: 'role', subKey: 'description', sortable: true, class: 'min-w-[5px] whitespace-nowrap' }
     ],
-    roles_table_cols: [
-        'Role Name',
-        'Description'
+    ROLES_TABLE_COLS: [
+        { label: 'Role Name', key: 'name', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Description', key: 'description', sortable: true, class: 'min-w-[5px] whitespace-nowrap' }
     ],
-    savings_accts_cols: [
-        'ID',
-        'Bank Name',
-        'Bank Abbrev',
-        'Acct #',
-        'Balance'
+    SAVINGS_ACCTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Bank Name', key: 'bank_name', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Bank Abbrev', key: 'bank_abbrev', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Acct #', key: 'account_number', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Balance', key: 'balance_wc', sortable: true, class: 'min-w-[5px] whitespace-nowrap' }
     ],
-    savings_accts_transacts_cols: [
-        'ID',
-        'Savings Acct',
-        'Date Time',
-        // 'Type',
-        'Current Balance',
-        'Amount',
-        'Post Balance',
-        'Remarks',
-        'Reference #'
-    ],
-    sa_transacts_table: [
-        { field: 'id', header: 'ID' },
-        { field: 'savings_acct.bank_name', header: 'SA Acct' },
-        { field: 'date_time_em', header: 'Date Time' },
-        { field: 'current_balance_wc', header: 'Current Balance' },
-        { field: 'amount', header: 'Amount' },
-        { field: 'post_balance_wc', header: 'Post Balance' },
-        { field: 'remarks', header: 'Remarks' },
-        { field: 'location', header: 'Location' },
-        { field: 'reference_number', header: 'Ref #' }
+    SA_TRANSACTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'SA Acct', key: 'savings_acct', subKey: 'bank_name', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Date Time', key: 'date_time_em', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Current Balance', key: 'current_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Amount', key: 'amount', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Post Balance', key: 'post_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Remarks', key: 'remarks', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Location', key: 'location', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Ref #', key: 'reference_number', sortable: true, class: 'whitespace-nowrap' }
     ],
     savings_accts_transacts: {
         deposit: { 
@@ -115,23 +105,23 @@ export default {
             name: 'SPayLater Payment',
         },
     },
-    credit_cards_cols: [
-        'ID',
-        'Last 4 Digits',
-        'Name',
-        'Credit Limit',
-        'Avail Limit'
+    CREDIT_CARDS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Last 4 Digits', key: 'last_4_digits', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Name', key: 'cc_name', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Credit Limit', key: 'credit_limit', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Avail Limit', key: 'avail_credit_limit', sortable: true, class: 'min-w-[5px] whitespace-nowrap' }
     ],
-    cc_transacts_cols: [
-        'ID',
-        'Credit Card ID',
-        'Date Time',
-        'Description',
-        'Current Credit Limit',
-        'Amount',
-        'Post Credit Limit',
-        'Remarks',
-        'Ref No.'
+    CC_TRANSACTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Credit Card ID', key: 'credit_card', subKey: 'cc_name', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Date Time', key: 'date_time_em', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Description', key: 'description', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Current Credit Limit', key: 'current_credit_limit_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Amount', key: 'amount_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Post Credit Limit', key: 'post_credit_limit_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Remarks', key: 'remarks', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Ref No.', key: 'ref_no', sortable: true, class: 'whitespace-nowrap' }
     ],
     cc_transacts_table: [
         { field: 'id', header: 'ID' },
@@ -171,23 +161,22 @@ export default {
         }
 
     },
-    maya_accts_cols: [
-        'ID',
-        'Mobile #',
-        'Acct Nickname',
-        'Last 4 Digits',
-        'Balance'
+    MAYA_ACCTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Mobile #', key: 'mobile_number', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Acct Nickname', key: 'account_nickname', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Last 4 Digits', key: 'last_4_digits', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Balance', key: 'balance', sortable: true, class: 'min-w-[5px] whitespace-nowrap' }
     ],
-    maya_transacts_cols: [
-        'ID',
-        'Maya Acct',
-        'Date Time',
+    MAYA_TRANSACTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Maya Acct', key: 'maya_acct', subKey: 'account_nickname', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
         // 'Type',
-        'Current Balance',
-        'Amount',
-        'Post Balance',
-        'Remarks',
-        'Reference ID'
+        { label: 'Current Balance', key: 'current_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Amount', key: 'amount', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Post Balance', key: 'post_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Remarks', key: 'remarks', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Reference ID', key: 'reference_id', sortable: true, class: 'whitespace-nowrap' }
     ],
     maya_transacts: {
         cash_in: {
@@ -227,23 +216,24 @@ export default {
             name: 'Voucher Giveaway'
         }
     },
-    shopee_pay_cols: [
-        'ID',
-        'Username',
-        'Balance'
+    SHOPEE_PAY_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Username', key: 'shopee_username', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Balance', key: 'balance_wc', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
     ],
-    shopee_pay_transacts_cols: [
-        'ID',
-        'ShopeePay Wallet',
-        'Date Time',
+    SHOPEE_PAY_TRANSACTS_COLS: [
+        { label: 'ID', key: 'id', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'ShopeePay Wallet', key: 'shopee_pay', subKey: 'shopee_username', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Date Time', key: 'date_time_em', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Description', key: 'description', sortable: true, class: 'min-w-[5px] whitespace-nowrap' },
+        { label: 'Current Balance', key: 'current_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Amount', key: 'amount', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Post Balance', key: 'post_balance_wc', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Remarks', key: 'remarks', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Location', key: 'location', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Order SN', key: 'order_sn', sortable: true, class: 'whitespace-nowrap' },
+        { label: 'Reference ID', key: 'reference_id', sortable: true, class: 'whitespace-nowrap' }
         // 'Type',
-        'Description',
-        'Current Balance',
-        'Amount',
-        'Post Balance',
-        'Remarks',
-        'Order SN',
-        'Reference ID'
     ],
     shopee_pay_transacts: {
         cash_in: {
